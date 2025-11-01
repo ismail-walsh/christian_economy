@@ -357,12 +357,13 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Stack(
-                                children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
+                              Expanded(
+                                child: Stack(
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
                                       Container(
                                         width:
                                             MediaQuery.sizeOf(context).width *
@@ -519,7 +520,8 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                                       ),
                                     ),
                                   ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ],
                           ),

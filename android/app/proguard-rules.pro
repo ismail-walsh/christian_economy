@@ -10,6 +10,24 @@
 -dontwarn org.bouncycastle.pqc.jcajce.provider.BouncyCastlePQCProvider
 -keep class org.xmlpull.v1.** { *; }
 
+# Flutter optimization rules
+-keep class io.flutter.app.** { *; }
+-keep class io.flutter.plugin.** { *; }
+-keep class io.flutter.util.** { *; }
+-keep class io.flutter.view.** { *; }
+-keep class io.flutter.** { *; }
+-keep class io.flutter.plugins.** { *; }
+
+# Keep image loading classes
+-keep class androidx.** { *; }
+-keep class com.bumptech.glide.** { *; }
+-dontwarn com.bumptech.glide.**
+
+# Supabase and Firebase
+-keep class io.supabase.** { *; }
+-keep class com.google.firebase.** { *; }
+-dontwarn com.google.firebase.**
+
 
 
 
