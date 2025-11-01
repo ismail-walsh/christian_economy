@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "55054983923",
+    "project_id": "christian-economy",
+    "storage_bucket": "christian-economy.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55054983923:android:4764d20284610253664d86",
+        "android_client_info": {
+          "package_name": "com.flutterflow.christianeconomy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3hKJKFn8hiDJCFuFM4ZuNnlTimVdAIuw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55054983923:android:e5579efc9128c7a8664d86",
+        "android_client_info": {
+          "package_name": "com.flutterflow.homeU"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3hKJKFn8hiDJCFuFM4ZuNnlTimVdAIuw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
