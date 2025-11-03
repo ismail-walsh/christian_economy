@@ -34,12 +34,10 @@ jobs:
         run: flutter test || true
 
       - name: Decode keystore
-        if: github.event_name != 'pull_request'
         run: |
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
 
       - name: Create key.properties
-        if: github.event_name != 'pull_request'
         run: |
           cat > android/key.properties << EOF
           storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}

@@ -705,7 +705,7 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                                                                         500),
                                                             imageUrl:
                                                                 listViewBlacklistRow
-                                                                    .photo!,
+                                                                    .photo ?? '',
                                                             width: 70.0,
                                                             height: MediaQuery
                                                                         .sizeOf(
@@ -713,6 +713,22 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                                                                     .height *
                                                                 0.7,
                                                             fit: BoxFit.cover,
+                                                            placeholder: (context, url) => Container(
+                                                              color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                              child: Icon(
+                                                                Icons.report_problem,
+                                                                color: FlutterFlowTheme.of(context).error,
+                                                                size: 30.0,
+                                                              ),
+                                                            ),
+                                                            errorWidget: (context, url, error) => Container(
+                                                              color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                              child: Icon(
+                                                                Icons.report_problem,
+                                                                color: FlutterFlowTheme.of(context).error,
+                                                                size: 30.0,
+                                                              ),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),

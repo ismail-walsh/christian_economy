@@ -168,10 +168,26 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                             Duration(milliseconds: 500),
                                         fadeOutDuration:
                                             Duration(milliseconds: 500),
-                                        imageUrl: columnUsersRow.profilePhoto!,
+                                        imageUrl: columnUsersRow.profilePhoto ?? '',
                                         width: 100.0,
                                         height: 100.0,
                                         fit: BoxFit.cover,
+                                        placeholder: (context, url) => Container(
+                                          color: FlutterFlowTheme.of(context).accent1,
+                                          child: Icon(
+                                            Icons.person,
+                                            color: FlutterFlowTheme.of(context).primary,
+                                            size: 40.0,
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) => Container(
+                                          color: FlutterFlowTheme.of(context).accent1,
+                                          child: Icon(
+                                            Icons.person,
+                                            color: FlutterFlowTheme.of(context).primary,
+                                            size: 40.0,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),

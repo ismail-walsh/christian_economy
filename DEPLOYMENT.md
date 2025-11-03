@@ -60,13 +60,13 @@ Add these secrets to your GitHub repository (Settings > Secrets and variables > 
 
 ```bash
 # Convert keystore to base64
-base64 -i ~/upload-keystore.jks | pbcopy
+base64 -i ~/christian-economy-keystore.jks | pbcopy
 
 # Add to GitHub Secrets:
 ANDROID_KEYSTORE_BASE64=<paste base64 string>
-ANDROID_KEYSTORE_PASSWORD=android
-ANDROID_KEY_PASSWORD=android
-ANDROID_KEY_ALIAS=upload
+ANDROID_KEYSTORE_PASSWORD=f7ec95f591c237dfdc829689768bb927
+ANDROID_KEY_PASSWORD=f7ec95f591c237dfdc829689768bb927
+ANDROID_KEY_ALIAS=christian-economy-1xkhkd
 ```
 
 2. **iOS Signing (Optional)**
@@ -95,10 +95,11 @@ After a successful build:
 
 ## Current Signing Configuration
 
-**Keystore Location:** `~/upload-keystore.jks`
-**Alias:** `upload`
-**Store Password:** `android` (⚠️ Change for production!)
-**Key Password:** `android` (⚠️ Change for production!)
+**Keystore Location:** `~/christian-economy-keystore.jks`
+**Alias:** `christian-economy-1xkhkd`
+**Store Password:** `f7ec95f591c237dfdc829689768bb927`
+**Key Password:** `f7ec95f591c237dfdc829689768bb927`
+**SHA1 Fingerprint:** `27:FC:93:32:3A:C5:86:CC:2C:05:72:1D:67:49:10:8F:F1:E3:82:DA`
 
 ### Security Recommendations
 
