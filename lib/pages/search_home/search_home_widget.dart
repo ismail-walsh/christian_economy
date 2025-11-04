@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -133,15 +134,30 @@ class _SearchHomeWidgetState extends State<SearchHomeWidget> {
                               if (textEditingValue.text == '') {
                                 return const Iterable<String>.empty();
                               }
+                              final searchTerm =
+                                  textEditingValue.text.toLowerCase();
                               return textFieldBusinessRowList
+                                  .where((business) {
+                                    // Search across name, description, industry, and region
+                                    final name =
+                                        business.name?.toLowerCase() ?? '';
+                                    final description =
+                                        business.description?.toLowerCase() ??
+                                            '';
+                                    final industry =
+                                        business.industry?.toLowerCase() ?? '';
+                                    final region =
+                                        business.region?.toLowerCase() ?? '';
+
+                                    return name.contains(searchTerm) ||
+                                        description.contains(searchTerm) ||
+                                        industry.contains(searchTerm) ||
+                                        region.contains(searchTerm);
+                                  })
                                   .map((e) => e.name)
                                   .withoutNulls
-                                  .toList()
-                                  .where((option) {
-                                final lowercaseOption = option.toLowerCase();
-                                return lowercaseOption.contains(
-                                    textEditingValue.text.toLowerCase());
-                              });
+                                  .toSet() // Remove duplicates
+                                  .toList();
                             },
                             optionsViewBuilder: (context, onSelected, options) {
                               return AutocompleteOptionsList(
@@ -208,6 +224,10 @@ class _SearchHomeWidgetState extends State<SearchHomeWidget> {
                                           q.or("name.ilike.${(String search) {
                                         return '*$search*';
                                       }(_model.textController.text)}, description.ilike.${(String search) {
+                                        return '*$search*';
+                                      }(_model.textController.text)}, industry.ilike.${(String search) {
+                                        return '*$search*';
+                                      }(_model.textController.text)}, region.ilike.${(String search) {
                                         return '*$search*';
                                       }(_model.textController.text)}"),
                                     );
@@ -438,11 +458,44 @@ class _SearchHomeWidgetState extends State<SearchHomeWidget> {
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(0.0),
-                                            child: Image.network(
-                                              listViewBusinessRow.photo!,
+                                            child: CachedNetworkImage(
+                                              imageUrl: listViewBusinessRow.photo ?? '',
                                               width: 120.0,
                                               height: 120.0,
                                               fit: BoxFit.cover,
+                                              memCacheWidth: 240,
+                                              memCacheHeight: 240,
+                                              maxWidthDiskCache: 360,
+                                              maxHeightDiskCache: 360,
+                                              fadeInDuration: Duration(milliseconds: 200),
+                                              fadeOutDuration: Duration(milliseconds: 100),
+                                              placeholder: (context, url) => Container(
+                                                width: 120.0,
+                                                height: 120.0,
+                                                color: FlutterFlowTheme.of(context).alternate.withOpacity(0.3),
+                                                child: Center(
+                                                  child: SizedBox(
+                                                    width: 20.0,
+                                                    height: 20.0,
+                                                    child: CircularProgressIndicator(
+                                                      strokeWidth: 2.0,
+                                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                                        FlutterFlowTheme.of(context).primary,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              errorWidget: (context, url, error) => Container(
+                                                width: 120.0,
+                                                height: 120.0,
+                                                color: FlutterFlowTheme.of(context).alternate.withOpacity(0.5),
+                                                child: Icon(
+                                                  Icons.business,
+                                                  size: 40.0,
+                                                  color: FlutterFlowTheme.of(context).secondaryText,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),

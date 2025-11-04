@@ -46,10 +46,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.businessCall = await BusinessTable().queryRows(
-        queryFn: (q) => q,
-      );
-      _model.businessList = _model.businessCall!.toList().cast<BusinessRow>();
+      await _model.loadBusinesses(context);
       safeSetState(() {});
     });
 
@@ -311,9 +308,16 @@ class _HomeWidgetState extends State<HomeWidget> {
             ),
             body: SafeArea(
               top: true,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  // Reload all data
+                  await _model.loadBusinesses(context);
+                  safeSetState(() {});
+                },
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
@@ -614,35 +618,19 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                       null),
                                               options: [
                                                 'All',
-                                                'Automotive',
-                                                'Business Support',
-                                                'Charity',
-                                                'Construction',
-                                                'Consulting',
-                                                'Education',
-                                                'Entertainment',
-                                                'Food',
-                                                'Finance',
-                                                'Fitness',
-                                                'Health',
-                                                'Home & Garden',
-                                                'Legal ',
-                                                'Manufacturing',
-                                                'Beauty',
-                                                'Real Estate',
-                                                'Shopping',
-                                                'Fashion',
-                                                'Travel',
-                                                'Transport',
-                                                'Ministry',
-                                                'Technology',
-                                                'Services',
-                                                'Weddings',
-                                                'Start-ups'
+                                                ..._model.availableIndustries
                                               ],
                                               onChanged: (val) async {
                                                 safeSetState(() => _model
                                                     .dropDownValue1 = val);
+                                                // Reset to null when 'All' is selected to show placeholder
+                                                if (val == 'All') {
+                                                  _model
+                                                      .dropDownValueController1
+                                                      ?.reset();
+                                                  safeSetState(() => _model
+                                                      .dropDownValue1 = null);
+                                                }
                                                 if ((_model.dropDownValue1 ==
                                                             'All') ||
                                                         (_model.dropDownValue1 ==
@@ -955,18 +943,19 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                       null),
                                               options: [
                                                 'All',
-                                                'United Kingdom',
-                                                'United States',
-                                                'Europe',
-                                                'Australia',
-                                                'Canada',
-                                                'Middle East',
-                                                'Africa',
-                                                'Asia'
+                                                ..._model.availableRegions
                                               ],
                                               onChanged: (val) async {
                                                 safeSetState(() => _model
                                                     .dropDownValue2 = val);
+                                                // Reset to null when 'All' is selected to show placeholder
+                                                if (val == 'All') {
+                                                  _model
+                                                      .dropDownValueController2
+                                                      ?.reset();
+                                                  safeSetState(() => _model
+                                                      .dropDownValue2 = null);
+                                                }
                                                 if ((_model.dropDownValue2 ==
                                                             'All') ||
                                                         (_model.dropDownValue2 ==
@@ -1420,8 +1409,16 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .secondaryBackground,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    blurRadius: 8.0,
+                                                    color: Color(0x1A000000),
+                                                    offset: Offset(0.0, 2.0),
+                                                    spreadRadius: 0,
+                                                  ),
+                                                ],
                                                 borderRadius:
-                                                    BorderRadius.circular(8.0),
+                                                    BorderRadius.circular(12.0),
                                                 border: Border.all(
                                                   color: FlutterFlowTheme.of(
                                                           context)
@@ -1447,10 +1444,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                   0.0),
                                                           topLeft:
                                                               Radius.circular(
-                                                                  8.0),
+                                                                  12.0),
                                                           topRight:
                                                               Radius.circular(
-                                                                  8.0),
+                                                                  12.0),
                                                         ),
                                                         child:
                                                             CachedNetworkImage(
@@ -1781,6 +1778,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       ),
                     ),
                   ].addToEnd(SizedBox(height: 32.0)),
+                  ),
                 ),
               ),
             ),

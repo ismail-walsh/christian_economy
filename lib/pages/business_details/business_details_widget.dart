@@ -352,7 +352,7 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
-                        mainAxisSize: MainAxisSize.max,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Row(
                             mainAxisSize: MainAxisSize.max,

@@ -1,4 +1,6 @@
+import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
+import '/components/youtube_comment_section_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -9,6 +11,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'boycott_details_model.dart';
 export 'boycott_details_model.dart';
 
@@ -39,6 +42,9 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => BoycottDetailsModel());
+
+    _model.commentInputController ??= TextEditingController();
+    _model.commentInputFocusNode ??= FocusNode();
 
     animationsMap.addAll({
       'textOnPageLoadAnimation1': AnimationInfo(
@@ -197,8 +203,7 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
     return FutureBuilder<List<BlacklistRow>>(
       future: BlacklistTable().querySingleRow(
         queryFn: (q) => q.eqOrNull(
-          'id',
-          widget.blacklistId,
+          'id', widget.blacklistId!,
         ),
       ),
       builder: (context, snapshot) {
@@ -225,6 +230,10 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
             boycottDetailsBlacklistRowList.isNotEmpty
                 ? boycottDetailsBlacklistRowList.first
                 : null;
+
+        if (boycottDetailsBlacklistRow == null) {
+          return Container();
+        }
 
         return Title(
             title: 'boycottDetails',
@@ -314,13 +323,13 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                                                   milliseconds:
                                                                       500),
                                                           imageUrl:
-                                                              boycottDetailsBlacklistRow
+                                                              boycottDetailsBlacklistRow!
                                                                   .coverPhoto!,
                                                           fit: BoxFit.contain,
                                                         ),
                                                         allowRotation: false,
                                                         tag:
-                                                            boycottDetailsBlacklistRow
+                                                            boycottDetailsBlacklistRow!
                                                                 .coverPhoto!,
                                                         useHeroAnimation: true,
                                                       ),
@@ -343,7 +352,7 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                                       fadeOutDuration: Duration(
                                                           milliseconds: 500),
                                                       imageUrl:
-                                                          boycottDetailsBlacklistRow
+                                                          boycottDetailsBlacklistRow!
                                                               .coverPhoto!,
                                                       width: double.infinity,
                                                       height: double.infinity,
@@ -352,7 +361,7 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                                   ),
                                                 ),
                                               ),
-                                            ),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -645,6 +654,10 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                               ],
                             ),
                           ),
+                          // YouTube-Style Comments Section
+                          YoutubeCommentSectionWidget(
+                            blacklistId: widget.blacklistId!,
+                          ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 16.0, 16.0, 40.0),
@@ -714,6 +727,7 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                               ],
                             ),
                           ),
+
                         ],
                       ),
                     ),

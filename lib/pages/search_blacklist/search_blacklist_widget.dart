@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -400,58 +401,115 @@ class _SearchBlacklistWidgetState extends State<SearchBlacklistWidget> {
                           itemBuilder: (context, listViewIndex) {
                             final listViewBlacklistRow =
                                 listViewBlacklistRowList[listViewIndex];
-                            return Container(
-                              width: 100.0,
-                              decoration: BoxDecoration(),
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 12.0, 16.0, 12.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Container(
-                                      width: 70.0,
-                                      height: 70.0,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(0.0),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(2.0),
-                                        child: ClipRRect(
+                            return InkWell(
+                              onTap: () async {
+                                context.pushNamed(
+                                  'boycottDetails',
+                                  queryParameters: {
+                                    'blacklistId': serializeParam(
+                                      listViewBlacklistRow.id,
+                                      ParamType.int,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              },
+                              child: Container(
+                                width: 100.0,
+                                decoration: BoxDecoration(),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 12.0, 16.0, 12.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Container(
+                                        width: 70.0,
+                                        height: 70.0,
+                                        decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(0.0),
-                                          child: Image.network(
-                                            listViewBlacklistRow.photo!,
-                                            width: 120.0,
-                                            height: 120.0,
-                                            fit: BoxFit.cover,
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(2.0),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(0.0),
+                                            child: CachedNetworkImage(
+                                              imageUrl: listViewBlacklistRow.photo ?? '',
+                                              width: 120.0,
+                                              height: 120.0,
+                                              fit: BoxFit.cover,
+                                              memCacheWidth: 240,
+                                              memCacheHeight: 240,
+                                              maxWidthDiskCache: 360,
+                                              maxHeightDiskCache: 360,
+                                              fadeInDuration: Duration(milliseconds: 200),
+                                              fadeOutDuration: Duration(milliseconds: 100),
+                                              placeholder: (context, url) => Container(
+                                                width: 120.0,
+                                                height: 120.0,
+                                                color: FlutterFlowTheme.of(context).alternate.withOpacity(0.3),
+                                                child: Center(
+                                                  child: SizedBox(
+                                                    width: 20.0,
+                                                    height: 20.0,
+                                                    child: CircularProgressIndicator(
+                                                      strokeWidth: 2.0,
+                                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                                        FlutterFlowTheme.of(context).primary,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              errorWidget: (context, url, error) => Container(
+                                                width: 120.0,
+                                                height: 120.0,
+                                                color: FlutterFlowTheme.of(context).alternate.withOpacity(0.5),
+                                                child: Icon(
+                                                  Icons.business,
+                                                  size: 40.0,
+                                                  color: FlutterFlowTheme.of(context).secondaryText,
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            12.0, 0.0, 0.0, 0.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              valueOrDefault<String>(
-                                                listViewBlacklistRow.name,
-                                                'Catholic Coffee House',
-                                              ),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyLarge
-                                                  .override(
-                                                    font:
-                                                        GoogleFonts.sourceSans3(
+                                      Expanded(
+                                        child: Padding(
+                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                              12.0, 0.0, 0.0, 0.0),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                valueOrDefault<String>(
+                                                  listViewBlacklistRow.name,
+                                                  'Catholic Coffee House',
+                                                ),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyLarge
+                                                    .override(
+                                                      font:
+                                                          GoogleFonts.sourceSans3(
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyLarge
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyLarge
+                                                                .fontStyle,
+                                                      ),
+                                                      letterSpacing: 0.0,
                                                       fontWeight:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -463,43 +521,42 @@ class _SearchBlacklistWidgetState extends State<SearchBlacklistWidget> {
                                                               .bodyLarge
                                                               .fontStyle,
                                                     ),
-                                                    letterSpacing: 0.0,
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyLarge
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyLarge
-                                                            .fontStyle,
-                                                  ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                12.0, 0.0),
-                                                    child: Text(
-                                                      valueOrDefault<String>(
-                                                        listViewBlacklistRow
-                                                            .status,
-                                                        'Pending',
-                                                      ),
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelSmall
-                                                              .override(
-                                                                font: GoogleFonts
-                                                                    .sourceSans3(
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                child: Row(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(0.0, 0.0,
+                                                                  12.0, 0.0),
+                                                      child: Text(
+                                                        valueOrDefault<String>(
+                                                          listViewBlacklistRow
+                                                              .status,
+                                                          'Pending',
+                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelSmall
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .sourceSans3(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelSmall
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight: FlutterFlowTheme.of(
                                                                           context)
                                                                       .labelSmall
@@ -509,27 +566,17 @@ class _SearchBlacklistWidgetState extends State<SearchBlacklistWidget> {
                                                                       .labelSmall
                                                                       .fontStyle,
                                                                 ),
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .fontWeight,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .fontStyle,
-                                                              ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ].divide(SizedBox(height: 4.0)),
+                                            ].divide(SizedBox(height: 4.0)),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             );

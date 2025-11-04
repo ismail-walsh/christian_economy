@@ -13,6 +13,11 @@ class PollModel extends FlutterFlowModel<PollWidget> {
   // State field(s) for Checkbox widget.
   bool? checkboxValue2;
 
+  // State field(s) for commentInput widget.
+  FocusNode? commentInputFocusNode;
+  TextEditingController? commentInputController;
+  String? Function(BuildContext, String?)? commentInputControllerValidator;
+
   /// Query cache managers for this widget.
 
   final _votesManager = FutureRequestManager<List<VotesRow>>();
@@ -50,6 +55,9 @@ class PollModel extends FlutterFlowModel<PollWidget> {
 
   @override
   void dispose() {
+    commentInputFocusNode?.dispose();
+    commentInputController?.dispose();
+
     /// Dispose query cache managers for this widget.
 
     clearVotesCache();

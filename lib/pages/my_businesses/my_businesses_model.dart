@@ -8,8 +8,7 @@ class MyBusinessesModel extends FlutterFlowModel<MyBusinessesWidget> {
   ///  State fields for stateful widgets in this page.
 
   Stream<List<BusinessRow>>? listViewSupabaseStream;
-  // Stores action output result for [Backend Call - Query Rows] action in ListView widget.
-  List<BusinessRow>? pullToRefreshData;
+
 
   @override
   void initState(BuildContext context) {}

@@ -42,7 +42,15 @@
       "Bash(export PATH=\"/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH\")",
       "Bash(xcodebuild:*)",
       "Bash(adb devices:*)",
-      "Bash(md5:*)"
+      "Bash(md5:*)",
+      "Bash(awk:*)",
+      "Bash(chmod:*)",
+      "Bash(bash replace_comments.sh:*)",
+      "Bash(flutter analyze:*)",
+      "Bash(for file in /Users/Ismail/Downloads/christian_economy/lib/pages/{create_business,edit_business,business_details}/business_details_widget.dart)",
+      "Bash(do echo '=== $file ===')",
+      "Bash(done)",
+      "Bash(for file in create_business edit_business business_details create_job)"
     ],
     "deny": [],
     "ask": []

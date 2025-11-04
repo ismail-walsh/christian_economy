@@ -185,9 +185,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
           name: EditBusinessWidget.routeName,
           path: EditBusinessWidget.routePath,
           builder: (context, params) => EditBusinessWidget(
-            business: params.getParam(
-              'business',
-              ParamType.String,
+            businessId: params.getParam(
+              'businessId',
+              ParamType.int,
             ),
           ),
         ),
