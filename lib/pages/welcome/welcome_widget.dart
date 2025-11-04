@@ -259,13 +259,14 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
                                 .secondaryBackground,
                           ),
                           child: Column(
-                            mainAxisSize: MainAxisSize.max,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Stack(
-                                children: [
-                                  Container(
-                                    width: double.infinity,
-                                    height: 600.0,
+                              Expanded(
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      width: double.infinity,
+                                      height: double.infinity,
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
@@ -435,7 +436,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
                                     ),
                                   ).animateOnPageLoad(animationsMap[
                                       'containerOnPageLoadAnimation']!),
-                                ],
+                                  ],
+                                ),
                               ),
                             ],
                           ),

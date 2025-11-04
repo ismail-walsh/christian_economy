@@ -345,14 +345,30 @@ class _JobsWidgetState extends State<JobsWidget> {
                                                                             milliseconds:
                                                                                 500),
                                                                     imageUrl:
-                                                                        containerBusinessRow!
-                                                                            .photo!,
+                                                                        containerBusinessRow
+                                                                            ?.photo ?? '',
                                                                     width: 70.0,
                                                                     height:
                                                                         MediaQuery.sizeOf(context).height *
                                                                             0.7,
                                                                     fit: BoxFit
                                                                         .cover,
+                                                                    placeholder: (context, url) => Container(
+                                                                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                      child: Icon(
+                                                                        Icons.business,
+                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                        size: 30.0,
+                                                                      ),
+                                                                    ),
+                                                                    errorWidget: (context, url, error) => Container(
+                                                                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                      child: Icon(
+                                                                        Icons.business,
+                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                        size: 30.0,
+                                                                      ),
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),

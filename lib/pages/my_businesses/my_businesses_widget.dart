@@ -351,10 +351,33 @@ class _MyBusinessesWidgetState extends State<MyBusinessesWidget> {
                                                   fadeOutDuration: Duration(
                                                       milliseconds: 500),
                                                   imageUrl: listViewBusinessRow
-                                                      .coverPhoto!,
+                                                      .coverPhoto ?? '',
                                                   width: double.infinity,
                                                   height: 60.0,
                                                   fit: BoxFit.cover,
+                                                  placeholder: (context, url) => Container(
+                                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                    child: Center(
+                                                      child: SizedBox(
+                                                        width: 20.0,
+                                                        height: 20.0,
+                                                        child: CircularProgressIndicator(
+                                                          strokeWidth: 2.0,
+                                                          valueColor: AlwaysStoppedAnimation<Color>(
+                                                            FlutterFlowTheme.of(context).primary,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  errorWidget: (context, url, error) => Container(
+                                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                    child: Icon(
+                                                      Icons.image_not_supported,
+                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                      size: 24.0,
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                               Padding(
@@ -372,10 +395,26 @@ class _MyBusinessesWidgetState extends State<MyBusinessesWidget> {
                                                         milliseconds: 500),
                                                     imageUrl:
                                                         listViewBusinessRow
-                                                            .photo!,
+                                                            .photo ?? '',
                                                     width: 75.0,
                                                     height: 75.0,
                                                     fit: BoxFit.fill,
+                                                    placeholder: (context, url) => Container(
+                                                      color: FlutterFlowTheme.of(context).accent1,
+                                                      child: Icon(
+                                                        Icons.business,
+                                                        color: FlutterFlowTheme.of(context).primary,
+                                                        size: 35.0,
+                                                      ),
+                                                    ),
+                                                    errorWidget: (context, url, error) => Container(
+                                                      color: FlutterFlowTheme.of(context).accent1,
+                                                      child: Icon(
+                                                        Icons.business,
+                                                        color: FlutterFlowTheme.of(context).primary,
+                                                        size: 35.0,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),

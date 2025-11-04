@@ -428,8 +428,26 @@ class _BusinessDetailsOwnerWidgetState extends State<BusinessDetailsOwnerWidget>
                                                                       500),
                                                           imageUrl:
                                                               columnBusinessRow
-                                                                  .coverPhoto!,
+                                                                  .coverPhoto ?? '',
                                                           fit: BoxFit.contain,
+                                                          placeholder: (context, url) => Container(
+                                                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                            child: Center(
+                                                              child: CircularProgressIndicator(
+                                                                valueColor: AlwaysStoppedAnimation<Color>(
+                                                                  FlutterFlowTheme.of(context).primary,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          errorWidget: (context, url, error) => Container(
+                                                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                            child: Icon(
+                                                              Icons.image_not_supported,
+                                                              color: FlutterFlowTheme.of(context).secondaryText,
+                                                              size: 50.0,
+                                                            ),
+                                                          ),
                                                         ),
                                                         allowRotation: false,
                                                         tag: columnBusinessRow
@@ -455,10 +473,28 @@ class _BusinessDetailsOwnerWidgetState extends State<BusinessDetailsOwnerWidget>
                                                           milliseconds: 500),
                                                       imageUrl:
                                                           columnBusinessRow
-                                                              .coverPhoto!,
+                                                              .coverPhoto ?? '',
                                                       width: double.infinity,
                                                       height: double.infinity,
                                                       fit: BoxFit.cover,
+                                                      placeholder: (context, url) => Container(
+                                                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                        child: Center(
+                                                          child: CircularProgressIndicator(
+                                                            valueColor: AlwaysStoppedAnimation<Color>(
+                                                              FlutterFlowTheme.of(context).primary,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      errorWidget: (context, url, error) => Container(
+                                                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                        child: Icon(
+                                                          Icons.image_not_supported,
+                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                          size: 50.0,
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -484,8 +520,24 @@ class _BusinessDetailsOwnerWidgetState extends State<BusinessDetailsOwnerWidget>
                                             Duration(milliseconds: 500),
                                         fadeOutDuration:
                                             Duration(milliseconds: 500),
-                                        imageUrl: columnBusinessRow.photo!,
+                                        imageUrl: columnBusinessRow.photo ?? '',
                                         fit: BoxFit.cover,
+                                        placeholder: (context, url) => Container(
+                                          color: FlutterFlowTheme.of(context).accent1,
+                                          child: Icon(
+                                            Icons.business,
+                                            color: FlutterFlowTheme.of(context).primary,
+                                            size: 40.0,
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) => Container(
+                                          color: FlutterFlowTheme.of(context).accent1,
+                                          child: Icon(
+                                            Icons.business,
+                                            color: FlutterFlowTheme.of(context).primary,
+                                            size: 40.0,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
