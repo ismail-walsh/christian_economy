@@ -76,7 +76,7 @@ class _MyBusinessesWidgetState extends State<MyBusinessesWidget> {
           ),
           body: SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 StickyHeader(
                   overlapHeaders: false,
@@ -277,23 +277,12 @@ class _MyBusinessesWidgetState extends State<MyBusinessesWidget> {
                             );
                           }
 
-                          return RefreshIndicator(
-                            color: FlutterFlowTheme.of(context).primary,
-                            onRefresh: () async {
-                              _model.pullToRefreshData =
-                                  await BusinessTable().queryRows(
-                                queryFn: (q) => q.eqOrNull(
-                                  'user',
-                                  currentUserUid,
-                                ),
-                              );
-                            },
-                            child: ListView.builder(
-                              padding: EdgeInsets.zero,
-                              primary: false,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              itemCount: listViewBusinessRowList.length,
+                          return ListView.builder(
+                            padding: EdgeInsets.zero,
+                            primary: false,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemCount: listViewBusinessRowList.length,
                               itemBuilder: (context, listViewIndex) {
                                 final listViewBusinessRow =
                                     listViewBusinessRowList[listViewIndex];
@@ -321,8 +310,15 @@ class _MyBusinessesWidgetState extends State<MyBusinessesWidget> {
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryBackground,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 8.0,
+                                            color: Color(0x1A000000),
+                                            offset: Offset(0.0, 2.0),
+                                          )
+                                        ],
                                         borderRadius:
-                                            BorderRadius.circular(8.0),
+                                            BorderRadius.circular(12.0),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .alternate,
@@ -431,11 +427,11 @@ class _MyBusinessesWidgetState extends State<MyBusinessesWidget> {
                                                         EditBusinessWidget
                                                             .routeName,
                                                         queryParameters: {
-                                                          'business':
+                                                          'businessId':
                                                               serializeParam(
                                                             listViewBusinessRow
-                                                                .name,
-                                                            ParamType.String,
+                                                                .id,
+                                                            ParamType.int,
                                                           ),
                                                         }.withoutNulls,
                                                       );
@@ -994,8 +990,7 @@ class _MyBusinessesWidgetState extends State<MyBusinessesWidget> {
                                   ),
                                 );
                               },
-                            ),
-                          );
+                            );
                         },
                       ),
                     ],

@@ -136,7 +136,7 @@ class _CreateBusinessWidgetState extends State<CreateBusinessWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
                 child: SingleChildScrollView(
                   child: Column(
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
@@ -2215,15 +2215,15 @@ class _CreateBusinessWidgetState extends State<CreateBusinessWidget> {
                               controller: _model.dropDownValueController2 ??=
                                   FormFieldController<String>(null),
                               options: [
-                                'Tech',
-                                'Weddings',
-                                'Religious',
-                                'Entertainment',
-                                'Education',
-                                'Shopping',
-                                'Services',
                                 'Charity',
-                                'Other'
+                                'Education',
+                                'Entertainment',
+                                'Other',
+                                'Religious',
+                                'Services',
+                                'Shopping',
+                                'Tech',
+                                'Weddings'
                               ],
                               onChanged: (val) => safeSetState(
                                   () => _model.dropDownValue2 = val),

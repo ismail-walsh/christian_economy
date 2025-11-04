@@ -1,10 +1,13 @@
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
+import '/components/youtube_comment_section_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'poll_model.dart';
 export 'poll_model.dart';
 
@@ -33,6 +36,9 @@ class _PollWidgetState extends State<PollWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => PollModel());
+
+    _model.commentInputController ??= TextEditingController();
+    _model.commentInputFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -92,9 +98,10 @@ class _PollWidgetState extends State<PollWidget> {
           ),
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 20.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 4.0),
                   child: Row(
@@ -725,7 +732,12 @@ class _PollWidgetState extends State<PollWidget> {
                     ],
                   ),
                 ),
+                // YouTube-Style Comments Section
+                YoutubeCommentSectionWidget(
+                  blacklistId: widget.blacklistId!,
+                ),
               ],
+            ),
             ),
           ),
         );

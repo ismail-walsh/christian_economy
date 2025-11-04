@@ -19,6 +19,9 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   void updateBusinessListAtIndex(int index, Function(BusinessRow) updateFn) =>
       businessList[index] = updateFn(businessList[index]);
 
+  List<String> availableIndustries = [];
+  List<String> availableRegions = [];
+
   ///  State fields for stateful widgets in this page.
 
   TutorialCoachMark? welcomeHomeController;
@@ -56,6 +59,31 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   // Stores action output result for [Backend Call - Query Rows] action in DropDown widget.
   List<BusinessRow>? unfilteredBackupRegionCall;
   Stream<List<UsersRow>>? containerSupabaseStream;
+
+  Future<void> loadBusinesses(BuildContext context) async {
+    businessCall = await BusinessTable().queryRows(
+      queryFn: (q) => q,
+    );
+    businessList = businessCall!.toList().cast<BusinessRow>();
+
+    // Extract unique industries and regions from businesses
+    final industries = businessList
+        .where((b) => b.industry != null && b.industry!.isNotEmpty)
+        .map((b) => b.industry!)
+        .toSet()
+        .toList()
+      ..sort();
+
+    final regions = businessList
+        .where((b) => b.region != null && b.region!.isNotEmpty)
+        .map((b) => b.region!)
+        .toSet()
+        .toList()
+      ..sort();
+
+    availableIndustries = industries;
+    availableRegions = regions;
+  }
 
   @override
   void initState(BuildContext context) {}

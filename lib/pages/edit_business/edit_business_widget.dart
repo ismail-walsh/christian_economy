@@ -18,10 +18,10 @@ export 'edit_business_model.dart';
 class EditBusinessWidget extends StatefulWidget {
   const EditBusinessWidget({
     super.key,
-    required this.business,
+    required this.businessId,
   });
 
-  final String? business;
+  final int? businessId;
 
   static String routeName = 'editBusiness';
   static String routePath = '/editBusiness';
@@ -114,8 +114,8 @@ class _EditBusinessWidgetState extends State<EditBusinessWidget> {
               child: FutureBuilder<List<BusinessRow>>(
                 future: BusinessTable().querySingleRow(
                   queryFn: (q) => q.eqOrNull(
-                    'name',
-                    widget.business,
+                    'id',
+                    widget.businessId,
                   ),
                 ),
                 builder: (context, snapshot) {
@@ -156,7 +156,7 @@ class _EditBusinessWidgetState extends State<EditBusinessWidget> {
                           Expanded(
                             child: SingleChildScrollView(
                               child: Column(
-                                mainAxisSize: MainAxisSize.max,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
@@ -2411,15 +2411,15 @@ class _EditBusinessWidgetState extends State<EditBusinessWidget> {
                                                       formBusinessRow?.industry,
                                                 ),
                                                 options: [
-                                                  'Tech',
-                                                  'Weddings',
-                                                  'Religious',
-                                                  'Entertainment',
-                                                  'Education',
-                                                  'Shopping',
-                                                  'Services',
                                                   'Charity',
-                                                  'Other'
+                                                  'Education',
+                                                  'Entertainment',
+                                                  'Other',
+                                                  'Religious',
+                                                  'Services',
+                                                  'Shopping',
+                                                  'Tech',
+                                                  'Weddings'
                                                 ],
                                                 onChanged: (val) =>
                                                     safeSetState(() => _model
