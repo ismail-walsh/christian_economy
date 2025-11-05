@@ -51,8 +51,9 @@ class _HomeWidgetState extends State<HomeWidget> {
       await _model.loadBusinesses(context);
       safeSetState(() {});
 
-      // Precache first 10 business cover photos for smooth scrolling
-      _precacheBusinessImages();
+      // Disabled precaching to allow instant app load with placeholder icons
+      // Images will load progressively as user scrolls
+      // _precacheBusinessImages();
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -443,14 +444,15 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               child: CachedNetworkImage(
                                                 cacheManager: CustomCacheManager.instance,
                                                 fadeInDuration:
-                                                    Duration(milliseconds: 300),
+                                                    Duration(milliseconds: 200),
                                                 fadeOutDuration:
-                                                    Duration(milliseconds: 300),
+                                                    Duration(milliseconds: 200),
                                                 imageUrl: listViewBusinessRow
                                                     .coverPhoto ?? '',
                                                 width: 300.0,
                                                 height: 100.0,
                                                 fit: BoxFit.cover,
+                                                alignment: Alignment.center,
                                                 maxHeightDiskCache: 200,
                                                 maxWidthDiskCache: 600,
                                                 memCacheHeight: 200,
@@ -458,15 +460,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 placeholder: (context, url) => Container(
                                                   color: FlutterFlowTheme.of(context).secondaryBackground,
                                                   child: Center(
-                                                    child: SizedBox(
-                                                      width: 20.0,
-                                                      height: 20.0,
-                                                      child: CircularProgressIndicator(
-                                                        strokeWidth: 2.0,
-                                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                                          FlutterFlowTheme.of(context).primary,
-                                                        ),
-                                                      ),
+                                                    child: Icon(
+                                                      Icons.business,
+                                                      color: FlutterFlowTheme.of(context).secondaryText.withOpacity(0.3),
+                                                      size: 40.0,
                                                     ),
                                                   ),
                                                 ),
@@ -1505,6 +1502,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                               double.infinity,
                                                           height: 60.0,
                                                           fit: BoxFit.cover,
+                                                          alignment: Alignment.center,
                                                           maxHeightDiskCache: 120,
                                                           maxWidthDiskCache: 800,
                                                           memCacheHeight: 120,
@@ -1512,15 +1510,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           placeholder: (context, url) => Container(
                                                             color: FlutterFlowTheme.of(context).secondaryBackground,
                                                             child: Center(
-                                                              child: SizedBox(
-                                                                width: 20.0,
-                                                                height: 20.0,
-                                                                child: CircularProgressIndicator(
-                                                                  strokeWidth: 2.0,
-                                                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                                                    FlutterFlowTheme.of(context).primary,
-                                                                  ),
-                                                                ),
+                                                              child: Icon(
+                                                                Icons.business,
+                                                                color: FlutterFlowTheme.of(context).secondaryText.withOpacity(0.3),
+                                                                size: 24.0,
                                                               ),
                                                             ),
                                                           ),

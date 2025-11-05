@@ -2,6 +2,7 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/services/background_image_preloader.dart';
 import '/index.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
@@ -221,7 +222,13 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       ),
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
+    // Start preloading business images in background while user is on welcome screen
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      safeSetState(() {});
+      if (mounted) {
+        BackgroundImagePreloader().startPreloading(context);
+      }
+    });
   }
 
   @override

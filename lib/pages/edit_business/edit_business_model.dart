@@ -70,6 +70,9 @@ class EditBusinessModel extends FlutterFlowModel<EditBusinessWidget> {
   // State field(s) for DropDown widget.
   String? dropDownValue;
   FormFieldController<String>? dropDownValueController;
+  // State field(s) for RegionDropDown widget.
+  String? regionDropDownValue;
+  FormFieldController<String>? regionDropDownValueController;
   // State field(s) for hiring widget.
   bool? hiringValue;
   // State field(s) for sundays widget.

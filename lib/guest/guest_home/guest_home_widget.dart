@@ -216,6 +216,7 @@ class _GuestHomeWidgetState extends State<GuestHomeWidget> {
                                                     width: 300.0,
                                                     height: 100.0,
                                                     fit: BoxFit.cover,
+                                                    alignment: Alignment.center,
                                                   ),
                                                 ),
                                               ),
@@ -654,6 +655,7 @@ class _GuestHomeWidgetState extends State<GuestHomeWidget> {
                                                                   .infinity,
                                                               height: 60.0,
                                                               fit: BoxFit.cover,
+                                                              alignment: Alignment.center,
                                                             ),
                                                           ),
                                                           Padding(

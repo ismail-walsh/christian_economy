@@ -9,7 +9,7 @@
   <application
     android:label="Christian Economy"
     tools:replace="android:label"
-    android:icon="@mipmap/launcher_icon"
+    android:icon="@mipmap/ic_launcher"
     android:requestLegacyExternalStorage="true"
     android:enableOnBackInvokedCallback="true"
     android:largeHeap="true"
