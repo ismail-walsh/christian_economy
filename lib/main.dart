@@ -13,6 +13,7 @@ import 'backend/firebase/firebase_config.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
+import '/services/push_notification_service.dart';
 import 'index.dart';
 
 void main() async {
@@ -97,12 +98,30 @@ class _MyAppState extends State<MyApp> {
     userStream = christianEconomySupabaseUserStream()
       ..listen((user) {
         _appStateNotifier.update(user);
+        // Start/stop notifications based on auth state
+        if (user.loggedIn) {
+          _initializeNotifications();
+        } else {
+          PushNotificationService().stopListening();
+        }
       });
     jwtTokenStream.listen((_) {});
     Future.delayed(
       Duration(milliseconds: 1000),
       () => _appStateNotifier.stopShowingSplashImage(),
     );
+  }
+
+  Future<void> _initializeNotifications() async {
+    try {
+      await PushNotificationService().initialize();
+      final isEnabled = await PushNotificationService().areNotificationsEnabled();
+      if (isEnabled) {
+        await PushNotificationService().startListening();
+      }
+    } catch (e) {
+      // Silently fail - notifications are not critical
+    }
   }
 
   void setLocale(String language) {

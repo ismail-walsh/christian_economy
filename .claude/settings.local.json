@@ -50,7 +50,8 @@
       "Bash(for file in /Users/Ismail/Downloads/christian_economy/lib/pages/{create_business,edit_business,business_details}/business_details_widget.dart)",
       "Bash(do echo '=== $file ===')",
       "Bash(done)",
-      "Bash(for file in create_business edit_business business_details create_job)"
+      "Bash(for file in create_business edit_business business_details create_job)",
+      "Bash(flutter pub run:*)"
     ],
     "deny": [],
     "ask": []

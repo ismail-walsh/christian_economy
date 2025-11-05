@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/services/push_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -199,9 +200,15 @@ class _NotificationSettingsWidgetState
                       value: _model.pushNotifications ??= true,
                       onChanged: (newValue) async {
                         safeSetState(() => _model.pushNotifications = newValue);
+                        // Start or stop push notifications service
+                        if (newValue == true) {
+                          await PushNotificationService().startListening();
+                        } else {
+                          await PushNotificationService().stopListening();
+                        }
                       },
                       title: Text(
-                        'In-App Notifications',
+                        'Push Notifications',
                         style: FlutterFlowTheme.of(context).bodyLarge.override(
                               font: GoogleFonts.sourceSans3(
                                 fontWeight: FlutterFlowTheme.of(context)
@@ -222,7 +229,7 @@ class _NotificationSettingsWidgetState
                             ),
                       ),
                       subtitle: Text(
-                        'Receive in-app notifications',
+                        'Receive push notifications even when app is closed',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               font: GoogleFonts.sourceSans3(
                                 fontWeight: FlutterFlowTheme.of(context)
