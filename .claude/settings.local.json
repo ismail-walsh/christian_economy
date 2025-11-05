@@ -50,7 +50,13 @@
       "Bash(for file in /Users/Ismail/Downloads/christian_economy/lib/pages/{create_business,edit_business,business_details}/business_details_widget.dart)",
       "Bash(do echo '=== $file ===')",
       "Bash(done)",
-      "Bash(for file in create_business edit_business business_details create_job)"
+      "Bash(for file in create_business edit_business business_details create_job)",
+      "Bash(flutter pub run:*)",
+      "Bash(/opt/homebrew/bin/flutter:*)",
+      "Bash(export PATH=\"/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/opt/homebrew/sbin\")",
+      "Bash(export PATH=\"/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/opt/homebrew/sbin\":*)",
+      "Bash(open:*)",
+      "Bash(sed:*)"
     ],
     "deny": [],
     "ask": []

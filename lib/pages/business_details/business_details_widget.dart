@@ -409,7 +409,8 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                                                           imageUrl:
                                                               businessDetailsBusinessRow
                                                                   .coverPhoto ?? '',
-                                                          fit: BoxFit.contain,
+                                                          fit: BoxFit.cover,
+                                                alignment: Alignment.center,
                                                           placeholder: (context, url) => Container(
                                                             color: FlutterFlowTheme.of(context).secondaryBackground,
                                                             child: Center(
@@ -459,6 +460,7 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                                                       width: double.infinity,
                                                       height: double.infinity,
                                                       fit: BoxFit.cover,
+                                                alignment: Alignment.center,
                                                       placeholder: (context, url) => Container(
                                                         color: FlutterFlowTheme.of(context).secondaryBackground,
                                                         child: Center(
@@ -505,6 +507,7 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                                         imageUrl:
                                             businessDetailsBusinessRow.photo ?? '',
                                         fit: BoxFit.cover,
+                                                alignment: Alignment.center,
                                         placeholder: (context, url) => Container(
                                           color: FlutterFlowTheme.of(context).accent1,
                                           child: Icon(

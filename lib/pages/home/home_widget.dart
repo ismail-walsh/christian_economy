@@ -1,10 +1,12 @@
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
+import '/flutter_flow/custom_cache_manager.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/flutter_flow/image_precache_helper.dart';
 import '/walkthroughs/welcome_home.dart';
 import '/index.dart';
 import 'package:sticky_headers/sticky_headers.dart';
@@ -48,9 +50,36 @@ class _HomeWidgetState extends State<HomeWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await _model.loadBusinesses(context);
       safeSetState(() {});
+
+      // Disabled precaching to allow instant app load with placeholder icons
+      // Images will load progressively as user scrolls
+      // _precacheBusinessImages();
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
+  }
+
+  /// Precache business images for better performance
+  void _precacheBusinessImages() {
+    if (!mounted) return;
+
+    // Collect image URLs from businesses
+    final imageUrls = <String?>[];
+
+    // Add from businessList in model
+    if (_model.businessList.isNotEmpty) {
+      imageUrls.addAll(
+        _model.businessList.map((b) => b.coverPhoto),
+      );
+    }
+
+    // Precache with a delay to not block UI
+    ImagePrecacheHelper.precacheImagesDelayed(
+      context,
+      imageUrls,
+      maxImages: 15, // Precache first 15 images
+      delay: Duration(milliseconds: 500),
+    );
   }
 
   @override
@@ -413,22 +442,28 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               borderRadius:
                                                   BorderRadius.circular(4.0),
                                               child: CachedNetworkImage(
+                                                cacheManager: CustomCacheManager.instance,
                                                 fadeInDuration:
-                                                    Duration(milliseconds: 500),
+                                                    Duration(milliseconds: 200),
                                                 fadeOutDuration:
-                                                    Duration(milliseconds: 500),
+                                                    Duration(milliseconds: 200),
                                                 imageUrl: listViewBusinessRow
                                                     .coverPhoto ?? '',
                                                 width: 300.0,
                                                 height: 100.0,
                                                 fit: BoxFit.cover,
+                                                alignment: Alignment.center,
+                                                maxHeightDiskCache: 200,
+                                                maxWidthDiskCache: 600,
+                                                memCacheHeight: 200,
+                                                memCacheWidth: 600,
                                                 placeholder: (context, url) => Container(
                                                   color: FlutterFlowTheme.of(context).secondaryBackground,
                                                   child: Center(
-                                                    child: CircularProgressIndicator(
-                                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                                        FlutterFlowTheme.of(context).primary,
-                                                      ),
+                                                    child: Icon(
+                                                      Icons.business,
+                                                      color: FlutterFlowTheme.of(context).secondaryText.withOpacity(0.3),
+                                                      size: 40.0,
                                                     ),
                                                   ),
                                                 ),
@@ -1451,6 +1486,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                         ),
                                                         child:
                                                             CachedNetworkImage(
+                                                          cacheManager: CustomCacheManager.instance,
                                                           fadeInDuration:
                                                               Duration(
                                                                   milliseconds:
@@ -1466,6 +1502,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                               double.infinity,
                                                           height: 60.0,
                                                           fit: BoxFit.cover,
+                                                          alignment: Alignment.center,
                                                           maxHeightDiskCache: 120,
                                                           maxWidthDiskCache: 800,
                                                           memCacheHeight: 120,
@@ -1473,15 +1510,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           placeholder: (context, url) => Container(
                                                             color: FlutterFlowTheme.of(context).secondaryBackground,
                                                             child: Center(
-                                                              child: SizedBox(
-                                                                width: 20.0,
-                                                                height: 20.0,
-                                                                child: CircularProgressIndicator(
-                                                                  strokeWidth: 2.0,
-                                                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                                                    FlutterFlowTheme.of(context).primary,
-                                                                  ),
-                                                                ),
+                                                              child: Icon(
+                                                                Icons.business,
+                                                                color: FlutterFlowTheme.of(context).secondaryText.withOpacity(0.3),
+                                                                size: 24.0,
                                                               ),
                                                             ),
                                                           ),

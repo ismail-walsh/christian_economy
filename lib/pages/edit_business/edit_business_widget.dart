@@ -2567,6 +2567,184 @@ class _EditBusinessWidgetState extends State<EditBusinessWidget> {
                                                 alignment: AlignmentDirectional(
                                                     -1.0, 0.0),
                                                 child: Text(
+                                                  'Region',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font: GoogleFonts
+                                                            .sourceSans3(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                ),
+                                              ),
+                                              FlutterFlowDropDown<String>(
+                                                controller: _model
+                                                        .regionDropDownValueController ??=
+                                                    FormFieldController<String>(
+                                                  _model.regionDropDownValue ??=
+                                                      formBusinessRow?.region,
+                                                ),
+                                                options: [
+                                                  'United Kingdom',
+                                                  'United States',
+                                                  'Canada',
+                                                  'Australia',
+                                                  'Middle East',
+                                                  'Africa',
+                                                  'Asia',
+                                                  'Europe'
+                                                ],
+                                                onChanged: (val) =>
+                                                    safeSetState(() => _model
+                                                        .regionDropDownValue = val),
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        1.0,
+                                                height: 40.0,
+                                                searchHintTextStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .sourceSans3(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          fontSize: 16.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                searchTextStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .sourceSans3(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                textStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .sourceSans3(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          fontSize: 16.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                hintText:
+                                                    'Select a region...',
+                                                searchHintText: 'Search...',
+                                                icon: Icon(
+                                                  Icons
+                                                      .keyboard_arrow_down_rounded,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                  size: 24.0,
+                                                ),
+                                                fillColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryBackground,
+                                                elevation: 2.0,
+                                                borderColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .alternate,
+                                                borderWidth: 0.0,
+                                                borderRadius: 8.0,
+                                                margin: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        12.0, 0.0, 12.0, 0.0),
+                                                hidesUnderline: true,
+                                                isOverButton: false,
+                                                isSearchable: true,
+                                                isMultiSelect: false,
+                                              ),
+                                              Align(
+                                                alignment: AlignmentDirectional(
+                                                    -1.0, 0.0),
+                                                child: Text(
                                                   'Job availability',
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -3372,57 +3550,108 @@ class _EditBusinessWidgetState extends State<EditBusinessWidget> {
                                                         .validate()) {
                                                   return;
                                                 }
-                                                // updateUserInfo
-                                                await BusinessTable().update(
-                                                  data: {
-                                                    'name': _model
-                                                        .businessNameTextController
-                                                        .text,
-                                                    'location': _model
-                                                        .businessAddressTextController
-                                                        .text,
-                                                    'cover_photo': _model.uploadedFileUrl_uploadDataUserCoverEdit2 !=
-                                                                ''
-                                                        ? _model
-                                                            .uploadedFileUrl_uploadDataUserCoverEdit2
-                                                        : formBusinessRow
-                                                            ?.coverPhoto,
-                                                    'industry':
-                                                        _model.dropDownValue,
-                                                    'description': _model
-                                                        .descriptionTextController
-                                                        .text,
-                                                    'photo': _model.uploadedFileUrl_uploadDataUserEdit2 !=
-                                                                ''
-                                                        ? _model
-                                                            .uploadedFileUrl_uploadDataUserEdit2
-                                                        : formBusinessRow
-                                                            ?.photo,
-                                                    'contact': _model
-                                                        .businessContactTextController
-                                                        .text,
-                                                    'pro_church':
-                                                        _model.churchValue,
-                                                    'pro_life':
-                                                        _model.lifeValue,
-                                                    'pro_family':
-                                                        _model.familyValue,
-                                                    'pro_charity':
-                                                        _model.charityValue,
-                                                    'sundays':
-                                                        _model.sundaysValue,
-                                                    'website': _model
-                                                        .businessWebsiteTextController
-                                                        .text,
-                                                    'vacancies':
-                                                        _model.hiringValue,
-                                                  },
-                                                  matchingRows: (rows) =>
-                                                      rows.eqOrNull(
-                                                    'name',
-                                                    formBusinessRow?.name,
-                                                  ),
-                                                );
+
+                                                try {
+                                                  // updateUserInfo
+                                                  await BusinessTable().update(
+                                                    data: {
+                                                      'name': _model
+                                                          .businessNameTextController
+                                                          .text,
+                                                      'location': _model
+                                                          .businessAddressTextController
+                                                          .text,
+                                                      'cover_photo': _model.uploadedFileUrl_uploadDataUserCoverEdit2 !=
+                                                                  ''
+                                                          ? _model
+                                                              .uploadedFileUrl_uploadDataUserCoverEdit2
+                                                          : formBusinessRow
+                                                              ?.coverPhoto,
+                                                      'industry':
+                                                          _model.dropDownValue,
+                                                      'region':
+                                                          _model.regionDropDownValue,
+                                                      'description': _model
+                                                          .descriptionTextController
+                                                          .text,
+                                                      'photo': _model.uploadedFileUrl_uploadDataUserEdit2 !=
+                                                                  ''
+                                                          ? _model
+                                                              .uploadedFileUrl_uploadDataUserEdit2
+                                                          : formBusinessRow
+                                                              ?.photo,
+                                                      'contact': _model
+                                                          .businessContactTextController
+                                                          .text,
+                                                      'pro_church':
+                                                          _model.churchValue,
+                                                      'pro_life':
+                                                          _model.lifeValue,
+                                                      'pro_family':
+                                                          _model.familyValue,
+                                                      'pro_charity':
+                                                          _model.charityValue,
+                                                      'sundays':
+                                                          _model.sundaysValue,
+                                                      'website': _model
+                                                          .businessWebsiteTextController
+                                                          .text,
+                                                      'vacancies':
+                                                          _model.hiringValue,
+                                                    },
+                                                    matchingRows: (rows) =>
+                                                        rows.eqOrNull(
+                                                      'name',
+                                                      formBusinessRow?.name,
+                                                    ),
+                                                  );
+                                                } catch (e) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        'Error updating business: $e',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .sourceSans3(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                                ),
+                                                      ),
+                                                      duration: Duration(
+                                                          milliseconds: 4000),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .error,
+                                                    ),
+                                                  );
+                                                  return;
+                                                }
                                                 await Future.wait([
                                                   Future(() async {
                                                     await SocialMediaTable()

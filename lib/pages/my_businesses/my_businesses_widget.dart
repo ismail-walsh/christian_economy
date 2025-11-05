@@ -351,6 +351,7 @@ class _MyBusinessesWidgetState extends State<MyBusinessesWidget> {
                                                   width: double.infinity,
                                                   height: 60.0,
                                                   fit: BoxFit.cover,
+                                                alignment: Alignment.center,
                                                   placeholder: (context, url) => Container(
                                                     color: FlutterFlowTheme.of(context).secondaryBackground,
                                                     child: Center(
