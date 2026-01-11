@@ -2905,143 +2905,185 @@ class _CreateBusinessWidgetState extends State<CreateBusinessWidget> {
                             0.0, 24.0, 0.0, 12.0),
                         child: FFButtonWidget(
                           onPressed: () async {
-                            _model.createBusiness =
-                                await BusinessTable().insert({
-                              'created_at':
-                                  supaSerialize<DateTime>(getCurrentTimestamp),
-                              'user': currentUserUid,
-                              'name': _model.businessNameTextController.text,
-                              'location':
-                                  _model.businessAddressTextController.text,
-                              'description':
-                                  _model.descriptionTextController.text,
-                              'photo': _model.uploadedFileUrl_uploadDataBusiness1 !=
-                                          ''
-                                  ? _model.uploadedFileUrl_uploadDataBusiness1
-                                  : 'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images//default-avatar-icon-of-social-media-user-vector.jpg',
-                              'cover_photo': _model.uploadedFileUrl_uploadDataCover !=
-                                          ''
-                                  ? _model.uploadedFileUrl_uploadDataCover
-                                  : 'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images//default-cover.png',
-                              'contact':
-                                  _model.businessContactTextController.text,
-                              'is_promoted': false,
-                              'pro_church': _model.churchValue,
-                              'pro_life': _model.lifeValue,
-                              'pro_family': _model.familyValue,
-                              'pro_charity': _model.charityValue,
-                              'sundays': _model.vacanciesValue,
-                              'id': random_data.randomInteger(0, 100000),
-                              'website':
-                                  _model.businessWebsiteTextController.text,
-                              'industry': _model.dropDownValue1,
-                              'vacancies': _model.vacanciesValue,
-                              'region': _model.dropDownValue2,
-                            });
-                            await Future.wait([
-                              Future(() async {
-                                _model.createYouTube =
-                                    await SocialMediaTable().insert({
-                                  'created_at': supaSerialize<DateTime>(
-                                      getCurrentTimestamp),
-                                  'description':
-                                      _model.descriptionTextController.text,
-                                  'link': _model
-                                      .socialMediaLinksTextController1.text,
-                                  'businessName':
-                                      _model.businessNameTextController.text,
-                                  'socialName': 'YouTube',
-                                  'photo':
-                                      'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images/social/red-youtube-logo-social-media-logo_197792-1803.jpg.avif',
-                                  'user': currentUserUid,
-                                });
-                              }),
-                              Future(() async {
-                                _model.createTwitter =
-                                    await SocialMediaTable().insert({
-                                  'created_at': supaSerialize<DateTime>(
-                                      getCurrentTimestamp),
-                                  'description':
-                                      _model.descriptionTextController.text,
-                                  'link': _model
-                                      .socialMediaLinksTextController2.text,
-                                  'user': currentUserUid,
-                                  'socialName': 'Twitter',
-                                  'photo':
-                                      'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images/social/64cebc6c19c2fe31de94c78e_X-vector-logo-download.png',
-                                  'businessName':
-                                      _model.businessNameTextController.text,
-                                });
-                              }),
-                              Future(() async {
-                                _model.createInstagram =
-                                    await SocialMediaTable().insert({
-                                  'created_at': supaSerialize<DateTime>(
-                                      getCurrentTimestamp),
-                                  'description':
-                                      _model.descriptionTextController.text,
-                                  'link': _model
-                                      .socialMediaLinksTextController3.text,
-                                  'socialName': 'Instagram',
-                                  'photo':
-                                      'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images/social/instagram.jpg',
-                                  'businessName':
-                                      _model.businessNameTextController.text,
-                                  'user': currentUserUid,
-                                });
-                              }),
-                              Future(() async {
-                                _model.createTiktok =
-                                    await SocialMediaTable().insert({
-                                  'created_at': supaSerialize<DateTime>(
-                                      getCurrentTimestamp),
-                                  'description':
-                                      _model.descriptionTextController.text,
-                                  'link': _model
-                                      .socialMediaLinksTextController4.text,
-                                  'socialName': 'Tiktok',
-                                  'photo':
-                                      'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images/social/tiktok-logo.png',
-                                  'businessName':
-                                      _model.businessNameTextController.text,
-                                  'user': currentUserUid,
-                                });
-                              }),
-                              Future(() async {
-                                _model.createPatreon =
-                                    await SocialMediaTable().insert({
-                                  'created_at': supaSerialize<DateTime>(
-                                      getCurrentTimestamp),
-                                  'description':
-                                      _model.descriptionTextController.text,
-                                  'link': _model
-                                      .socialMediaLinksTextController5.text,
-                                  'socialName': 'Patreon',
-                                  'photo':
-                                      'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images/social/qhd_Patreon_Symbol_6fff9723d3.png',
-                                  'businessName':
-                                      _model.businessNameTextController.text,
-                                  'user': currentUserUid,
-                                });
-                              }),
-                            ]);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Success!',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).secondary,
-                              ),
-                            );
-                            context.safePop();
+                            try {
+                              // Validate required fields
+                              List<String> missingFields = [];
 
-                            safeSetState(() {});
+                              if (_model.businessNameTextController.text.trim().isEmpty) {
+                                missingFields.add('Business Name');
+                              }
+                              if (_model.dropDownValue2 == null || _model.dropDownValue2!.isEmpty) {
+                                missingFields.add('Industry');
+                              }
+                              if (_model.dropDownValue1 == null || _model.dropDownValue1!.isEmpty) {
+                                missingFields.add('Region');
+                              }
+
+                              if (missingFields.isNotEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Please fill in the following required fields: ${missingFields.join(', ')}',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                                return;
+                              }
+
+                              _model.createBusiness =
+                                  await BusinessTable().insert({
+                                'created_at':
+                                    supaSerialize<DateTime>(getCurrentTimestamp),
+                                'user': currentUserUid,
+                                'name': _model.businessNameTextController.text,
+                                'location':
+                                    _model.businessAddressTextController.text,
+                                'description':
+                                    _model.descriptionTextController.text,
+                                'photo': _model.uploadedFileUrl_uploadDataBusiness1 !=
+                                            ''
+                                    ? _model.uploadedFileUrl_uploadDataBusiness1
+                                    : 'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images//default-avatar-icon-of-social-media-user-vector.jpg',
+                                'cover_photo': _model.uploadedFileUrl_uploadDataCover !=
+                                            ''
+                                    ? _model.uploadedFileUrl_uploadDataCover
+                                    : 'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images//default-cover.png',
+                                'contact':
+                                    _model.businessContactTextController.text,
+                                'is_promoted': false,
+                                'pro_church': _model.churchValue ?? false,
+                                'pro_life': _model.lifeValue ?? false,
+                                'pro_family': _model.familyValue ?? false,
+                                'pro_charity': _model.charityValue ?? false,
+                                'sundays': _model.sundaysValue ?? false,
+                                'website':
+                                    _model.businessWebsiteTextController.text,
+                                'industry': _model.dropDownValue2,
+                                'vacancies': _model.vacanciesValue ?? false,
+                                'region': _model.dropDownValue1,
+                              });
+                              await Future.wait([
+                                Future(() async {
+                                  _model.createYouTube =
+                                      await SocialMediaTable().insert({
+                                    'created_at': supaSerialize<DateTime>(
+                                        getCurrentTimestamp),
+                                    'description':
+                                        _model.descriptionTextController.text,
+                                    'link': _model
+                                        .socialMediaLinksTextController1.text,
+                                    'businessName':
+                                        _model.businessNameTextController.text,
+                                    'socialName': 'YouTube',
+                                    'photo':
+                                        'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images/social/red-youtube-logo-social-media-logo_197792-1803.jpg.avif',
+                                    'user': currentUserUid,
+                                  });
+                                }),
+                                Future(() async {
+                                  _model.createTwitter =
+                                      await SocialMediaTable().insert({
+                                    'created_at': supaSerialize<DateTime>(
+                                        getCurrentTimestamp),
+                                    'description':
+                                        _model.descriptionTextController.text,
+                                    'link': _model
+                                        .socialMediaLinksTextController2.text,
+                                    'user': currentUserUid,
+                                    'socialName': 'Twitter',
+                                    'photo':
+                                        'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images/social/64cebc6c19c2fe31de94c78e_X-vector-logo-download.png',
+                                    'businessName':
+                                        _model.businessNameTextController.text,
+                                  });
+                                }),
+                                Future(() async {
+                                  _model.createInstagram =
+                                      await SocialMediaTable().insert({
+                                    'created_at': supaSerialize<DateTime>(
+                                        getCurrentTimestamp),
+                                    'description':
+                                        _model.descriptionTextController.text,
+                                    'link': _model
+                                        .socialMediaLinksTextController3.text,
+                                    'socialName': 'Instagram',
+                                    'photo':
+                                        'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images/social/instagram.jpg',
+                                    'businessName':
+                                        _model.businessNameTextController.text,
+                                    'user': currentUserUid,
+                                  });
+                                }),
+                                Future(() async {
+                                  _model.createTiktok =
+                                      await SocialMediaTable().insert({
+                                    'created_at': supaSerialize<DateTime>(
+                                        getCurrentTimestamp),
+                                    'description':
+                                        _model.descriptionTextController.text,
+                                    'link': _model
+                                        .socialMediaLinksTextController4.text,
+                                    'socialName': 'Tiktok',
+                                    'photo':
+                                        'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images/social/tiktok-logo.png',
+                                    'businessName':
+                                        _model.businessNameTextController.text,
+                                    'user': currentUserUid,
+                                  });
+                                }),
+                                Future(() async {
+                                  _model.createPatreon =
+                                      await SocialMediaTable().insert({
+                                    'created_at': supaSerialize<DateTime>(
+                                        getCurrentTimestamp),
+                                    'description':
+                                        _model.descriptionTextController.text,
+                                    'link': _model
+                                        .socialMediaLinksTextController5.text,
+                                    'socialName': 'Patreon',
+                                    'photo':
+                                        'https://vtkehsyrggxuijxzymga.supabase.co/storage/v1/object/public/user_images/social/qhd_Patreon_Symbol_6fff9723d3.png',
+                                    'businessName':
+                                        _model.businessNameTextController.text,
+                                    'user': currentUserUid,
+                                  });
+                                }),
+                              ]);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Success!',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).secondary,
+                                ),
+                              );
+                              context.safePop();
+
+                              safeSetState(() {});
+                            } catch (e) {
+                              print('Error creating business: $e');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Error creating business: ${e.toString()}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
                           },
                           text: 'Submit',
                           icon: Icon(

@@ -2567,6 +2567,185 @@ class _EditBusinessWidgetState extends State<EditBusinessWidget> {
                                                 alignment: AlignmentDirectional(
                                                     -1.0, 0.0),
                                                 child: Text(
+                                                  'Region',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font: GoogleFonts
+                                                            .sourceSans3(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                ),
+                                              ),
+                                              FlutterFlowDropDown<String>(
+                                                controller: _model
+                                                        .regionDropDownValueController ??=
+                                                    FormFieldController<String>(
+                                                  _model.regionDropDownValue ??=
+                                                      formBusinessRow?.region,
+                                                ),
+                                                options: [
+                                                  'Ireland',
+                                                  'United Kingdom',
+                                                  'United States',
+                                                  'Canada',
+                                                  'Australia',
+                                                  'Middle East',
+                                                  'Africa',
+                                                  'Asia',
+                                                  'Europe'
+                                                ],
+                                                onChanged: (val) =>
+                                                    safeSetState(() => _model
+                                                        .regionDropDownValue = val),
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        1.0,
+                                                height: 40.0,
+                                                searchHintTextStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .sourceSans3(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          fontSize: 16.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                searchTextStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .sourceSans3(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                textStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .sourceSans3(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          fontSize: 16.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                hintText:
+                                                    'Select a region...',
+                                                searchHintText: 'Search...',
+                                                icon: Icon(
+                                                  Icons
+                                                      .keyboard_arrow_down_rounded,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                  size: 24.0,
+                                                ),
+                                                fillColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryBackground,
+                                                elevation: 2.0,
+                                                borderColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .alternate,
+                                                borderWidth: 0.0,
+                                                borderRadius: 8.0,
+                                                margin: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        12.0, 0.0, 12.0, 0.0),
+                                                hidesUnderline: true,
+                                                isOverButton: false,
+                                                isSearchable: true,
+                                                isMultiSelect: false,
+                                              ),
+                                              Align(
+                                                alignment: AlignmentDirectional(
+                                                    -1.0, 0.0),
+                                                child: Text(
                                                   'Job availability',
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -3372,8 +3551,37 @@ class _EditBusinessWidgetState extends State<EditBusinessWidget> {
                                                         .validate()) {
                                                   return;
                                                 }
-                                                // updateUserInfo
-                                                await BusinessTable().update(
+
+                                                // Validate required fields
+                                                List<String> missingFields = [];
+
+                                                if (_model.businessNameTextController.text.trim().isEmpty) {
+                                                  missingFields.add('Business Name');
+                                                }
+                                                if (_model.dropDownValue == null || _model.dropDownValue!.isEmpty) {
+                                                  missingFields.add('Industry');
+                                                }
+                                                if (_model.regionDropDownValue == null || _model.regionDropDownValue!.isEmpty) {
+                                                  missingFields.add('Region');
+                                                }
+
+                                                if (missingFields.isNotEmpty) {
+                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        'Please fill in the following required fields: ${missingFields.join(', ')}',
+                                                        style: TextStyle(color: Colors.white),
+                                                      ),
+                                                      duration: Duration(milliseconds: 4000),
+                                                      backgroundColor: Colors.red,
+                                                    ),
+                                                  );
+                                                  return;
+                                                }
+
+                                                try {
+                                                  // updateUserInfo
+                                                  await BusinessTable().update(
                                                   data: {
                                                     'name': _model
                                                         .businessNameTextController
@@ -3389,6 +3597,8 @@ class _EditBusinessWidgetState extends State<EditBusinessWidget> {
                                                             ?.coverPhoto,
                                                     'industry':
                                                         _model.dropDownValue,
+                                                    'region':
+                                                        _model.regionDropDownValue,
                                                     'description': _model
                                                         .descriptionTextController
                                                         .text,
@@ -3671,6 +3881,19 @@ class _EditBusinessWidgetState extends State<EditBusinessWidget> {
                                                         .routeName);
 
                                                 safeSetState(() {});
+                                                } catch (e) {
+                                                  print('Error updating business: $e');
+                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        'Error updating business: ${e.toString()}',
+                                                        style: TextStyle(color: Colors.white),
+                                                      ),
+                                                      duration: Duration(milliseconds: 4000),
+                                                      backgroundColor: Colors.red,
+                                                    ),
+                                                  );
+                                                }
                                               },
                                               text: 'Save Changes',
                                               options: FFButtonOptions(

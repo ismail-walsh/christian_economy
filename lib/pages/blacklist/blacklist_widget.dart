@@ -571,8 +571,8 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                           ),
                         ),
                         builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
+                          // Handle loading state
+                          if (snapshot.connectionState == ConnectionState.waiting) {
                             return Center(
                               child: SizedBox(
                                 width: 50.0,
@@ -585,6 +585,69 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                               ),
                             );
                           }
+
+                          // Handle error state
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.error_outline,
+                                      color: FlutterFlowTheme.of(context).error,
+                                      size: 60.0,
+                                    ),
+                                    SizedBox(height: 16.0),
+                                    Text(
+                                      'Error loading boycott list',
+                                      style: FlutterFlowTheme.of(context).headlineSmall,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    Text(
+                                      'Please try again later',
+                                      style: FlutterFlowTheme.of(context).bodyMedium,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+
+                          // Handle empty data
+                          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                            return Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.info_outline,
+                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                      size: 60.0,
+                                    ),
+                                    SizedBox(height: 16.0),
+                                    Text(
+                                      'No boycotts found',
+                                      style: FlutterFlowTheme.of(context).headlineSmall,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    Text(
+                                      'Try changing the filter or check back later',
+                                      style: FlutterFlowTheme.of(context).bodyMedium,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+
                           List<BlacklistRow> listViewBlacklistRowList =
                               snapshot.data!;
 

@@ -22,6 +22,9 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   List<String> availableIndustries = [];
   List<String> availableRegions = [];
 
+  // Pagination for performance
+  static const int itemsPerPage = 20; // Limit items for low-end devices
+
   ///  State fields for stateful widgets in this page.
 
   TutorialCoachMark? welcomeHomeController;
@@ -61,28 +64,40 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   Stream<List<UsersRow>>? containerSupabaseStream;
 
   Future<void> loadBusinesses(BuildContext context) async {
-    businessCall = await BusinessTable().queryRows(
-      queryFn: (q) => q,
-    );
-    businessList = businessCall!.toList().cast<BusinessRow>();
+    try {
+      // Load with limit for better performance on low-end devices
+      businessCall = await BusinessTable().queryRows(
+        queryFn: (q) => q.limit(50), // Limit initial load to 50 items
+      );
 
-    // Extract unique industries and regions from businesses
-    final industries = businessList
-        .where((b) => b.industry != null && b.industry!.isNotEmpty)
-        .map((b) => b.industry!)
-        .toSet()
-        .toList()
-      ..sort();
+      if (businessCall != null && businessCall!.isNotEmpty) {
+        businessList = businessCall!.toList().cast<BusinessRow>();
 
-    final regions = businessList
-        .where((b) => b.region != null && b.region!.isNotEmpty)
-        .map((b) => b.region!)
-        .toSet()
-        .toList()
-      ..sort();
+        // Extract unique industries and regions from businesses
+        final industries = businessList
+            .where((b) => b.industry != null && b.industry!.isNotEmpty)
+            .map((b) => b.industry!)
+            .toSet()
+            .toList()
+          ..sort();
 
-    availableIndustries = industries;
-    availableRegions = regions;
+        final regions = businessList
+            .where((b) => b.region != null && b.region!.isNotEmpty)
+            .map((b) => b.region!)
+            .toSet()
+            .toList()
+          ..sort();
+
+        availableIndustries = industries;
+        availableRegions = regions;
+      }
+    } catch (e) {
+      // Handle error gracefully - keep empty lists
+      print('Error loading businesses: $e');
+      businessList = [];
+      availableIndustries = [];
+      availableRegions = [];
+    }
   }
 
   @override

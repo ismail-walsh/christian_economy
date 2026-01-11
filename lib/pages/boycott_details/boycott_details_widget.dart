@@ -51,18 +51,11 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut, // Simpler curve
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms, // Much faster
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 50.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -70,18 +63,11 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut,
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms, // Much faster
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 80.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -89,18 +75,11 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut,
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms,
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 60.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -108,18 +87,11 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut,
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms,
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 80.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -127,18 +99,11 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut,
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms,
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 60.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -146,18 +111,11 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut,
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms,
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 80.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -165,18 +123,11 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut,
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms,
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 90.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -207,8 +158,8 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         ),
       ),
       builder: (context, snapshot) {
-        // Customize what your widget looks like when it's loading.
-        if (!snapshot.hasData) {
+        // Handle loading state
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             body: Center(
@@ -224,16 +175,97 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
             ),
           );
         }
-        List<BlacklistRow> boycottDetailsBlacklistRowList = snapshot.data!;
 
-        final boycottDetailsBlacklistRow =
-            boycottDetailsBlacklistRowList.isNotEmpty
-                ? boycottDetailsBlacklistRowList.first
-                : null;
-
-        if (boycottDetailsBlacklistRow == null) {
-          return Container();
+        // Handle error state
+        if (snapshot.hasError) {
+          return Scaffold(
+            backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+            body: Center(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      color: FlutterFlowTheme.of(context).error,
+                      size: 60.0,
+                    ),
+                    SizedBox(height: 16.0),
+                    Text(
+                      'Error loading boycott details',
+                      style: FlutterFlowTheme.of(context).headlineSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 8.0),
+                    Text(
+                      'Please try again later',
+                      style: FlutterFlowTheme.of(context).bodyMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 24.0),
+                    FFButtonWidget(
+                      onPressed: () => context.pop(),
+                      text: 'Go Back',
+                      options: FFButtonOptions(
+                        height: 40.0,
+                        padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                        color: FlutterFlowTheme.of(context).primary,
+                        textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
         }
+
+        // Handle empty data
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Scaffold(
+            backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+            body: Center(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.info_outline,
+                      color: FlutterFlowTheme.of(context).secondaryText,
+                      size: 60.0,
+                    ),
+                    SizedBox(height: 16.0),
+                    Text(
+                      'Boycott not found',
+                      style: FlutterFlowTheme.of(context).headlineSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 24.0),
+                    FFButtonWidget(
+                      onPressed: () => context.pop(),
+                      text: 'Go Back',
+                      options: FFButtonOptions(
+                        height: 40.0,
+                        padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                        color: FlutterFlowTheme.of(context).primary,
+                        textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+
+        List<BlacklistRow> boycottDetailsBlacklistRowList = snapshot.data!;
+        final boycottDetailsBlacklistRow = boycottDetailsBlacklistRowList.first;
 
         return Title(
             title: 'boycottDetails',
@@ -317,20 +349,29 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                                           fadeInDuration:
                                                               Duration(
                                                                   milliseconds:
-                                                                      500),
+                                                                      100), // Faster
                                                           fadeOutDuration:
                                                               Duration(
                                                                   milliseconds:
-                                                                      500),
+                                                                      100),
                                                           imageUrl:
-                                                              boycottDetailsBlacklistRow!
-                                                                  .coverPhoto!,
+                                                              boycottDetailsBlacklistRow
+                                                                  .coverPhoto ?? '',
                                                           fit: BoxFit.contain,
+                                                          maxHeightDiskCache: 300,
+                                                          maxWidthDiskCache: 600,
+                                                          memCacheHeight: 200,
+                                                          memCacheWidth: 400,
+                                                          errorWidget: (context, url, error) => Icon(
+                                                            Icons.image_not_supported,
+                                                            color: FlutterFlowTheme.of(context).secondaryText,
+                                                            size: 100.0,
+                                                          ),
                                                         ),
                                                         allowRotation: false,
                                                         tag:
-                                                            boycottDetailsBlacklistRow!
-                                                                .coverPhoto!,
+                                                            boycottDetailsBlacklistRow
+                                                                .coverPhoto ?? '',
                                                         useHeroAnimation: true,
                                                       ),
                                                     ),
@@ -338,8 +379,8 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                                 },
                                                 child: Hero(
                                                   tag:
-                                                      boycottDetailsBlacklistRow!
-                                                          .coverPhoto!,
+                                                      boycottDetailsBlacklistRow
+                                                          .coverPhoto ?? 'cover_photo_tag',
                                                   transitionOnUserGestures:
                                                       true,
                                                   child: ClipRRect(
@@ -348,15 +389,27 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                                             0.0),
                                                     child: CachedNetworkImage(
                                                       fadeInDuration: Duration(
-                                                          milliseconds: 500),
+                                                          milliseconds: 100), // Faster
                                                       fadeOutDuration: Duration(
-                                                          milliseconds: 500),
+                                                          milliseconds: 100),
                                                       imageUrl:
-                                                          boycottDetailsBlacklistRow!
-                                                              .coverPhoto!,
+                                                          boycottDetailsBlacklistRow
+                                                              .coverPhoto ?? '',
                                                       width: double.infinity,
                                                       height: double.infinity,
                                                       fit: BoxFit.cover,
+                                                      maxHeightDiskCache: 200,
+                                                      maxWidthDiskCache: 600,
+                                                      memCacheHeight: 150,
+                                                      memCacheWidth: 400,
+                                                      errorWidget: (context, url, error) => Container(
+                                                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                        child: Icon(
+                                                          Icons.image_not_supported,
+                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                          size: 60.0,
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -379,12 +432,32 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                       ),
                                       child: CachedNetworkImage(
                                         fadeInDuration:
-                                            Duration(milliseconds: 500),
+                                            Duration(milliseconds: 100), // Faster
                                         fadeOutDuration:
-                                            Duration(milliseconds: 500),
+                                            Duration(milliseconds: 100),
                                         imageUrl:
-                                            boycottDetailsBlacklistRow.photo!,
+                                            boycottDetailsBlacklistRow.photo ?? '',
                                         fit: BoxFit.cover,
+                                        maxHeightDiskCache: 150,
+                                        maxWidthDiskCache: 150,
+                                        memCacheHeight: 100,
+                                        memCacheWidth: 100,
+                                        placeholder: (context, url) => Container(
+                                          color: FlutterFlowTheme.of(context).accent1,
+                                          child: Icon(
+                                            Icons.report_problem,
+                                            color: FlutterFlowTheme.of(context).error,
+                                            size: 40.0,
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) => Container(
+                                          color: FlutterFlowTheme.of(context).accent1,
+                                          child: Icon(
+                                            Icons.report_problem,
+                                            color: FlutterFlowTheme.of(context).error,
+                                            size: 40.0,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),

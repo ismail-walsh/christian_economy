@@ -38,9 +38,9 @@ void main() async {
 
   await FlutterFlowTheme.initialize();
 
-  // Configure Flutter image cache for better performance
-  PaintingBinding.instance.imageCache.maximumSize = 1000;
-  PaintingBinding.instance.imageCache.maximumSizeBytes = 200 << 20; // 200 MB
+  // Configure Flutter image cache for better performance on low-end devices
+  PaintingBinding.instance.imageCache.maximumSize = 50; // Ultra-low for terrible devices
+  PaintingBinding.instance.imageCache.maximumSizeBytes = 25 << 20; // 25 MB
 
   runApp(MyApp());
 }

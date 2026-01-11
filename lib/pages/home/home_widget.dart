@@ -44,10 +44,24 @@ class _HomeWidgetState extends State<HomeWidget> {
     super.initState();
     _model = createModel(context, () => HomeModel());
 
-    // On page load action.
+    // On page load action - load businesses with timeout protection
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await _model.loadBusinesses(context);
-      safeSetState(() {});
+      try {
+        await _model.loadBusinesses(context).timeout(
+          Duration(seconds: 10),
+          onTimeout: () {
+            print('Business loading timed out after 10 seconds');
+          },
+        );
+        if (mounted) {
+          safeSetState(() {});
+        }
+      } catch (e) {
+        print('Error in initState loadBusinesses: $e');
+        if (mounted) {
+          safeSetState(() {});
+        }
+      }
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -197,14 +211,18 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       borderRadius: BorderRadius.circular(50.0),
                                       child: CachedNetworkImage(
                                         fadeInDuration:
-                                            Duration(milliseconds: 500),
+                                            Duration(milliseconds: 100), // Faster
                                         fadeOutDuration:
-                                            Duration(milliseconds: 500),
+                                            Duration(milliseconds: 100),
                                         imageUrl:
                                             containerUsersRow?.profilePhoto ?? '',
                                         width: 100.0,
                                         height: 100.0,
                                         fit: BoxFit.cover,
+                                        maxHeightDiskCache: 100,
+                                        maxWidthDiskCache: 100,
+                                        memCacheHeight: 50,
+                                        memCacheWidth: 50,
                                         placeholder: (context, url) => Container(
                                           color: FlutterFlowTheme.of(context).accent1,
                                           child: Icon(
@@ -414,22 +432,24 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                   BorderRadius.circular(4.0),
                                               child: CachedNetworkImage(
                                                 fadeInDuration:
-                                                    Duration(milliseconds: 500),
+                                                    Duration(milliseconds: 200), // Faster fade
                                                 fadeOutDuration:
-                                                    Duration(milliseconds: 500),
+                                                    Duration(milliseconds: 200),
                                                 imageUrl: listViewBusinessRow
                                                     .coverPhoto ?? '',
                                                 width: 300.0,
                                                 height: 100.0,
                                                 fit: BoxFit.cover,
+                                                maxHeightDiskCache: 200, // Limit cache size
+                                                maxWidthDiskCache: 400,
+                                                memCacheHeight: 100, // Very small memory cache
+                                                memCacheWidth: 200,
                                                 placeholder: (context, url) => Container(
                                                   color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                  child: Center(
-                                                    child: CircularProgressIndicator(
-                                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                                        FlutterFlowTheme.of(context).primary,
-                                                      ),
-                                                    ),
+                                                  child: Icon(
+                                                    Icons.business,
+                                                    color: FlutterFlowTheme.of(context).secondaryText,
+                                                    size: 40.0,
                                                   ),
                                                 ),
                                                 errorWidget: (context, url, error) => Container(
@@ -1454,11 +1474,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           fadeInDuration:
                                                               Duration(
                                                                   milliseconds:
-                                                                      200),
+                                                                      100), // Faster
                                                           fadeOutDuration:
                                                               Duration(
                                                                   milliseconds:
-                                                                      200),
+                                                                      100),
                                                           imageUrl:
                                                               fullBusinessListItem
                                                                   .coverPhoto ?? '',
@@ -1466,23 +1486,16 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                               double.infinity,
                                                           height: 60.0,
                                                           fit: BoxFit.cover,
-                                                          maxHeightDiskCache: 120,
-                                                          maxWidthDiskCache: 800,
-                                                          memCacheHeight: 120,
-                                                          memCacheWidth: 800,
+                                                          maxHeightDiskCache: 80, // Much smaller
+                                                          maxWidthDiskCache: 400,
+                                                          memCacheHeight: 60, // Match display
+                                                          memCacheWidth: 400,
                                                           placeholder: (context, url) => Container(
                                                             color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                            child: Center(
-                                                              child: SizedBox(
-                                                                width: 20.0,
-                                                                height: 20.0,
-                                                                child: CircularProgressIndicator(
-                                                                  strokeWidth: 2.0,
-                                                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                                                    FlutterFlowTheme.of(context).primary,
-                                                                  ),
-                                                                ),
-                                                              ),
+                                                            child: Icon(
+                                                              Icons.business,
+                                                              color: FlutterFlowTheme.of(context).secondaryText,
+                                                              size: 24.0,
                                                             ),
                                                           ),
                                                           errorWidget: (context, url, error) => Container(
@@ -1513,21 +1526,21 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                             fadeInDuration:
                                                                 Duration(
                                                                     milliseconds:
-                                                                        200),
+                                                                        100), // Even faster
                                                             fadeOutDuration:
                                                                 Duration(
                                                                     milliseconds:
-                                                                        200),
+                                                                        100),
                                                             imageUrl:
                                                                 fullBusinessListItem
                                                                     .photo ?? '',
                                                             width: 75.0,
                                                             height: 75.0,
                                                             fit: BoxFit.fill,
-                                                            maxHeightDiskCache: 150,
-                                                            maxWidthDiskCache: 150,
-                                                            memCacheHeight: 150,
-                                                            memCacheWidth: 150,
+                                                            maxHeightDiskCache: 100, // Smaller cache
+                                                            maxWidthDiskCache: 100,
+                                                            memCacheHeight: 75, // Match display size
+                                                            memCacheWidth: 75,
                                                             placeholder: (context, url) => Container(
                                                               color: FlutterFlowTheme.of(context).accent1,
                                                               child: Icon(
