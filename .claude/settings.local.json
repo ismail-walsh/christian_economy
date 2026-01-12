@@ -57,7 +57,10 @@
       "Bash(ls:*)",
       "Bash(open:*)",
       "Bash(grep:*)",
-      "Bash(pkgutil:*)"
+      "Bash(pkgutil:*)",
+      "Bash(pkill:*)",
+      "Bash(kill:*)",
+      "Bash(killall flutter:*)"
     ],
     "deny": [],
     "ask": []

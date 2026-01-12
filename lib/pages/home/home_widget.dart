@@ -673,26 +673,40 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           .cast<BusinessRow>();
                                                       safeSetState(() {});
                                                     } else {
-                                                      await showDialog(
-                                                        context: context,
-                                                        builder:
-                                                            (alertDialogContext) {
-                                                          return AlertDialog(
-                                                            title: Text(
-                                                                'Filter Eroor'),
-                                                            content: Text(
-                                                                'Whoops, looks like there was an error there. We\'ve set you back to \"All\"'),
-                                                            actions: [
-                                                              TextButton(
-                                                                onPressed: () =>
-                                                                    Navigator.pop(
-                                                                        alertDialogContext),
-                                                                child:
-                                                                    Text('Ok'),
-                                                              ),
-                                                            ],
-                                                          );
-                                                        },
+                                                      ScaffoldMessenger.of(context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'No businesses found for this filter.',
+                                                            style: TextStyle(
+                                                              color: FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .primaryBackground,
+                                                            ),
+                                                          ),
+                                                          duration: Duration(
+                                                              milliseconds: 4000),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .secondary,
+                                                          action: SnackBarAction(
+                                                            label: 'Clear Filters',
+                                                            textColor: FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryBackground,
+                                                            onPressed: () {
+                                                              safeSetState(() {
+                                                                _model
+                                                                    .dropDownValueController1
+                                                                    ?.value = 'All';
+                                                                _model
+                                                                    .dropDownValueController2
+                                                                    ?.value = 'All';
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
                                                       );
                                                       safeSetState(() {
                                                         _model
@@ -721,26 +735,40 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           .cast<BusinessRow>();
                                                       safeSetState(() {});
                                                     } else {
-                                                      await showDialog(
-                                                        context: context,
-                                                        builder:
-                                                            (alertDialogContext) {
-                                                          return AlertDialog(
-                                                            title: Text(
-                                                                'Filter Eroor'),
-                                                            content: Text(
-                                                                'Whoops, looks like there was an error there. We\'ve set you back to \"All\"'),
-                                                            actions: [
-                                                              TextButton(
-                                                                onPressed: () =>
-                                                                    Navigator.pop(
-                                                                        alertDialogContext),
-                                                                child:
-                                                                    Text('Ok'),
-                                                              ),
-                                                            ],
-                                                          );
-                                                        },
+                                                      ScaffoldMessenger.of(context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'No businesses found for this filter.',
+                                                            style: TextStyle(
+                                                              color: FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .primaryBackground,
+                                                            ),
+                                                          ),
+                                                          duration: Duration(
+                                                              milliseconds: 4000),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .secondary,
+                                                          action: SnackBarAction(
+                                                            label: 'Clear Filters',
+                                                            textColor: FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryBackground,
+                                                            onPressed: () {
+                                                              safeSetState(() {
+                                                                _model
+                                                                    .dropDownValueController1
+                                                                    ?.value = 'All';
+                                                                _model
+                                                                    .dropDownValueController2
+                                                                    ?.value = 'All';
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
                                                       );
                                                       safeSetState(() {
                                                         _model
@@ -1013,26 +1041,40 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           .cast<BusinessRow>();
                                                       safeSetState(() {});
                                                     } else {
-                                                      await showDialog(
-                                                        context: context,
-                                                        builder:
-                                                            (alertDialogContext) {
-                                                          return AlertDialog(
-                                                            title: Text(
-                                                                'Filter Error'),
-                                                            content: Text(
-                                                                'Whoops, looks like there was an error there. We\'ve set you back to \"All\"'),
-                                                            actions: [
-                                                              TextButton(
-                                                                onPressed: () =>
-                                                                    Navigator.pop(
-                                                                        alertDialogContext),
-                                                                child:
-                                                                    Text('Ok'),
-                                                              ),
-                                                            ],
-                                                          );
-                                                        },
+                                                      ScaffoldMessenger.of(context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'No businesses found for this filter.',
+                                                            style: TextStyle(
+                                                              color: FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .primaryBackground,
+                                                            ),
+                                                          ),
+                                                          duration: Duration(
+                                                              milliseconds: 4000),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .secondary,
+                                                          action: SnackBarAction(
+                                                            label: 'Clear Filters',
+                                                            textColor: FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryBackground,
+                                                            onPressed: () {
+                                                              safeSetState(() {
+                                                                _model
+                                                                    .dropDownValueController1
+                                                                    ?.value = 'All';
+                                                                _model
+                                                                    .dropDownValueController2
+                                                                    ?.value = 'All';
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
                                                       );
                                                       safeSetState(() {
                                                         _model

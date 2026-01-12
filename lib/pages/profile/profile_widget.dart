@@ -1419,39 +1419,40 @@ class _ProfileWidgetState extends State<ProfileWidget>
                             },
                             text: 'Log Out',
                             options: FFButtonOptions(
-                              width: 150.0,
-                              height: 44.0,
+                              width: 200.0,
+                              height: 50.0,
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
                               iconPadding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
-                              color: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
+                              color: FlutterFlowTheme.of(context).error,
                               textStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
+                                  .titleSmall
                                   .override(
                                     font: GoogleFonts.sourceSans3(
                                       fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
+                                          .titleSmall
                                           .fontWeight,
                                       fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
+                                          .titleSmall
                                           .fontStyle,
                                     ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
                                     letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
+                                        .titleSmall
                                         .fontWeight,
                                     fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
+                                        .titleSmall
                                         .fontStyle,
-                                    decoration: TextDecoration.underline,
                                   ),
-                              elevation: 0.0,
+                              elevation: 2.0,
                               borderSide: BorderSide(
-                                width: 0.0,
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 2.0,
                               ),
-                              borderRadius: BorderRadius.circular(0.0),
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
                           ).animateOnPageLoad(
                               animationsMap['buttonOnPageLoadAnimation']!),

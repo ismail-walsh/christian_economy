@@ -82,7 +82,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               children: [
                 Container(
                   width: double.infinity,
-                  height: 694.0,
+                  height: 750.0,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).secondaryBackground,
                     boxShadow: [
@@ -243,6 +243,31 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                                       .bodyMedium
                                                       .fontStyle,
                                             ),
+                                        errorStyle: FlutterFlowTheme.of(context)
+                                            .bodySmall
+                                            .override(
+                                              font: GoogleFonts.sourceSans3(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodySmall
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodySmall
+                                                        .fontStyle,
+                                              ),
+                                              color: FlutterFlowTheme.of(context).error,
+                                              fontSize: 12.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontStyle,
+                                            ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: FlutterFlowTheme.of(context)
@@ -256,23 +281,23 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                           borderSide: BorderSide(
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryText,
-                                            width: 1.0,
+                                            width: 2.0,
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(5.0),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 1.0,
+                                            color: FlutterFlowTheme.of(context).error,
+                                            width: 2.0,
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(5.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 1.0,
+                                            color: FlutterFlowTheme.of(context).error,
+                                            width: 2.0,
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(5.0),
@@ -308,6 +333,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                                     .bodySmall
                                                     .fontStyle,
                                           ),
+                                      maxLength: 100,
                                       validator: _model
                                           .nameTextControllerValidator
                                           .asValidator(context),
@@ -380,6 +406,31 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                                     .bodyMedium
                                                     .fontStyle,
                                           ),
+                                      errorStyle: FlutterFlowTheme.of(context)
+                                          .bodySmall
+                                          .override(
+                                            font: GoogleFonts.sourceSans3(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontStyle,
+                                            ),
+                                            color: FlutterFlowTheme.of(context).error,
+                                            fontSize: 12.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontStyle,
+                                          ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
@@ -400,16 +451,16 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                       ),
                                       errorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
+                                          color: FlutterFlowTheme.of(context).error,
+                                          width: 2.0,
                                         ),
                                         borderRadius:
                                             BorderRadius.circular(5.0),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
+                                          color: FlutterFlowTheme.of(context).error,
+                                          width: 2.0,
                                         ),
                                         borderRadius:
                                             BorderRadius.circular(5.0),
@@ -636,6 +687,31 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                                             .bodyMedium
                                                             .fontStyle,
                                                   ),
+                                              errorStyle: FlutterFlowTheme.of(context)
+                                                  .bodySmall
+                                                  .override(
+                                                    font: GoogleFonts.sourceSans3(
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(context)
+                                                              .bodySmall
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(context)
+                                                              .bodySmall
+                                                              .fontStyle,
+                                                    ),
+                                                    color: FlutterFlowTheme.of(context).error,
+                                                    fontSize: 12.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(context)
+                                                            .bodySmall
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(context)
+                                                            .bodySmall
+                                                            .fontStyle,
+                                                  ),
                                               enabledBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
@@ -651,15 +727,15 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .primaryText,
-                                                  width: 1.0,
+                                                  width: 2.0,
                                                 ),
                                                 borderRadius:
                                                     BorderRadius.circular(5.0),
                                               ),
                                               errorBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
-                                                  color: Color(0x00000000),
-                                                  width: 1.0,
+                                                  color: FlutterFlowTheme.of(context).error,
+                                                  width: 2.0,
                                                 ),
                                                 borderRadius:
                                                     BorderRadius.circular(5.0),
@@ -667,8 +743,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                               focusedErrorBorder:
                                                   OutlineInputBorder(
                                                 borderSide: BorderSide(
-                                                  color: Color(0x00000000),
-                                                  width: 1.0,
+                                                  color: FlutterFlowTheme.of(context).error,
+                                                  width: 2.0,
                                                 ),
                                                 borderRadius:
                                                     BorderRadius.circular(5.0),
@@ -761,7 +837,35 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                                     .bodyMedium
                                                     .fontStyle,
                                           ),
-                                      hintText: 'Password',
+                                      labelText: 'Password',
+                                      hintText: 'Enter your password',
+                                      helperText: 'Must be at least 8 characters',
+                                      helperStyle: FlutterFlowTheme.of(context)
+                                          .bodySmall
+                                          .override(
+                                            font: GoogleFonts.sourceSans3(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontStyle,
+                                            ),
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            fontSize: 12.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontStyle,
+                                          ),
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
@@ -786,6 +890,31 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                                     .bodyMedium
                                                     .fontStyle,
                                           ),
+                                      errorStyle: FlutterFlowTheme.of(context)
+                                          .bodySmall
+                                          .override(
+                                            font: GoogleFonts.sourceSans3(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontStyle,
+                                            ),
+                                            color: FlutterFlowTheme.of(context).error,
+                                            fontSize: 12.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontStyle,
+                                          ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
@@ -806,16 +935,16 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                       ),
                                       errorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
+                                          color: FlutterFlowTheme.of(context).error,
+                                          width: 2.0,
                                         ),
                                         borderRadius:
                                             BorderRadius.circular(5.0),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
+                                          color: FlutterFlowTheme.of(context).error,
+                                          width: 2.0,
                                         ),
                                         borderRadius:
                                             BorderRadius.circular(5.0),
@@ -938,6 +1067,31 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                                     .bodyMedium
                                                     .fontStyle,
                                           ),
+                                      errorStyle: FlutterFlowTheme.of(context)
+                                          .bodySmall
+                                          .override(
+                                            font: GoogleFonts.sourceSans3(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontStyle,
+                                            ),
+                                            color: FlutterFlowTheme.of(context).error,
+                                            fontSize: 12.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontStyle,
+                                          ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
@@ -958,16 +1112,16 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                       ),
                                       errorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
+                                          color: FlutterFlowTheme.of(context).error,
+                                          width: 2.0,
                                         ),
                                         borderRadius:
                                             BorderRadius.circular(5.0),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
+                                          color: FlutterFlowTheme.of(context).error,
+                                          width: 2.0,
                                         ),
                                         borderRadius:
                                             BorderRadius.circular(5.0),
@@ -1033,40 +1187,71 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                Container(
-                                  width: 284.0,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                  ),
-                                  child: Align(
-                                    alignment: AlignmentDirectional(-1.0, -1.0),
-                                    child: Text(
-                                      'I confirm and profess that I am a Christian, and accept the Nicene Creed.',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.sourceSans3(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          'I affirm the Nicene Creed as a Christian.',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.sourceSans3(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () async {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return AlertDialog(
+                                                title: Text('The Nicene Creed'),
+                                                content: SingleChildScrollView(
+                                                  child: Text(
+                                                    'The Nicene Creed is the historic confession of Christian faith established at the Council of Nicaea in 325 AD. It defines the essential doctrines of Christianity: the Trinity, the divinity of Christ, His incarnation, crucifixion, resurrection, and second coming.\n\nAcceptance of this creed is not optional - it is the fundamental confession that defines Christian orthodoxy. Those who reject these doctrines place themselves outside the historic Christian faith.',
+                                                    style: TextStyle(fontSize: 14.0),
+                                                  ),
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext),
+                                                    child: Text('Understood'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Icon(
+                                          Icons.help_outline,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          size: 20.0,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 Container(
@@ -1151,8 +1336,18 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                                       .showSnackBar(
                                                     SnackBar(
                                                       content: Text(
-                                                        'Passwords don\'t match!',
+                                                        'Passwords don\'t match. Please make sure both password fields are identical.',
+                                                        style: TextStyle(
+                                                          color: FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryBackground,
+                                                        ),
                                                       ),
+                                                      duration:
+                                                          Duration(milliseconds: 4000),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(context)
+                                                              .error,
                                                     ),
                                                   );
                                                   return;
@@ -1194,16 +1389,15 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                                       .showSnackBar(
                                                     SnackBar(
                                                       content: Text(
-                                                        _model.userCreation!
-                                                            .name!,
+                                                        'Welcome, ${_model.userCreation!.name}! Your account has been created successfully.',
                                                         style: TextStyle(
                                                           color: FlutterFlowTheme
                                                                   .of(context)
-                                                              .primaryText,
+                                                              .primaryBackground,
                                                         ),
                                                       ),
                                                       duration: Duration(
-                                                          milliseconds: 4000),
+                                                          milliseconds: 5000),
                                                       backgroundColor:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -1306,7 +1500,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 16.0, 0.0, 24.0),
+                                0.0, 16.0, 0.0, 48.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
