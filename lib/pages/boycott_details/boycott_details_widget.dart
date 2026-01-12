@@ -358,10 +358,10 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                                               boycottDetailsBlacklistRow
                                                                   .coverPhoto ?? '',
                                                           fit: BoxFit.contain,
-                                                          maxHeightDiskCache: 300,
-                                                          maxWidthDiskCache: 600,
-                                                          memCacheHeight: 200,
-                                                          memCacheWidth: 400,
+                                                          maxHeightDiskCache: 1200, // 4x for ultra-sharp detail view
+                                                          maxWidthDiskCache: 2400,
+                                                          memCacheHeight: 800, // High quality for main image
+                                                          memCacheWidth: 1600,
                                                           errorWidget: (context, url, error) => Icon(
                                                             Icons.image_not_supported,
                                                             color: FlutterFlowTheme.of(context).secondaryText,
@@ -398,10 +398,10 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                                       width: double.infinity,
                                                       height: double.infinity,
                                                       fit: BoxFit.cover,
-                                                      maxHeightDiskCache: 200,
-                                                      maxWidthDiskCache: 600,
-                                                      memCacheHeight: 150,
-                                                      memCacheWidth: 400,
+                                                      maxHeightDiskCache: 800, // 4x for background header
+                                                      maxWidthDiskCache: 2400,
+                                                      memCacheHeight: 600, // High quality for header
+                                                      memCacheWidth: 1800,
                                                       errorWidget: (context, url, error) => Container(
                                                         color: FlutterFlowTheme.of(context).secondaryBackground,
                                                         child: Icon(
@@ -438,10 +438,10 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                         imageUrl:
                                             boycottDetailsBlacklistRow.photo ?? '',
                                         fit: BoxFit.cover,
-                                        maxHeightDiskCache: 150,
-                                        maxWidthDiskCache: 150,
-                                        memCacheHeight: 100,
-                                        memCacheWidth: 100,
+                                        maxHeightDiskCache: 600, // 6x for sharp circular logo
+                                        maxWidthDiskCache: 600,
+                                        memCacheHeight: 400, // High quality circular image
+                                        memCacheWidth: 400,
                                         placeholder: (context, url) => Container(
                                           color: FlutterFlowTheme.of(context).accent1,
                                           child: Icon(

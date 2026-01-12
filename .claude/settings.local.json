@@ -54,7 +54,10 @@
       "Bash(sips:*)",
       "Bash(export PATH=\"$HOME/flutter/bin:$PATH\")",
       "Bash(/bin/zsh:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(open:*)",
+      "Bash(grep:*)",
+      "Bash(pkgutil:*)"
     ],
     "deny": [],
     "ask": []

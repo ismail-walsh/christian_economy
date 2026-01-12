@@ -219,10 +219,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         width: 100.0,
                                         height: 100.0,
                                         fit: BoxFit.cover,
-                                        maxHeightDiskCache: 100,
-                                        maxWidthDiskCache: 100,
-                                        memCacheHeight: 50,
-                                        memCacheWidth: 50,
                                         placeholder: (context, url) => Container(
                                           color: FlutterFlowTheme.of(context).accent1,
                                           child: Icon(
@@ -440,10 +436,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 width: 300.0,
                                                 height: 100.0,
                                                 fit: BoxFit.cover,
-                                                maxHeightDiskCache: 400, // Doubled for better quality
-                                                maxWidthDiskCache: 800,
-                                                memCacheHeight: 200, // Doubled for crisp images
-                                                memCacheWidth: 600,
                                                 placeholder: (context, url) => Container(
                                                   color: FlutterFlowTheme.of(context).secondaryBackground,
                                                   child: Icon(
@@ -1486,10 +1478,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                               double.infinity,
                                                           height: 60.0,
                                                           fit: BoxFit.cover,
-                                                          maxHeightDiskCache: 240, // 4x for retina displays
-                                                          maxWidthDiskCache: 1200,
-                                                          memCacheHeight: 180, // 3x for crisp display
-                                                          memCacheWidth: 900,
                                                           placeholder: (context, url) => Container(
                                                             color: FlutterFlowTheme.of(context).secondaryBackground,
                                                             child: Icon(
@@ -1537,10 +1525,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                             width: 75.0,
                                                             height: 75.0,
                                                             fit: BoxFit.fill,
-                                                            maxHeightDiskCache: 225, // 3x for retina
-                                                            maxWidthDiskCache: 225,
-                                                            memCacheHeight: 150, // 2x for quality
-                                                            memCacheWidth: 150,
                                                             placeholder: (context, url) => Container(
                                                               color: FlutterFlowTheme.of(context).accent1,
                                                               child: Icon(

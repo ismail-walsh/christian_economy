@@ -683,8 +683,9 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     24.0, 10.0, 24.0, 0.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       valueOrDefault<String>(
@@ -713,45 +714,42 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                                           ),
                                     ).animateOnPageLoad(animationsMap[
                                         'textOnPageLoadAnimation3']!),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 0.0, 8.0, 0.0),
-                                      child: Icon(
-                                        Icons.circle,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 5.0,
-                                      ).animateOnPageLoad(animationsMap[
-                                          'iconOnPageLoadAnimation2']!),
-                                    ),
-                                    SelectionArea(
-                                        child: Text(
-                                      valueOrDefault<String>(
-                                        businessDetailsBusinessRow.contact,
-                                        'No contact provided',
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .override(
-                                            font: GoogleFonts.sourceSans3(
-                                              fontWeight: FontWeight.w300,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodySmall
-                                                      .fontStyle,
+                                    SizedBox(height: 4.0),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Flexible(
+                                          child: SelectionArea(
+                                              child: Text(
+                                            valueOrDefault<String>(
+                                              businessDetailsBusinessRow.contact,
+                                              'No contact provided',
                                             ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            fontSize: 12.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w300,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodySmall
-                                                    .fontStyle,
-                                          ),
-                                    )).animateOnPageLoad(animationsMap[
-                                        'textOnPageLoadAnimation4']!),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodySmall
+                                                .override(
+                                                  font: GoogleFonts.sourceSans3(
+                                                    fontWeight: FontWeight.w300,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(context)
+                                                            .bodySmall
+                                                            .fontStyle,
+                                                  ),
+                                                  color: FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                                  fontSize: 12.0,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w300,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(context)
+                                                          .bodySmall
+                                                          .fontStyle,
+                                                ),
+                                          )).animateOnPageLoad(animationsMap[
+                                              'textOnPageLoadAnimation4']!),
+                                        ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           5.0, 0.0, 0.0, 0.0),
@@ -791,6 +789,8 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                                         ),
                                       ).animateOnPageLoad(animationsMap[
                                           'iconOnPageLoadAnimation3']!),
+                                    ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -1073,85 +1073,75 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                               ),
                             ],
                           ),
-                          Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    24.0, 12.0, 24.0, 0.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      'Social Media',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .override(
-                                            font: GoogleFonts.sourceSans3(
-                                              fontWeight: FontWeight.w500,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodySmall
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            fontSize: 14.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w500,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodySmall
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              // This list view is "shrink wrapped" this can affect your app performance, we would suggest limiting the number of items you query in this list view.
-                              //
-                              // The list view is shrink wrapped to prevent the page from having two scrollable elements. The parent column is the element that is scrollable and it provides a smooth user experience.
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 8.0, 0.0, 0.0),
-                                child: FutureBuilder<List<SocialMediaRow>>(
-                                  future: SocialMediaTable().queryRows(
-                                    queryFn: (q) => q
-                                        .eqOrNull(
-                                          'businessName',
-                                          businessDetailsBusinessRow.name,
-                                        )
-                                        .eqOrNull(
-                                          'user',
-                                          businessDetailsBusinessRow.user,
-                                        )
-                                        .neqOrNull(
-                                          'link',
-                                          '',
-                                        ),
+                          FutureBuilder<List<SocialMediaRow>>(
+                            future: SocialMediaTable().queryRows(
+                              queryFn: (q) => q
+                                  .eqOrNull(
+                                    'businessName',
+                                    businessDetailsBusinessRow.name,
+                                  )
+                                  .eqOrNull(
+                                    'user',
+                                    businessDetailsBusinessRow.user,
+                                  )
+                                  .neqOrNull(
+                                    'link',
+                                    '',
                                   ),
-                                  builder: (context, snapshot) {
-                                    // Customize what your widget looks like when it's loading.
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 50.0,
-                                          height: 50.0,
-                                          child: CircularProgressIndicator(
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                              Color(0xFF7E1416),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    List<SocialMediaRow>
-                                        listViewSocialMediaRowList =
-                                        snapshot.data!;
+                            ),
+                            builder: (context, snapshot) {
+                              // Don't show anything while loading or if no data
+                              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                return SizedBox.shrink();
+                              }
 
-                                    return ListView.separated(
+                              List<SocialMediaRow>
+                                  listViewSocialMediaRowList =
+                                  snapshot.data!;
+
+                              return Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        24.0, 12.0, 24.0, 0.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Text(
+                                          'Social Media',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodySmall
+                                              .override(
+                                                font: GoogleFonts.sourceSans3(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(context)
+                                                          .bodySmall
+                                                          .fontStyle,
+                                                ),
+                                                color: FlutterFlowTheme.of(context)
+                                                    .primaryText,
+                                                fontSize: 14.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodySmall
+                                                        .fontStyle,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  // This list view is "shrink wrapped" this can affect your app performance, we would suggest limiting the number of items you query in this list view.
+                                  //
+                                  // The list view is shrink wrapped to prevent the page from having two scrollable elements. The parent column is the element that is scrollable and it provides a smooth user experience.
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 8.0, 0.0, 0.0),
+                                    child: ListView.separated(
                                       padding: EdgeInsets.fromLTRB(
                                         0,
                                         0,
@@ -1267,26 +1257,14 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                                                                 ),
                                                               ),
                                                             ),
-                                                            Flexible(
+                                                            Expanded(
                                                               child: Align(
                                                                 alignment:
                                                                     AlignmentDirectional(
                                                                         -1.0,
                                                                         -1.0),
                                                                 child:
-                                                                    Container(
-                                                                  width: MediaQuery.sizeOf(
-                                                                              context)
-                                                                          .width *
-                                                                      1.0,
-                                                                  decoration:
-                                                                      BoxDecoration(),
-                                                                  alignment:
-                                                                      AlignmentDirectional(
-                                                                          -1.0,
-                                                                          0.0),
-                                                                  child:
-                                                                      Padding(
+                                                                    Padding(
                                                                     padding: EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             10.0,
@@ -1309,6 +1287,8 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                                                                             listViewSocialMediaRow.socialName,
                                                                             'YouTube',
                                                                           ),
+                                                                          maxLines: 2,
+                                                                          overflow: TextOverflow.ellipsis,
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .headlineSmall
                                                                               .override(
@@ -1395,7 +1375,6 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
                                                           ],
                                                         ),
                                                       ),
@@ -1413,13 +1392,13 @@ class _BusinessDetailsWidgetState extends State<BusinessDetailsWidget>
                                           ),
                                         );
                                       },
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ).animateOnPageLoad(
-                              animationsMap['columnOnPageLoadAnimation1']!),
+                                    ),
+                                  ),
+                                ],
+                              ).animateOnPageLoad(
+                                  animationsMap['columnOnPageLoadAnimation1']!);
+                            },
+                          ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 40.0),
