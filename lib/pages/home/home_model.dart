@@ -83,8 +83,10 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
       if (businessCall != null && businessCall!.isNotEmpty) {
         _allBusinesses = businessCall!.toList().cast<BusinessRow>();
 
-        // Load first batch only
-        _loadNextBatch();
+        // Show all businesses initially (since filters also show all matching results)
+        businessList = _allBusinesses.toList();
+        _currentPage = (_allBusinesses.length / _batchSize).ceil();
+        _hasMoreItems = false; // All items already loaded
 
         // Extract unique industries and regions from ALL businesses
         final industries = _allBusinesses

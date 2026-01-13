@@ -228,7 +228,7 @@ class _NavBarPageState extends State<NavBarPage> {
                   width: 40.0,
                   height: 3.0,
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: FlutterFlowTheme.of(context).primaryText,
                     borderRadius: BorderRadius.circular(1.5),
                   ),
                 ),
@@ -254,7 +254,7 @@ class _NavBarPageState extends State<NavBarPage> {
                   width: 40.0,
                   height: 3.0,
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: FlutterFlowTheme.of(context).primaryText,
                     borderRadius: BorderRadius.circular(1.5),
                   ),
                 ),
@@ -280,7 +280,7 @@ class _NavBarPageState extends State<NavBarPage> {
                   width: 40.0,
                   height: 3.0,
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: FlutterFlowTheme.of(context).primaryText,
                     borderRadius: BorderRadius.circular(1.5),
                   ),
                 ),
@@ -306,7 +306,7 @@ class _NavBarPageState extends State<NavBarPage> {
                   width: 40.0,
                   height: 3.0,
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: FlutterFlowTheme.of(context).primaryText,
                     borderRadius: BorderRadius.circular(1.5),
                   ),
                 ),
