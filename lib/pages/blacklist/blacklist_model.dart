@@ -16,6 +16,7 @@ class BlacklistModel extends FlutterFlowModel<BlacklistWidget> {
       choiceChipsValueController?.value = val != null ? [val] : [];
   // Stores action output result for [Backend Call - Query Rows] action in Button widget.
   List<VotesRow>? doesVoteExist;
+  Stream<List<UsersRow>>? containerSupabaseStream;
 
   @override
   void initState(BuildContext context) {}

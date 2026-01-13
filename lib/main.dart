@@ -274,7 +274,7 @@ class _NavBarPageState extends State<NavBarPage> {
           width: MediaQuery.of(context).size.width / 5,
           height: 3.0,
           decoration: BoxDecoration(
-            color: Colors.black,
+            color: FlutterFlowTheme.of(context).primaryText,
             borderRadius: BorderRadius.circular(1.5),
           ),
         ),

@@ -10,6 +10,7 @@ class MyJobsModel extends FlutterFlowModel<MyJobsWidget> {
   Stream<List<JobsRow>>? listViewSupabaseStream;
   // Stores action output result for [Backend Call - Query Rows] action in ListView widget.
   List<BusinessRow>? pullToRefreshData;
+  Stream<List<UsersRow>>? containerSupabaseStream;
 
   @override
   void initState(BuildContext context) {}

@@ -91,234 +91,125 @@ class _HomeWidgetState extends State<HomeWidget> {
             appBar: AppBar(
               backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
               automaticallyImplyLeading: false,
-              title: Column(
+              toolbarHeight: 60.0,
+              title: Row(
                 mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Welcome to...',
-                    style: FlutterFlowTheme.of(context).labelSmall.override(
-                          font: GoogleFonts.sourceSans3(
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .labelSmall
-                                .fontWeight,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .labelSmall
-                                .fontStyle,
-                          ),
-                          letterSpacing: 0.0,
-                          fontWeight: FlutterFlowTheme.of(context)
-                              .labelSmall
-                              .fontWeight,
-                          fontStyle:
-                              FlutterFlowTheme.of(context).labelSmall.fontStyle,
-                        ),
-                  ),
-                  Text(
-                    key: ValueKey('Text_zzwp'),
-                    'Christian Economy',
-                    style: FlutterFlowTheme.of(context).headlineMedium.override(
-                          font: GoogleFonts.sourceSans3(
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .headlineMedium
-                                .fontWeight,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .headlineMedium
-                                .fontStyle,
-                          ),
-                          letterSpacing: 0.0,
-                          fontWeight: FlutterFlowTheme.of(context)
-                              .headlineMedium
-                              .fontWeight,
-                          fontStyle: FlutterFlowTheme.of(context)
-                              .headlineMedium
-                              .fontStyle,
-                        ),
-                  ).addWalkthrough(
-                    textR9p2mjp1,
-                    _model.welcomeHomeController,
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional(0.0, 0.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 6.0),
-                          child: StreamBuilder<List<UsersRow>>(
-                            stream: FFAppState().getUserProfile(
-                              requestFn: () =>
-                                  _model.containerSupabaseStream ??= SupaFlow
-                                      .client
-                                      .from("users")
-                                      .stream(primaryKey: ['id'])
-                                      .eqOrNull(
-                                        'id',
-                                        currentUserUid,
-                                      )
-                                      .map((list) => list
-                                          .map((item) => UsersRow(item))
-                                          .toList()),
+                  // Profile image on left (40x40)
+                  StreamBuilder<List<UsersRow>>(
+                    stream: FFAppState().getUserProfile(
+                      requestFn: () =>
+                          _model.containerSupabaseStream ??= SupaFlow
+                              .client
+                              .from("users")
+                              .stream(primaryKey: ['id'])
+                              .eqOrNull(
+                                'id',
+                                currentUserUid,
+                              )
+                              .map((list) => list
+                                  .map((item) => UsersRow(item))
+                                  .toList()),
+                    ),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return SizedBox(
+                          width: 40.0,
+                          height: 40.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              FlutterFlowTheme.of(context).primary,
                             ),
-                            builder: (context, snapshot) {
-                              // Customize what your widget looks like when it's loading.
-                              if (!snapshot.hasData) {
-                                return Center(
-                                  child: SizedBox(
-                                    width: 50.0,
-                                    height: 50.0,
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        Color(0xFF7E1416),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }
-                              List<UsersRow> containerUsersRowList =
-                                  snapshot.data!;
-
-                              final containerUsersRow =
-                                  containerUsersRowList.isNotEmpty
-                                      ? containerUsersRowList.first
-                                      : null;
-
-                              return InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  context.pushNamed(ProfileWidget.routeName);
-                                },
-                                child: Container(
-                                  width: 50.0,
-                                  height: 50.0,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context).accent1,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(2.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(50.0),
-                                      child: CachedNetworkImage(
-                                        fadeInDuration:
-                                            Duration(milliseconds: 100), // Faster
-                                        fadeOutDuration:
-                                            Duration(milliseconds: 100),
-                                        imageUrl:
-                                            containerUsersRow?.profilePhoto ?? '',
-                                        width: 100.0,
-                                        height: 100.0,
-                                        fit: BoxFit.cover,
-                                        // No cache limits for full resolution
-                                        placeholder: (context, url) => Container(
-                                          color: FlutterFlowTheme.of(context).accent1,
-                                          child: Icon(
-                                            Icons.person,
-                                            color: FlutterFlowTheme.of(context).primary,
-                                            size: 40.0,
-                                          ),
-                                        ),
-                                        errorWidget: (context, url, error) => Container(
-                                          color: FlutterFlowTheme.of(context).accent1,
-                                          child: Icon(
-                                            Icons.person,
-                                            color: FlutterFlowTheme.of(context).primary,
-                                            size: 40.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              15.0, 0.0, 0.0, 5.0),
-                          child: InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              context.pushNamed(SearchHomeWidget.routeName);
-                            },
-                            child: Container(
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 1.0, 0.0),
-                                child: FFButtonWidget(
-                                  onPressed: () async {
-                                    context
-                                        .pushNamed(SearchHomeWidget.routeName);
-                                  },
-                                  text: 'Search...',
-                                  icon: Icon(
-                                    Icons.search,
-                                    size: 15.0,
-                                  ),
-                                  options: FFButtonOptions(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 0.74,
-                                    height: 40.0,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 0.0, 200.0, 0.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          font: GoogleFonts.sourceSans3(
-                                            fontWeight: FontWeight.w300,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                          fontSize: 14.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w300,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                    elevation: 0.0,
-                                    borderSide: BorderSide(
-                                      color: Color(0x00677681),
-                                    ),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                ).addWalkthrough(
-                                  textFieldTqhimnvm,
-                                  _model.welcomeHomeController,
-                                ),
+                        );
+                      }
+                      List<UsersRow> containerUsersRowList = snapshot.data!;
+                      final containerUsersRow = containerUsersRowList.isNotEmpty
+                          ? containerUsersRowList.first
+                          : null;
+
+                      return InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () async {
+                          context.pushNamed(ProfileWidget.routeName);
+                        },
+                        child: Container(
+                          width: 40.0,
+                          height: 40.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context).accent1,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: FlutterFlowTheme.of(context).primary,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50.0),
+                            child: CachedNetworkImage(
+                              fadeInDuration: Duration(milliseconds: 100),
+                              fadeOutDuration: Duration(milliseconds: 100),
+                              imageUrl: containerUsersRow?.profilePhoto ?? '',
+                              width: 40.0,
+                              height: 40.0,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Icon(
+                                Icons.person,
+                                color: FlutterFlowTheme.of(context).primary,
+                                size: 20.0,
+                              ),
+                              errorWidget: (context, url, error) => Icon(
+                                Icons.person,
+                                color: FlutterFlowTheme.of(context).primary,
+                                size: 20.0,
                               ),
                             ),
                           ),
                         ),
-                      ],
+                      );
+                    },
+                  ),
+                  // Logo text in center
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                      child: Text(
+                        key: ValueKey('Text_zzwp'),
+                        'Christian Economy',
+                        style: FlutterFlowTheme.of(context).headlineMedium.override(
+                          font: GoogleFonts.sourceSans3(),
+                          fontSize: 20.0,
+                          letterSpacing: 0.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ).addWalkthrough(
+                        textR9p2mjp1,
+                        _model.welcomeHomeController,
+                      ),
                     ),
                   ),
-                ].divide(SizedBox(height: 4.0)),
+                  // Search icon on right
+                  IconButton(
+                    icon: Icon(
+                      Icons.search,
+                      color: FlutterFlowTheme.of(context).primaryText,
+                      size: 28.0,
+                    ),
+                    onPressed: () async {
+                      context.pushNamed(SearchHomeWidget.routeName);
+                    },
+                  ).addWalkthrough(
+                    textFieldTqhimnvm,
+                    _model.welcomeHomeController,
+                  ),
+                ],
               ),
               actions: [],
               centerTitle: false,
-              toolbarHeight: 140.0,
               elevation: 0.0,
             ),
             body: SafeArea(
@@ -429,7 +320,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                   BorderRadius.circular(4.0),
                                               child: CachedNetworkImage(
                                                 fadeInDuration:
-                                                    Duration(milliseconds: 200), // Faster fade
+                                                    Duration(milliseconds: 200),
                                                 fadeOutDuration:
                                                     Duration(milliseconds: 200),
                                                 imageUrl: listViewBusinessRow
@@ -437,10 +328,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 width: 300.0,
                                                 height: 100.0,
                                                 fit: BoxFit.cover,
-                                                maxHeightDiskCache: 200, // Limit cache size
-                                                maxWidthDiskCache: 400,
-                                                memCacheHeight: 100, // Very small memory cache
-                                                memCacheWidth: 200,
                                                 placeholder: (context, url) => Container(
                                                   color: FlutterFlowTheme.of(context).secondaryBackground,
                                                   child: Icon(
@@ -1457,6 +1344,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                             height: 70.0,
                                                             decoration: BoxDecoration(
                                                               color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                              border: Border.all(
+                                                                color: FlutterFlowTheme.of(context).alternate,
+                                                                width: 1.0,
+                                                              ),
                                                             ),
                                                             child: Align(
                                                               alignment: AlignmentDirectional(-1.0, 0.0),

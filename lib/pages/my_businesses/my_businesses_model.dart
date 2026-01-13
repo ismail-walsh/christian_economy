@@ -8,6 +8,7 @@ class MyBusinessesModel extends FlutterFlowModel<MyBusinessesWidget> {
   ///  State fields for stateful widgets in this page.
 
   Stream<List<BusinessRow>>? listViewSupabaseStream;
+  Stream<List<UsersRow>>? containerSupabaseStream;
 
 
   @override
