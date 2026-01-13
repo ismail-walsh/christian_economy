@@ -1560,7 +1560,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                                 fontWeight: FontWeight.w600,
                                                                                 fontStyle: FlutterFlowTheme.of(context).labelSmall.fontStyle,
                                                                               ),
-                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              color: Color(0xFF059669), // Green for better visibility in dark mode
                                                                               fontSize: 12.0,
                                                                               letterSpacing: 0.0,
                                                                               fontWeight: FontWeight.w600,
