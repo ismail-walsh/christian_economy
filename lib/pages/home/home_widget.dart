@@ -1382,6 +1382,21 @@ class _HomeWidgetState extends State<HomeWidget> {
                                     final fullBusinessList =
                                         _model.businessList.toList();
 
+                                    // Show loading indicator if list is empty and still loading
+                                    if (fullBusinessList.isEmpty) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 50.0,
+                                          height: 50.0,
+                                          child: CircularProgressIndicator(
+                                            valueColor: AlwaysStoppedAnimation<Color>(
+                                              FlutterFlowTheme.of(context).primary,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+
                                     return ListView.separated(
                                       padding: EdgeInsets.fromLTRB(
                                         0,
@@ -1553,19 +1568,33 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                       ),
                                                                       // Hiring status (with consistent spacing)
                                                                       fullBusinessListItem.vacancies == true
-                                                                        ? Text(
-                                                                            'Hiring',
-                                                                            style: FlutterFlowTheme.of(context).labelSmall.override(
-                                                                              font: GoogleFonts.sourceSans3(
-                                                                                fontWeight: FontWeight.w600,
-                                                                                fontStyle: FlutterFlowTheme.of(context).labelSmall.fontStyle,
+                                                                        ? Row(
+                                                                            mainAxisSize: MainAxisSize.min,
+                                                                            children: [
+                                                                              Container(
+                                                                                width: 8.0,
+                                                                                height: 8.0,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: Color(0xFF059669), // Green circle
+                                                                                  shape: BoxShape.circle,
+                                                                                ),
                                                                               ),
-                                                                              color: Color(0xFF059669), // Green for better visibility in dark mode
-                                                                              fontSize: 12.0,
-                                                                              letterSpacing: 0.0,
-                                                                              fontWeight: FontWeight.w600,
-                                                                              fontStyle: FlutterFlowTheme.of(context).labelSmall.fontStyle,
-                                                                            ),
+                                                                              SizedBox(width: 4.0),
+                                                                              Text(
+                                                                                'Hiring',
+                                                                                style: FlutterFlowTheme.of(context).labelSmall.override(
+                                                                                  font: GoogleFonts.sourceSans3(
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).labelSmall.fontStyle,
+                                                                                  ),
+                                                                                  color: Color(0xFF059669), // Green for better visibility in dark mode
+                                                                                  fontSize: 12.0,
+                                                                                  letterSpacing: 0.0,
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                  fontStyle: FlutterFlowTheme.of(context).labelSmall.fontStyle,
+                                                                                ),
+                                                                              ),
+                                                                            ],
                                                                           )
                                                                         : SizedBox(height: 16.0), // Consistent spacing
                                                                     ].divide(SizedBox(height: 4.0)),

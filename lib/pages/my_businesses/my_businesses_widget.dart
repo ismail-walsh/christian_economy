@@ -914,17 +914,17 @@ class _MyBusinessesWidgetState extends State<MyBusinessesWidget> {
                 }.withoutNulls,
               );
             },
-            backgroundColor: FlutterFlowTheme.of(context).primary,
+            backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             icon: Icon(
               Icons.add_business,
-              color: Colors.white,
+              color: FlutterFlowTheme.of(context).primaryText,
               size: 24.0,
             ),
             label: Text(
               'Add Business',
               style: FlutterFlowTheme.of(context).bodyMedium.override(
                 font: GoogleFonts.sourceSans3(),
-                color: Colors.white,
+                color: FlutterFlowTheme.of(context).primaryText,
                 fontSize: 16.0,
                 letterSpacing: 0.0,
                 fontWeight: FontWeight.w500,

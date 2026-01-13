@@ -768,7 +768,7 @@ class _GuestHomeWidgetState extends State<GuestHomeWidget> {
                                                                                 child: Padding(
                                                                                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 30.0, 0.0),
                                                                                   child: Text(
-                                                                                    'We\'re Hiring!',
+                                                                                    'Hiring',
                                                                                     style: FlutterFlowTheme.of(context).labelSmall.override(
                                                                                           font: GoogleFonts.sourceSans3(
                                                                                             fontWeight: FontWeight.normal,
@@ -1151,7 +1151,7 @@ class _GuestHomeWidgetState extends State<GuestHomeWidget> {
                                                                                 child: Padding(
                                                                                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 30.0, 0.0),
                                                                                   child: Text(
-                                                                                    'We\'re Hiring!',
+                                                                                    'Hiring',
                                                                                     style: FlutterFlowTheme.of(context).labelSmall.override(
                                                                                           font: GoogleFonts.sourceSans3(
                                                                                             fontWeight: FontWeight.normal,
