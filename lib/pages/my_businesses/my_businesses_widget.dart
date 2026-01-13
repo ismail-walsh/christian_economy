@@ -143,91 +143,7 @@ class _MyBusinessesWidgetState extends State<MyBusinessesWidget> {
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       12.0, 12.0, 12.0, 12.0),
-                                  child: InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      context.pushNamed(
-                                        CreateBusinessWidget.routeName,
-                                        queryParameters: {
-                                          'userId': serializeParam(
-                                            currentUserUid,
-                                            ParamType.String,
-                                          ),
-                                        }.withoutNulls,
-                                      );
-                                    },
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Align(
-                                          alignment:
-                                              AlignmentDirectional(0.0, 0.0),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 0.0, 5.0, 0.0),
-                                            child: FlutterFlowIconButton(
-                                              borderColor: Colors.transparent,
-                                              borderRadius: 0.0,
-                                              borderWidth: 1.0,
-                                              buttonSize: 25.0,
-                                              icon: Icon(
-                                                Icons.add_business,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                size: 20.0,
-                                              ),
-                                              onPressed: () {
-                                                print('IconButton pressed ...');
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  5.0, 5.0, 0.0, 0.0),
-                                          child: Text(
-                                            'New Business',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  font: GoogleFonts.sourceSans3(
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
-                                                  fontSize: 9.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  // Removed inline button - replaced with FAB
                                 ),
                               ),
                             ],
@@ -998,6 +914,36 @@ class _MyBusinessesWidgetState extends State<MyBusinessesWidget> {
                 ),
               ],
             ),
+          ),
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () async {
+              context.pushNamed(
+                CreateBusinessWidget.routeName,
+                queryParameters: {
+                  'userId': serializeParam(
+                    currentUserUid,
+                    ParamType.String,
+                  ),
+                }.withoutNulls,
+              );
+            },
+            backgroundColor: FlutterFlowTheme.of(context).primary,
+            icon: Icon(
+              Icons.add_business,
+              color: Colors.white,
+              size: 24.0,
+            ),
+            label: Text(
+              'Add Business',
+              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                font: GoogleFonts.sourceSans3(),
+                color: Colors.white,
+                fontSize: 16.0,
+                letterSpacing: 0.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            elevation: 4.0,
           ),
         ));
   }

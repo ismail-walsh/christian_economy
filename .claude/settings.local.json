@@ -60,7 +60,11 @@
       "Bash(pkgutil:*)",
       "Bash(pkill:*)",
       "Bash(kill:*)",
-      "Bash(killall flutter:*)"
+      "Bash(killall flutter:*)",
+      "Bash(flutter pub:*)",
+      "Bash(du:*)",
+      "Bash(python3:*)",
+      "Bash(dart analyze:*)"
     ],
     "deny": [],
     "ask": []

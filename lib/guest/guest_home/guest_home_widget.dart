@@ -216,6 +216,11 @@ class _GuestHomeWidgetState extends State<GuestHomeWidget> {
                                                     width: 300.0,
                                                     height: 100.0,
                                                     fit: BoxFit.cover,
+                                                    // Minimal quality since blurred
+                                                    maxHeightDiskCache: 50,
+                                                    maxWidthDiskCache: 150,
+                                                    memCacheHeight: 25,
+                                                    memCacheWidth: 75,
                                                   ),
                                                 ),
                                               ),
@@ -1017,6 +1022,11 @@ class _GuestHomeWidgetState extends State<GuestHomeWidget> {
                                                                 height: 60.0,
                                                                 fit: BoxFit
                                                                     .cover,
+                                                                // Tiny for blurred guest view
+                                                                maxHeightDiskCache: 30,
+                                                                maxWidthDiskCache: 200,
+                                                                memCacheHeight: 15,
+                                                                memCacheWidth: 100,
                                                               ),
                                                             ),
                                                             Padding(
@@ -1049,6 +1059,11 @@ class _GuestHomeWidgetState extends State<GuestHomeWidget> {
                                                                   height: 75.0,
                                                                   fit: BoxFit
                                                                       .fill,
+                                                                  // Tiny logo for blurred view
+                                                                  maxHeightDiskCache: 38,
+                                                                  maxWidthDiskCache: 38,
+                                                                  memCacheHeight: 19,
+                                                                  memCacheWidth: 19,
                                                                 ),
                                                               ),
                                                             ),

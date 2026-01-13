@@ -38,9 +38,9 @@ void main() async {
 
   await FlutterFlowTheme.initialize();
 
-  // Configure Flutter image cache - full resolution for crisp images
-  PaintingBinding.instance.imageCache.maximumSize = 150; // Higher cache for full-res images
-  PaintingBinding.instance.imageCache.maximumSizeBytes = 100 << 20; // 100 MB for pristine quality
+  // Configure Flutter image cache - balanced for performance
+  PaintingBinding.instance.imageCache.maximumSize = 100; // Reasonable cache size
+  PaintingBinding.instance.imageCache.maximumSizeBytes = 50 << 20; // 50 MB - LinkedIn uses ~40-60MB
 
   runApp(MyApp());
 }
@@ -99,8 +99,9 @@ class _MyAppState extends State<MyApp> {
         _appStateNotifier.update(user);
       });
     jwtTokenStream.listen((_) {});
+    // LinkedIn-style splash screen - longer duration to preload assets
     Future.delayed(
-      Duration(milliseconds: 1000),
+      Duration(milliseconds: 2500), // Increased from 1000ms to 2500ms
       () => _appStateNotifier.stopShowingSplashImage(),
     );
   }
@@ -186,39 +187,57 @@ class _NavBarPageState extends State<NavBarPage> {
     return Scaffold(
       resizeToAvoidBottomInset: !widget.disableResizeToAvoidBottomInset,
       body: _currentPage ?? tabs[_currentPageName],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (i) => safeSetState(() {
-          _currentPage = null;
-          _currentPageName = tabs.keys.toList()[i];
-        }),
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-        selectedItemColor: FlutterFlowTheme.of(context).primaryText,
-        unselectedItemColor: FlutterFlowTheme.of(context).primaryText,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_outlined,
-              size: 24.0,
-            ),
-            activeIcon: Icon(
-              Icons.home,
-              size: 24.0,
-            ),
-            label: 'Home',
-            tooltip: '',
-          ),
+      bottomNavigationBar: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          BottomNavigationBar(
+            currentIndex: currentIndex,
+            onTap: (i) => safeSetState(() {
+              _currentPage = null;
+              _currentPageName = tabs.keys.toList()[i];
+            }),
+            backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+            selectedItemColor: FlutterFlowTheme.of(context).primaryText,
+            unselectedItemColor: FlutterFlowTheme.of(context).primaryText,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            type: BottomNavigationBarType.fixed,
+            elevation: 0,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home_outlined,
+                  size: 24.0,
+                ),
+                activeIcon: Icon(
+                  Icons.home,
+                  size: 24.0,
+                ),
+                label: 'Home',
+                tooltip: '',
+              ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.block_outlined,
               size: 24.0,
             ),
-            activeIcon: Icon(
-              Icons.block_flipped,
-              size: 24.0,
+            activeIcon: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 40.0,
+                  height: 3.0,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(1.5),
+                  ),
+                ),
+                SizedBox(height: 4.0),
+                Icon(
+                  Icons.block_flipped,
+                  size: 24.0,
+                ),
+              ],
             ),
             label: 'Black List',
             tooltip: '',
@@ -228,9 +247,23 @@ class _NavBarPageState extends State<NavBarPage> {
               Icons.work_outline,
               size: 24.0,
             ),
-            activeIcon: Icon(
-              Icons.work_rounded,
-              size: 24.0,
+            activeIcon: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 40.0,
+                  height: 3.0,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(1.5),
+                  ),
+                ),
+                SizedBox(height: 4.0),
+                Icon(
+                  Icons.work_rounded,
+                  size: 24.0,
+                ),
+              ],
             ),
             label: 'Jobs',
             tooltip: '',
@@ -240,9 +273,23 @@ class _NavBarPageState extends State<NavBarPage> {
               Icons.add_business_outlined,
               size: 24.0,
             ),
-            activeIcon: Icon(
-              Icons.add_business,
-              size: 24.0,
+            activeIcon: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 40.0,
+                  height: 3.0,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(1.5),
+                  ),
+                ),
+                SizedBox(height: 4.0),
+                Icon(
+                  Icons.add_business,
+                  size: 24.0,
+                ),
+              ],
             ),
             label: 'Businesses',
             tooltip: '',
@@ -252,15 +299,44 @@ class _NavBarPageState extends State<NavBarPage> {
               Icons.person_outlined,
               size: 24.0,
             ),
-            activeIcon: Icon(
-              Icons.person,
-              size: 24.0,
+            activeIcon: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 40.0,
+                  height: 3.0,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(1.5),
+                  ),
+                ),
+                SizedBox(height: 4.0),
+                Icon(
+                  Icons.person,
+                  size: 24.0,
+                ),
+              ],
             ),
             label: 'Profile',
             tooltip: '',
           )
         ],
       ),
-    );
+      // Top indicator bar that moves with selection
+      Positioned(
+        top: 0,
+        left: MediaQuery.of(context).size.width * currentIndex / 5,
+        child: Container(
+          width: MediaQuery.of(context).size.width / 5,
+          height: 3.0,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(1.5),
+          ),
+        ),
+      ),
+    ],
+  ),
+);
   }
 }

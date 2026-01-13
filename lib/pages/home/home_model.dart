@@ -22,8 +22,12 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   List<String> availableIndustries = [];
   List<String> availableRegions = [];
 
-  // Pagination for performance
-  static const int itemsPerPage = 20; // Limit items for low-end devices
+  // Pagination state - LinkedIn style
+  List<BusinessRow> _allBusinesses = []; // Full list from database
+  int _currentPage = 0;
+  static const int _batchSize = 12; // Load 12 items at a time (LinkedIn standard)
+  bool _isLoadingMore = false;
+  bool _hasMoreItems = true;
 
   ///  State fields for stateful widgets in this page.
 
@@ -65,23 +69,32 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
 
   Future<void> loadBusinesses(BuildContext context) async {
     try {
-      // Load with limit for better performance on low-end devices
+      // Reset pagination state when reloading
+      businessList.clear();
+      _currentPage = 0;
+      _hasMoreItems = true;
+      _isLoadingMore = false;
+
+      // Load ALL businesses but only display first batch (LinkedIn style)
       businessCall = await BusinessTable().queryRows(
-        queryFn: (q) => q.limit(50), // Limit initial load to 50 items
+        queryFn: (q) => q.order('created_at', ascending: false),
       );
 
       if (businessCall != null && businessCall!.isNotEmpty) {
-        businessList = businessCall!.toList().cast<BusinessRow>();
+        _allBusinesses = businessCall!.toList().cast<BusinessRow>();
 
-        // Extract unique industries and regions from businesses
-        final industries = businessList
+        // Load first batch only
+        _loadNextBatch();
+
+        // Extract unique industries and regions from ALL businesses
+        final industries = _allBusinesses
             .where((b) => b.industry != null && b.industry!.isNotEmpty)
             .map((b) => b.industry!)
             .toSet()
             .toList()
           ..sort();
 
-        final regions = businessList
+        final regions = _allBusinesses
             .where((b) => b.region != null && b.region!.isNotEmpty)
             .map((b) => b.region!)
             .toSet()
@@ -95,10 +108,45 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
       // Handle error gracefully - keep empty lists
       print('Error loading businesses: $e');
       businessList = [];
+      _allBusinesses = [];
       availableIndustries = [];
       availableRegions = [];
     }
   }
+
+  void _loadNextBatch() {
+    final startIndex = _currentPage * _batchSize;
+    final endIndex = startIndex + _batchSize;
+
+    if (startIndex >= _allBusinesses.length) {
+      _hasMoreItems = false;
+      return;
+    }
+
+    final batch = _allBusinesses.sublist(
+      startIndex,
+      endIndex > _allBusinesses.length ? _allBusinesses.length : endIndex,
+    );
+
+    businessList.addAll(batch);
+    _currentPage++;
+    _hasMoreItems = endIndex < _allBusinesses.length;
+  }
+
+  Future<void> loadMoreBusinesses() async {
+    if (_isLoadingMore || !_hasMoreItems) return;
+
+    _isLoadingMore = true;
+
+    // Simulate slight delay for smooth loading (like LinkedIn)
+    await Future.delayed(Duration(milliseconds: 300));
+
+    _loadNextBatch();
+    _isLoadingMore = false;
+  }
+
+  bool get isLoadingMore => _isLoadingMore;
+  bool get hasMoreItems => _hasMoreItems;
 
   @override
   void initState(BuildContext context) {}

@@ -219,6 +219,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         width: 100.0,
                                         height: 100.0,
                                         fit: BoxFit.cover,
+                                        maxHeightDiskCache: 100,
+                                        maxWidthDiskCache: 100,
+                                        memCacheHeight: 50,
+                                        memCacheWidth: 50,
                                         placeholder: (context, url) => Container(
                                           color: FlutterFlowTheme.of(context).accent1,
                                           child: Icon(
@@ -436,6 +440,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 width: 300.0,
                                                 height: 100.0,
                                                 fit: BoxFit.cover,
+                                                maxHeightDiskCache: 200, // Limit cache size
+                                                maxWidthDiskCache: 400,
+                                                memCacheHeight: 100, // Very small memory cache
+                                                memCacheWidth: 200,
                                                 placeholder: (context, url) => Container(
                                                   color: FlutterFlowTheme.of(context).secondaryBackground,
                                                   child: Icon(
@@ -673,40 +681,26 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           .cast<BusinessRow>();
                                                       safeSetState(() {});
                                                     } else {
-                                                      ScaffoldMessenger.of(context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                            'No businesses found for this filter.',
-                                                            style: TextStyle(
-                                                              color: FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .primaryBackground,
-                                                            ),
-                                                          ),
-                                                          duration: Duration(
-                                                              milliseconds: 4000),
-                                                          backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .secondary,
-                                                          action: SnackBarAction(
-                                                            label: 'Clear Filters',
-                                                            textColor: FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primaryBackground,
-                                                            onPressed: () {
-                                                              safeSetState(() {
-                                                                _model
-                                                                    .dropDownValueController1
-                                                                    ?.value = 'All';
-                                                                _model
-                                                                    .dropDownValueController2
-                                                                    ?.value = 'All';
-                                                              });
-                                                            },
-                                                          ),
-                                                        ),
+                                                      await showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (alertDialogContext) {
+                                                          return AlertDialog(
+                                                            title: Text(
+                                                                'Filter Eroor'),
+                                                            content: Text(
+                                                                'Whoops, looks like there was an error there. We\'ve set you back to \"All\"'),
+                                                            actions: [
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        alertDialogContext),
+                                                                child:
+                                                                    Text('Ok'),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
                                                       );
                                                       safeSetState(() {
                                                         _model
@@ -735,40 +729,26 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           .cast<BusinessRow>();
                                                       safeSetState(() {});
                                                     } else {
-                                                      ScaffoldMessenger.of(context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                            'No businesses found for this filter.',
-                                                            style: TextStyle(
-                                                              color: FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .primaryBackground,
-                                                            ),
-                                                          ),
-                                                          duration: Duration(
-                                                              milliseconds: 4000),
-                                                          backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .secondary,
-                                                          action: SnackBarAction(
-                                                            label: 'Clear Filters',
-                                                            textColor: FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primaryBackground,
-                                                            onPressed: () {
-                                                              safeSetState(() {
-                                                                _model
-                                                                    .dropDownValueController1
-                                                                    ?.value = 'All';
-                                                                _model
-                                                                    .dropDownValueController2
-                                                                    ?.value = 'All';
-                                                              });
-                                                            },
-                                                          ),
-                                                        ),
+                                                      await showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (alertDialogContext) {
+                                                          return AlertDialog(
+                                                            title: Text(
+                                                                'Filter Eroor'),
+                                                            content: Text(
+                                                                'Whoops, looks like there was an error there. We\'ve set you back to \"All\"'),
+                                                            actions: [
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        alertDialogContext),
+                                                                child:
+                                                                    Text('Ok'),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
                                                       );
                                                       safeSetState(() {
                                                         _model
@@ -1041,40 +1021,26 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           .cast<BusinessRow>();
                                                       safeSetState(() {});
                                                     } else {
-                                                      ScaffoldMessenger.of(context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                            'No businesses found for this filter.',
-                                                            style: TextStyle(
-                                                              color: FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .primaryBackground,
-                                                            ),
-                                                          ),
-                                                          duration: Duration(
-                                                              milliseconds: 4000),
-                                                          backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .secondary,
-                                                          action: SnackBarAction(
-                                                            label: 'Clear Filters',
-                                                            textColor: FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primaryBackground,
-                                                            onPressed: () {
-                                                              safeSetState(() {
-                                                                _model
-                                                                    .dropDownValueController1
-                                                                    ?.value = 'All';
-                                                                _model
-                                                                    .dropDownValueController2
-                                                                    ?.value = 'All';
-                                                              });
-                                                            },
-                                                          ),
-                                                        ),
+                                                      await showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (alertDialogContext) {
+                                                          return AlertDialog(
+                                                            title: Text(
+                                                                'Filter Error'),
+                                                            content: Text(
+                                                                'Whoops, looks like there was an error there. We\'ve set you back to \"All\"'),
+                                                            actions: [
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        alertDialogContext),
+                                                                child:
+                                                                    Text('Ok'),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
                                                       );
                                                       safeSetState(() {
                                                         _model
@@ -1437,372 +1403,191 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         final fullBusinessListItem =
                                             fullBusinessList[
                                                 fullBusinessListIndex];
-                                        return Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  16.0, 4.0, 16.0, 0.0),
-                                          child: InkWell(
-                                            splashColor: Colors.transparent,
-                                            focusColor: Colors.transparent,
-                                            hoverColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onTap: () async {
-                                              context.pushNamed(
-                                                BusinessDetailsWidget.routeName,
-                                                queryParameters: {
-                                                  'businessId': serializeParam(
-                                                    fullBusinessListItem.id,
-                                                    ParamType.int,
-                                                  ),
-                                                }.withoutNulls,
-                                              );
-                                            },
+                                        return Align(
+                                          alignment: AlignmentDirectional(-1.0, 0.0),
+                                          child: Padding(
+                                            padding: EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 0.0),
                                             child: Container(
                                               width: double.infinity,
                                               decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryBackground,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    blurRadius: 8.0,
-                                                    color: Color(0x1A000000),
-                                                    offset: Offset(0.0, 2.0),
-                                                    spreadRadius: 0,
-                                                  ),
-                                                ],
-                                                borderRadius:
-                                                    BorderRadius.circular(12.0),
-                                                border: Border.all(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .alternate,
-                                                  width: 1.0,
-                                                ),
+                                                color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                borderRadius: BorderRadius.circular(0.0), // No rounded corners
                                               ),
                                               child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
                                                 children: [
-                                                  Stack(
-                                                    children: [
-                                                      ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  0.0),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  0.0),
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  12.0),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  12.0),
-                                                        ),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          fadeInDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                      100), // Faster
-                                                          fadeOutDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                      100),
-                                                          imageUrl:
-                                                              fullBusinessListItem
-                                                                  .coverPhoto ?? '',
-                                                          width:
-                                                              double.infinity,
-                                                          height: 60.0,
-                                                          fit: BoxFit.cover,
-                                                          placeholder: (context, url) => Container(
-                                                            color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                            child: Icon(
-                                                              Icons.business,
-                                                              color: FlutterFlowTheme.of(context).secondaryText,
-                                                              size: 24.0,
+                                                  Align(
+                                                    alignment: AlignmentDirectional(-1.0, 0.0),
+                                                    child: InkWell(
+                                                      splashColor: Colors.transparent,
+                                                      focusColor: Colors.transparent,
+                                                      hoverColor: Colors.transparent,
+                                                      highlightColor: Colors.transparent,
+                                                      onTap: () async {
+                                                        context.pushNamed(
+                                                          BusinessDetailsWidget.routeName,
+                                                          queryParameters: {
+                                                            'businessId': serializeParam(
+                                                              fullBusinessListItem.id,
+                                                              ParamType.int,
                                                             ),
-                                                          ),
-                                                          errorWidget: (context, url, error) => Container(
-                                                            color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                            child: Icon(
-                                                              Icons.image_not_supported,
-                                                              color: FlutterFlowTheme.of(context).secondaryText,
-                                                              size: 24.0,
+                                                          }.withoutNulls,
+                                                        );
+                                                      },
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.max,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          // 70x70 square profile image
+                                                          Container(
+                                                            width: 70.0,
+                                                            height: 70.0,
+                                                            decoration: BoxDecoration(
+                                                              color: FlutterFlowTheme.of(context).secondaryBackground,
                                                             ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    12.0,
-                                                                    20.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      100.0),
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            fadeInDuration:
-                                                                Duration(
-                                                                    milliseconds:
-                                                                        100), // Even faster
-                                                            fadeOutDuration:
-                                                                Duration(
-                                                                    milliseconds:
-                                                                        100),
-                                                            imageUrl:
-                                                                fullBusinessListItem
-                                                                    .photo ?? '',
-                                                            width: 75.0,
-                                                            height: 75.0,
-                                                            fit: BoxFit.fill,
-                                                            placeholder: (context, url) => Container(
-                                                              color: FlutterFlowTheme.of(context).accent1,
-                                                              child: Icon(
-                                                                Icons.business,
-                                                                color: FlutterFlowTheme.of(context).primary,
-                                                                size: 35.0,
-                                                              ),
-                                                            ),
-                                                            errorWidget: (context, url, error) => Container(
-                                                              color: FlutterFlowTheme.of(context).accent1,
-                                                              child: Icon(
-                                                                Icons.business,
-                                                                color: FlutterFlowTheme.of(context).primary,
-                                                                size: 35.0,
+                                                            child: Align(
+                                                              alignment: AlignmentDirectional(-1.0, 0.0),
+                                                              child: ClipRRect(
+                                                                borderRadius: BorderRadius.circular(0.0),
+                                                                child: CachedNetworkImage(
+                                                                  fadeInDuration: Duration(milliseconds: 100),
+                                                                  fadeOutDuration: Duration(milliseconds: 100),
+                                                                  imageUrl: fullBusinessListItem.photo ?? '',
+                                                                  width: 70.0,
+                                                                  height: 70.0,
+                                                                  fit: BoxFit.cover,
+                                                                  // No cache limits for full quality
+                                                                  placeholder: (context, url) => Container(
+                                                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                    child: Icon(
+                                                                      Icons.business,
+                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                      size: 30.0,
+                                                                    ),
+                                                                  ),
+                                                                  errorWidget: (context, url, error) => Container(
+                                                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                    child: Icon(
+                                                                      Icons.business,
+                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                      size: 30.0,
+                                                                    ),
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(12.0, 5.0,
-                                                                0.0, 12.0),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: [
-                                                                Expanded(
-                                                                  child: Text(
-                                                                    valueOrDefault<
-                                                                        String>(
-                                                                      fullBusinessListItem
-                                                                          .name,
-                                                                      'Business Name',
-                                                                    ).maybeHandleOverflow(
-                                                                      maxChars:
-                                                                          38,
-                                                                      replacement:
-                                                                          '…',
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleLarge
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.sourceSans3(
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).titleLarge.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).titleLarge.fontStyle,
-                                                                          ),
-                                                                          fontSize:
-                                                                              18.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .titleLarge
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .titleLarge
-                                                                              .fontStyle,
+                                                          // Business info
+                                                          Flexible(
+                                                            child: Align(
+                                                              alignment: AlignmentDirectional(-1.0, -1.0),
+                                                              child: Container(
+                                                                width: MediaQuery.sizeOf(context).width * 1.0,
+                                                                decoration: BoxDecoration(),
+                                                                alignment: AlignmentDirectional(-1.0, 0.0),
+                                                                child: Padding(
+                                                                  padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                                                                  child: Column(
+                                                                    mainAxisSize: MainAxisSize.max,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      // Business name
+                                                                      Text(
+                                                                        valueOrDefault<String>(
+                                                                          fullBusinessListItem.name,
+                                                                          'Business Name',
+                                                                        ).maybeHandleOverflow(
+                                                                          maxChars: 38,
+                                                                          replacement: '…',
                                                                         ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          2.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                  child: Text(
-                                                                    valueOrDefault<
-                                                                        String>(
-                                                                      fullBusinessListItem
-                                                                          .location,
-                                                                      'No location provided',
-                                                                    ).maybeHandleOverflow(
-                                                                      maxChars:
-                                                                          30,
-                                                                      replacement:
-                                                                          '…',
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .labelSmall
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.sourceSans3(
-                                                                            fontWeight:
-                                                                                FontWeight.normal,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).labelSmall.fontStyle,
+                                                                        style: FlutterFlowTheme.of(context).headlineSmall.override(
+                                                                          font: GoogleFonts.sourceSans3(
+                                                                            fontWeight: FontWeight.w500,
+                                                                            fontStyle: FlutterFlowTheme.of(context).headlineSmall.fontStyle,
                                                                           ),
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primaryText,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.normal,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .labelSmall
-                                                                              .fontStyle,
+                                                                          fontSize: 18.0,
+                                                                          letterSpacing: 0.0,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          fontStyle: FlutterFlowTheme.of(context).headlineSmall.fontStyle,
                                                                         ),
-                                                                  ),
-                                                                ),
-                                                                if (fullBusinessListItem
-                                                                        .vacancies ==
-                                                                    true)
-                                                                  Expanded(
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          55.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          Stack(
-                                                                        children: [
-                                                                          Align(
-                                                                            alignment:
-                                                                                AlignmentDirectional(1.0, 0.0),
-                                                                            child:
-                                                                                Icon(
-                                                                              Icons.business_center,
-                                                                              color: FlutterFlowTheme.of(context).primaryText,
-                                                                              size: 24.0,
-                                                                            ),
+                                                                      ),
+                                                                      // Location
+                                                                      Text(
+                                                                        valueOrDefault<String>(
+                                                                          fullBusinessListItem.location,
+                                                                          'No location provided',
+                                                                        ).maybeHandleOverflow(
+                                                                          maxChars: 30,
+                                                                          replacement: '…',
+                                                                        ),
+                                                                        style: FlutterFlowTheme.of(context).labelSmall.override(
+                                                                          font: GoogleFonts.sourceSans3(
+                                                                            fontWeight: FontWeight.normal,
+                                                                            fontStyle: FlutterFlowTheme.of(context).labelSmall.fontStyle,
                                                                           ),
-                                                                          Align(
-                                                                            alignment:
-                                                                                AlignmentDirectional(1.0, 0.0),
-                                                                            child:
-                                                                                Padding(
-                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 30.0, 0.0),
-                                                                              child: Text(
-                                                                                'We\'re Hiring!',
-                                                                                style: FlutterFlowTheme.of(context).labelSmall.override(
-                                                                                      font: GoogleFonts.sourceSans3(
-                                                                                        fontWeight: FontWeight.normal,
-                                                                                        fontStyle: FlutterFlowTheme.of(context).labelSmall.fontStyle,
-                                                                                      ),
-                                                                                      color: FlutterFlowTheme.of(context).primaryText,
-                                                                                      fontSize: 10.0,
-                                                                                      letterSpacing: 0.0,
-                                                                                      fontWeight: FontWeight.normal,
-                                                                                      fontStyle: FlutterFlowTheme.of(context).labelSmall.fontStyle,
-                                                                                    ),
+                                                                          color: FlutterFlowTheme.of(context).primaryText,
+                                                                          fontSize: 12.0,
+                                                                          letterSpacing: 0.0,
+                                                                          fontWeight: FontWeight.normal,
+                                                                          fontStyle: FlutterFlowTheme.of(context).labelSmall.fontStyle,
+                                                                        ),
+                                                                      ),
+                                                                      // Industry
+                                                                      Text(
+                                                                        valueOrDefault<String>(
+                                                                          fullBusinessListItem.industry,
+                                                                          'Industry',
+                                                                        ),
+                                                                        style: FlutterFlowTheme.of(context).labelSmall.override(
+                                                                          font: GoogleFonts.sourceSans3(
+                                                                            fontWeight: FontWeight.normal,
+                                                                            fontStyle: FlutterFlowTheme.of(context).labelSmall.fontStyle,
+                                                                          ),
+                                                                          color: FlutterFlowTheme.of(context).primaryText,
+                                                                          fontSize: 12.0,
+                                                                          letterSpacing: 0.0,
+                                                                          fontWeight: FontWeight.normal,
+                                                                          fontStyle: FlutterFlowTheme.of(context).labelSmall.fontStyle,
+                                                                        ),
+                                                                      ),
+                                                                      // Hiring status (with consistent spacing)
+                                                                      fullBusinessListItem.vacancies == true
+                                                                        ? Text(
+                                                                            'Hiring',
+                                                                            style: FlutterFlowTheme.of(context).labelSmall.override(
+                                                                              font: GoogleFonts.sourceSans3(
+                                                                                fontWeight: FontWeight.w600,
+                                                                                fontStyle: FlutterFlowTheme.of(context).labelSmall.fontStyle,
                                                                               ),
+                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              fontSize: 12.0,
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontStyle: FlutterFlowTheme.of(context).labelSmall.fontStyle,
                                                                             ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
+                                                                          )
+                                                                        : SizedBox(height: 16.0), // Consistent spacing
+                                                                    ].divide(SizedBox(height: 4.0)),
                                                                   ),
-                                                              ],
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          2.0,
-                                                                          0.0,
-                                                                          5.0),
-                                                              child: Text(
-                                                                valueOrDefault<
-                                                                    String>(
-                                                                  fullBusinessListItem
-                                                                      .industry,
-                                                                  'Industry',
                                                                 ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .override(
-                                                                      font: GoogleFonts
-                                                                          .sourceSans3(
-                                                                        fontWeight:
-                                                                            FontWeight.normal,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .labelSmall
-                                                                            .fontStyle,
-                                                                      ),
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryText,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .labelSmall
-                                                                          .fontStyle,
-                                                                    ),
                                                               ),
                                                             ),
-                                                          ],
-                                                        ),
-                                                      ].divide(SizedBox(
-                                                          height: 4.0)),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
+                                                  // Divider separator
+                                                  Divider(
+                                                    thickness: 1.0,
+                                                    color: FlutterFlowTheme.of(context).alternate,
+                                                  ),
                                                 ],
-                                              ).addWalkthrough(
-                                                columnIisrklu0,
-                                                _model.welcomeHomeController,
                                               ),
+                                            ).addWalkthrough(
+                                              columnIisrklu0,
+                                              _model.welcomeHomeController,
                                             ),
                                           ),
                                         );
