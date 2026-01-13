@@ -221,23 +221,9 @@ class _NavBarPageState extends State<NavBarPage> {
               Icons.block_outlined,
               size: 24.0,
             ),
-            activeIcon: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 40.0,
-                  height: 3.0,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).primaryText,
-                    borderRadius: BorderRadius.circular(1.5),
-                  ),
-                ),
-                SizedBox(height: 4.0),
-                Icon(
-                  Icons.block_flipped,
-                  size: 24.0,
-                ),
-              ],
+            activeIcon: Icon(
+              Icons.block_flipped,
+              size: 24.0,
             ),
             label: 'Black List',
             tooltip: '',
@@ -247,23 +233,9 @@ class _NavBarPageState extends State<NavBarPage> {
               Icons.work_outline,
               size: 24.0,
             ),
-            activeIcon: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 40.0,
-                  height: 3.0,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).primaryText,
-                    borderRadius: BorderRadius.circular(1.5),
-                  ),
-                ),
-                SizedBox(height: 4.0),
-                Icon(
-                  Icons.work_rounded,
-                  size: 24.0,
-                ),
-              ],
+            activeIcon: Icon(
+              Icons.work_rounded,
+              size: 24.0,
             ),
             label: 'Jobs',
             tooltip: '',
@@ -273,23 +245,9 @@ class _NavBarPageState extends State<NavBarPage> {
               Icons.add_business_outlined,
               size: 24.0,
             ),
-            activeIcon: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 40.0,
-                  height: 3.0,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).primaryText,
-                    borderRadius: BorderRadius.circular(1.5),
-                  ),
-                ),
-                SizedBox(height: 4.0),
-                Icon(
-                  Icons.add_business,
-                  size: 24.0,
-                ),
-              ],
+            activeIcon: Icon(
+              Icons.add_business,
+              size: 24.0,
             ),
             label: 'Businesses',
             tooltip: '',
@@ -299,23 +257,9 @@ class _NavBarPageState extends State<NavBarPage> {
               Icons.person_outlined,
               size: 24.0,
             ),
-            activeIcon: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 40.0,
-                  height: 3.0,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).primaryText,
-                    borderRadius: BorderRadius.circular(1.5),
-                  ),
-                ),
-                SizedBox(height: 4.0),
-                Icon(
-                  Icons.person,
-                  size: 24.0,
-                ),
-              ],
+            activeIcon: Icon(
+              Icons.person,
+              size: 24.0,
             ),
             label: 'Profile',
             tooltip: '',
