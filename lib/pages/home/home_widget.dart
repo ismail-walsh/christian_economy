@@ -219,10 +219,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         width: 100.0,
                                         height: 100.0,
                                         fit: BoxFit.cover,
-                                        maxHeightDiskCache: 100,
-                                        maxWidthDiskCache: 100,
-                                        memCacheHeight: 50,
-                                        memCacheWidth: 50,
+                                        // No cache limits for full resolution
                                         placeholder: (context, url) => Container(
                                           color: FlutterFlowTheme.of(context).accent1,
                                           child: Icon(

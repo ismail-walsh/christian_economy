@@ -914,7 +914,7 @@ class _MyBusinessesWidgetState extends State<MyBusinessesWidget> {
                 }.withoutNulls,
               );
             },
-            backgroundColor: FlutterFlowTheme.of(context).primary,
+            backgroundColor: FlutterFlowTheme.of(context).tertiary,
             icon: Icon(
               Icons.add_business,
               color: Colors.white,
