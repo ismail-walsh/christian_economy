@@ -5,7 +5,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
-import '/pages/poll/poll_widget.dart';
 import '/index.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -334,10 +333,10 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                                                     );
                                                   },
                                                   text:
-                                                      'Raise a boycott request\n',
+                                                      'Propose a Boycott',
                                                   options: FFButtonOptions(
-                                                    width: 189.0,
-                                                    height: 25.0,
+                                                    width: 200.0,
+                                                    height: 32.0,
                                                     padding:
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(16.0, 0.0,
@@ -352,31 +351,11 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                                                         .titleSmall
                                                         .override(
                                                           font: GoogleFonts
-                                                              .sourceSans3(
-                                                            fontWeight:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmall
-                                                                    .fontWeight,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmall
-                                                                    .fontStyle,
-                                                          ),
+                                                              .sourceSans3(),
                                                           color: Colors.white,
-                                                          fontSize: 12.0,
+                                                          fontSize: 14.0,
                                                           letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .fontStyle,
+                                                          fontWeight: FontWeight.w600,
                                                         ),
                                                     elevation: 0.0,
                                                     borderRadius:
@@ -933,106 +912,6 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                                                                         ),
                                                                       ],
                                                                     ),
-                                                                    Expanded(
-                                                                      child:
-                                                                          Align(
-                                                                        alignment: AlignmentDirectional(
-                                                                            1.0,
-                                                                            0.0),
-                                                                        child:
-                                                                            Builder(
-                                                                          builder: (context) =>
-                                                                              Padding(
-                                                                            padding: EdgeInsetsDirectional.fromSTEB(
-                                                                                0.0,
-                                                                                0.0,
-                                                                                30.0,
-                                                                                0.0),
-                                                                            child:
-                                                                                FFButtonWidget(
-                                                                              onPressed: ((_model.choiceChipsValue == 'Approved') || (_model.choiceChipsValue == 'Rejected'))
-                                                                                  ? null
-                                                                                  : () async {
-                                                                                      _model.doesVoteExist = await VotesTable().queryRows(
-                                                                                        queryFn: (q) => q
-                                                                                            .eqOrNull(
-                                                                                              'user',
-                                                                                              currentUserUid,
-                                                                                            )
-                                                                                            .eqOrNull(
-                                                                                              'blacklist_id',
-                                                                                              listViewBlacklistRow.id,
-                                                                                            ),
-                                                                                      );
-                                                                                      if ((_model.doesVoteExist != null && (_model.doesVoteExist)!.isNotEmpty) == true) {
-                                                                                        ScaffoldMessenger.of(context).clearSnackBars();
-                                                                                        ScaffoldMessenger.of(context).showSnackBar(
-                                                                                          SnackBar(
-                                                                                            content: Text(
-                                                                                              'You have already voted on this poll.',
-                                                                                              style: TextStyle(
-                                                                                                color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                                              ),
-                                                                                            ),
-                                                                                            duration: Duration(milliseconds: 1000),
-                                                                                            backgroundColor: FlutterFlowTheme.of(context).primaryText,
-                                                                                          ),
-                                                                                        );
-                                                                                      } else {
-                                                                                        await showDialog(
-                                                                                          context: context,
-                                                                                          builder: (dialogContext) {
-                                                                                            return Dialog(
-                                                                                              elevation: 0,
-                                                                                              insetPadding: EdgeInsets.zero,
-                                                                                              backgroundColor: Colors.transparent,
-                                                                                              alignment: AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
-                                                                                              child: GestureDetector(
-                                                                                                onTap: () {
-                                                                                                  FocusScope.of(dialogContext).unfocus();
-                                                                                                  FocusManager.instance.primaryFocus?.unfocus();
-                                                                                                },
-                                                                                                child: Container(
-                                                                                                  height: MediaQuery.sizeOf(context).height * 1.0,
-                                                                                                  child: PollWidget(
-                                                                                                    blacklistId: listViewBlacklistRow.id,
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ),
-                                                                                            );
-                                                                                          },
-                                                                                        );
-                                                                                      }
-
-                                                                                      safeSetState(() {});
-                                                                                    },
-                                                                              text: 'Vote',
-                                                                              options: FFButtonOptions(
-                                                                                height: 30.0,
-                                                                                padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                                                                                iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                                color: FlutterFlowTheme.of(context).primary,
-                                                                                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                                                                      font: GoogleFonts.sourceSans3(
-                                                                                        fontWeight: FontWeight.w600,
-                                                                                        fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                                                                                      ),
-                                                                                      color: Colors.white,
-                                                                                      fontSize: 12.0,
-                                                                                      letterSpacing: 0.0,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                                                                                    ),
-                                                                                elevation: 0.0,
-                                                                                borderRadius: BorderRadius.circular(8.0),
-                                                                                disabledColor: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                                disabledTextColor: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
                                                                   ],
                                                                 ),
                                                                 Padding(
@@ -1065,7 +944,7 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                                                                             .primary,
                                                                     backgroundColor:
                                                                         FlutterFlowTheme.of(context)
-                                                                            .accent4,
+                                                                            .alternate,
                                                                     barRadius: Radius
                                                                         .circular(
                                                                             5.0),
@@ -1074,6 +953,7 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                                                                             .zero,
                                                                   ),
                                                                 ),
+                                                                SizedBox(height: 8.0),
                                                                 Text(
                                                                   valueOrDefault<
                                                                       String>(

@@ -1,15 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import 'auth/supabase_auth/supabase_user_provider.dart';
 import 'auth/supabase_auth/auth_util.dart';
 
 import '/backend/supabase/supabase.dart';
-import 'backend/firebase/firebase_config.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
@@ -32,15 +34,23 @@ void main() async {
   final environmentValues = FFDevEnvironmentValues();
   await environmentValues.initialize();
 
-  await initFirebase();
-
-  await SupaFlow.initialize();
+  try {
+    await SupaFlow.initialize();
+  } catch (e) {
+    print('Supabase initialization error (non-fatal): $e');
+    // Retry once after a delay
+    await Future.delayed(Duration(milliseconds: 500));
+    await SupaFlow.initialize();
+  }
 
   await FlutterFlowTheme.initialize();
 
-  // Configure Flutter image cache - balanced for performance
-  PaintingBinding.instance.imageCache.maximumSize = 100; // Reasonable cache size
-  PaintingBinding.instance.imageCache.maximumSizeBytes = 50 << 20; // 50 MB - LinkedIn uses ~40-60MB
+  // Configure Flutter image cache - very conservative for memory
+  PaintingBinding.instance.imageCache.maximumSize = 30; // Further reduced
+  PaintingBinding.instance.imageCache.maximumSizeBytes = 15 << 20; // 15 MB max
+
+  // Configure CachedNetworkImage cache - limit stored images
+  await DefaultCacheManager().emptyCache(); // Clear on fresh start to prevent buildup
 
   runApp(MyApp());
 }
@@ -88,22 +98,33 @@ class _MyAppState extends State<MyApp> {
           .toList();
   late Stream<BaseAuthUser> userStream;
 
+  // Store subscriptions for proper disposal
+  StreamSubscription<BaseAuthUser>? _userStreamSubscription;
+  StreamSubscription<String?>? _jwtTokenSubscription;
+
   @override
   void initState() {
     super.initState();
 
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier, widget.entryPage);
-    userStream = christianEconomySupabaseUserStream()
-      ..listen((user) {
-        _appStateNotifier.update(user);
-      });
-    jwtTokenStream.listen((_) {});
-    // LinkedIn-style splash screen - longer duration to preload assets
+    userStream = christianEconomySupabaseUserStream();
+    _userStreamSubscription = userStream.listen((user) {
+      _appStateNotifier.update(user);
+    });
+    _jwtTokenSubscription = jwtTokenStream.listen((_) {});
+    // Splash screen - reduced duration for faster startup
     Future.delayed(
-      Duration(milliseconds: 2500), // Increased from 1000ms to 2500ms
+      Duration(milliseconds: 2000), // Reduced from 4000ms for faster launch
       () => _appStateNotifier.stopShowingSplashImage(),
     );
+  }
+
+  @override
+  void dispose() {
+    _userStreamSubscription?.cancel();
+    _jwtTokenSubscription?.cancel();
+    super.dispose();
   }
 
   void setLocale(String language) {
@@ -173,20 +194,34 @@ class _NavBarPageState extends State<NavBarPage> {
     _currentPage = widget.page;
   }
 
+  // Create fresh widget each time to prevent memory buildup
+  // Widgets dispose their resources when unmounted
+  Widget _buildTab(String tabName) {
+    switch (tabName) {
+      case 'Home':
+        return HomeWidget();
+      case 'blacklist':
+        return BlacklistWidget();
+      case 'jobs':
+        return JobsWidget();
+      case 'myBusinesses':
+        return MyBusinessesWidget();
+      case 'profile':
+        return ProfileWidget();
+      default:
+        return HomeWidget();
+    }
+  }
+
+  static const List<String> _tabNames = ['Home', 'blacklist', 'jobs', 'myBusinesses', 'profile'];
+
   @override
   Widget build(BuildContext context) {
-    final tabs = {
-      'Home': HomeWidget(),
-      'blacklist': BlacklistWidget(),
-      'jobs': JobsWidget(),
-      'myBusinesses': MyBusinessesWidget(),
-      'profile': ProfileWidget(),
-    };
-    final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
+    final currentIndex = _tabNames.indexOf(_currentPageName);
 
     return Scaffold(
       resizeToAvoidBottomInset: !widget.disableResizeToAvoidBottomInset,
-      body: _currentPage ?? tabs[_currentPageName],
+      body: _currentPage ?? _buildTab(_currentPageName),
       bottomNavigationBar: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -194,7 +229,7 @@ class _NavBarPageState extends State<NavBarPage> {
             currentIndex: currentIndex,
             onTap: (i) => safeSetState(() {
               _currentPage = null;
-              _currentPageName = tabs.keys.toList()[i];
+              _currentPageName = _tabNames[i];
             }),
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             selectedItemColor: FlutterFlowTheme.of(context).primaryText,

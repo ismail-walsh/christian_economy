@@ -16,5 +16,9 @@ class MyJobsModel extends FlutterFlowModel<MyJobsWidget> {
   void initState(BuildContext context) {}
 
   @override
-  void dispose() {}
+  void dispose() {
+    // Clear cached streams to prevent memory leaks
+    listViewSupabaseStream = null;
+    containerSupabaseStream = null;
+  }
 }

@@ -8,19 +8,21 @@ import 'package:flutter/material.dart';
 class BlacklistModel extends FlutterFlowModel<BlacklistWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // State field(s) for ChoiceChips widget.
+  // State field(s) for status filter ChoiceChips widget.
   FormFieldController<List<String>>? choiceChipsValueController;
   String? get choiceChipsValue =>
       choiceChipsValueController?.value?.firstOrNull;
   set choiceChipsValue(String? val) =>
       choiceChipsValueController?.value = val != null ? [val] : [];
-  // Stores action output result for [Backend Call - Query Rows] action in Button widget.
-  List<VotesRow>? doesVoteExist;
+
   Stream<List<UsersRow>>? containerSupabaseStream;
 
   @override
   void initState(BuildContext context) {}
 
   @override
-  void dispose() {}
+  void dispose() {
+    // Clear cached streams to prevent memory leaks
+    containerSupabaseStream = null;
+  }
 }

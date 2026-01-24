@@ -11,13 +11,32 @@ class JobsModel extends FlutterFlowModel<JobsWidget> {
   Stream<List<JobsRow>>? listViewSupabaseStream;
   Stream<List<UsersRow>>? containerSupabaseStream;
 
-  // State field(s) for job type filter
-  String? jobTypeFilter;
-  FormFieldController<List<String>>? jobTypeFilterController;
+  // Available filter options loaded from businesses
+  List<String> availableIndustries = [];
+  List<String> availableRegions = [];
+  Map<int, BusinessRow> businessesMap = {};
+
+  // State field(s) for industry filter
+  String? industryFilter;
+  FormFieldController<String>? industryFilterController;
+
+  // State field(s) for region filter
+  String? regionFilter;
+  FormFieldController<String>? regionFilterController;
+
+  // Filtered jobs list
+  List<JobsRow> filteredJobs = [];
 
   @override
   void initState(BuildContext context) {}
 
   @override
-  void dispose() {}
+  void dispose() {
+    // Clear cached streams to prevent memory leaks
+    listViewSupabaseStream = null;
+    containerSupabaseStream = null;
+    // Clear cached data
+    businessesMap.clear();
+    filteredJobs.clear();
+  }
 }

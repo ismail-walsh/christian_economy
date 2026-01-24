@@ -1,6 +1,6 @@
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
-import '/flutter_flow/flutter_flow_choice_chips.dart';
+import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -40,7 +40,72 @@ class _JobsWidgetState extends State<JobsWidget> {
     super.initState();
     _model = createModel(context, () => JobsModel());
 
+    // Load available industries and regions from businesses
+    _loadFilterOptions();
+
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
+  }
+
+  Future<void> _loadFilterOptions() async {
+    // Query all businesses to get unique industries and regions
+    final businesses = await BusinessTable().queryRows(
+      queryFn: (q) => q,
+    );
+
+    if (businesses != null && businesses.isNotEmpty) {
+      // Store businesses map for filtering
+      _model.businessesMap = {
+        for (var b in businesses) if (b.id != null) b.id!: b
+      };
+
+      // Extract unique industries
+      final industries = businesses
+          .map((b) => b.industry)
+          .where((i) => i != null && i.isNotEmpty)
+          .cast<String>()
+          .toSet()
+          .toList()
+        ..sort();
+
+      // Extract unique regions
+      final regions = businesses
+          .map((b) => b.region)
+          .where((r) => r != null && r.isNotEmpty)
+          .cast<String>()
+          .toSet()
+          .toList()
+        ..sort();
+
+      safeSetState(() {
+        _model.availableIndustries = industries;
+        _model.availableRegions = regions;
+      });
+    }
+  }
+
+  List<JobsRow> _filterJobs(List<JobsRow> jobs) {
+    if (_model.industryFilter == null && _model.regionFilter == null) {
+      return jobs;
+    }
+
+    return jobs.where((job) {
+      if (job.businessId == null) return false;
+
+      final business = _model.businessesMap[job.businessId];
+      if (business == null) return false;
+
+      // Check industry filter
+      if (_model.industryFilter != null && _model.industryFilter != 'All') {
+        if (business.industry != _model.industryFilter) return false;
+      }
+
+      // Check region filter
+      if (_model.regionFilter != null && _model.regionFilter != 'All') {
+        if (business.region != _model.regionFilter) return false;
+      }
+
+      return true;
+    }).toList();
   }
 
   @override
@@ -259,65 +324,88 @@ class _JobsWidgetState extends State<JobsWidget> {
                       ],
                     ),
                   ),
-                  // Filters
+                  // Filters - Industry and Region
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+                    padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 12.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Expanded(
-                          child: Container(
-                            width: 100.0,
-                            height: 40.0,
-                            decoration: BoxDecoration(),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 0.0, 0.0),
-                              child: FlutterFlowChoiceChips(
-                                options: [
-                                  ChipData('All'),
-                                  ChipData('Full-Time'),
-                                  ChipData('Part-Time'),
-                                  ChipData('Contract')
-                                ],
-                                onChanged: (val) => safeSetState(() => _model.jobTypeFilter = val?.firstOrNull),
-                                selectedChipStyle: ChipStyle(
-                                  backgroundColor: FlutterFlowTheme.of(context).accent1,
-                                  textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.sourceSans3(),
-                                    color: FlutterFlowTheme.of(context).primaryText,
-                                    letterSpacing: 0.0,
-                                  ),
-                                  iconColor: FlutterFlowTheme.of(context).primaryText,
-                                  iconSize: 18.0,
-                                  elevation: 0.0,
-                                  borderColor: FlutterFlowTheme.of(context).primary,
-                                  borderWidth: 2.0,
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                unselectedChipStyle: ChipStyle(
-                                  backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-                                  textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.sourceSans3(),
-                                    color: FlutterFlowTheme.of(context).secondaryText,
-                                    letterSpacing: 0.0,
-                                  ),
-                                  iconColor: FlutterFlowTheme.of(context).secondaryText,
-                                  iconSize: 18.0,
-                                  elevation: 0.0,
-                                  borderColor: FlutterFlowTheme.of(context).alternate,
-                                  borderWidth: 1.0,
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                chipSpacing: 8.0,
-                                rowSpacing: 8.0,
-                                multiselect: false,
-                                initialized: _model.jobTypeFilter != null,
-                                alignment: WrapAlignment.start,
-                                controller: _model.jobTypeFilterController ??= FormFieldController<List<String>>(['All']),
-                                wrapped: false,
-                              ),
+                        // Industry Filter
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
+                          child: FlutterFlowDropDown<String>(
+                            controller: _model.industryFilterController ??= FormFieldController<String>(null),
+                            options: ['All', ..._model.availableIndustries],
+                            onChanged: (val) async {
+                              safeSetState(() => _model.industryFilter = val);
+                              if (val == 'All') {
+                                _model.industryFilterController?.reset();
+                                safeSetState(() => _model.industryFilter = null);
+                              }
+                            },
+                            width: 140.0,
+                            height: 36.0,
+                            textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
+                              font: GoogleFonts.sourceSans3(),
+                              color: FlutterFlowTheme.of(context).secondaryBackground,
+                              fontSize: 14.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.w600,
                             ),
+                            hintText: 'Industry',
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              color: FlutterFlowTheme.of(context).secondaryBackground,
+                              size: 24.0,
+                            ),
+                            fillColor: FlutterFlowTheme.of(context).primaryText,
+                            elevation: 2.0,
+                            borderColor: FlutterFlowTheme.of(context).primaryText,
+                            borderWidth: 1.0,
+                            borderRadius: 8.0,
+                            margin: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
+                            hidesUnderline: true,
+                            isOverButton: false,
+                            isSearchable: false,
+                            isMultiSelect: false,
                           ),
+                        ),
+                        // Region Filter
+                        FlutterFlowDropDown<String>(
+                          controller: _model.regionFilterController ??= FormFieldController<String>(null),
+                          options: ['All', ..._model.availableRegions],
+                          onChanged: (val) async {
+                            safeSetState(() => _model.regionFilter = val);
+                            if (val == 'All') {
+                              _model.regionFilterController?.reset();
+                              safeSetState(() => _model.regionFilter = null);
+                            }
+                          },
+                          width: 140.0,
+                          height: 36.0,
+                          textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.sourceSans3(),
+                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                            fontSize: 14.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          hintText: 'Region',
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                            size: 24.0,
+                          ),
+                          fillColor: FlutterFlowTheme.of(context).primaryText,
+                          elevation: 2.0,
+                          borderColor: FlutterFlowTheme.of(context).primaryText,
+                          borderWidth: 1.0,
+                          borderRadius: 8.0,
+                          margin: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
+                          hidesUnderline: true,
+                          isOverButton: false,
+                          isSearchable: false,
+                          isMultiSelect: false,
                         ),
                       ],
                     ),
@@ -358,6 +446,9 @@ class _JobsWidgetState extends State<JobsWidget> {
                               List<JobsRow> listViewJobsRowList =
                                   snapshot.data!;
 
+                              // Apply filters
+                              final filteredJobs = _filterJobs(listViewJobsRowList);
+
                               return RefreshIndicator(
                                 color: FlutterFlowTheme.of(context).primary,
                                 onRefresh: () async {},
@@ -371,12 +462,12 @@ class _JobsWidgetState extends State<JobsWidget> {
                                   primary: false,
                                   shrinkWrap: true,
                                   scrollDirection: Axis.vertical,
-                                  itemCount: listViewJobsRowList.length,
+                                  itemCount: filteredJobs.length,
                                   separatorBuilder: (_, __) =>
                                       SizedBox(height: 8.0),
                                   itemBuilder: (context, listViewIndex) {
                                     final listViewJobsRow =
-                                        listViewJobsRowList[listViewIndex];
+                                        filteredJobs[listViewIndex];
                                     return Align(
                                       alignment:
                                           AlignmentDirectional(-1.0, 0.0),

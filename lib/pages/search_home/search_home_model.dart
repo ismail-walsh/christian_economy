@@ -22,5 +22,8 @@ class SearchHomeModel extends FlutterFlowModel<SearchHomeWidget> {
   @override
   void dispose() {
     textFieldFocusNode?.dispose();
+    textController?.dispose();
+    // Clear search results to free memory
+    searchReturn = null;
   }
 }

@@ -69,43 +69,29 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
 
   Future<void> loadBusinesses(BuildContext context) async {
     try {
-      // Reset pagination state when reloading
+      // Reset state when reloading
       businessList.clear();
-      _currentPage = 0;
-      _hasMoreItems = true;
+      _allBusinesses.clear();
+      _currentPage = 1; // Start at 1 since initial load is page 0
+      _hasMoreItems = false; // Will be set based on results
       _isLoadingMore = false;
 
-      // Load ALL businesses but only display first batch (LinkedIn style)
+      // Load all businesses on initial load (no limit)
       businessCall = await BusinessTable().queryRows(
         queryFn: (q) => q.order('created_at', ascending: false),
       );
 
       if (businessCall != null && businessCall!.isNotEmpty) {
+        businessList = businessCall!.toList().cast<BusinessRow>();
         _allBusinesses = businessCall!.toList().cast<BusinessRow>();
+        _hasMoreItems = false; // All loaded, no more to fetch
 
-        // Show all businesses initially (since filters also show all matching results)
-        businessList = _allBusinesses.toList();
-        _currentPage = (_allBusinesses.length / _batchSize).ceil();
-        _hasMoreItems = false; // All items already loaded
-
-        // Extract unique industries and regions from ALL businesses
-        final industries = _allBusinesses
-            .where((b) => b.industry != null && b.industry!.isNotEmpty)
-            .map((b) => b.industry!)
-            .toSet()
-            .toList()
-          ..sort();
-
-        final regions = _allBusinesses
-            .where((b) => b.region != null && b.region!.isNotEmpty)
-            .map((b) => b.region!)
-            .toSet()
-            .toList()
-          ..sort();
-
-        availableIndustries = industries;
-        availableRegions = regions;
+        // Extract filter options from the loaded data
+        _extractFilterOptions(businessList);
       }
+
+      // Clear the temporary reference to free memory
+      businessCall = null;
     } catch (e) {
       // Handle error gracefully - keep empty lists
       print('Error loading businesses: $e');
@@ -116,23 +102,24 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
     }
   }
 
-  void _loadNextBatch() {
-    final startIndex = _currentPage * _batchSize;
-    final endIndex = startIndex + _batchSize;
+  // Extract filter options from existing data - no extra database query
+  void _extractFilterOptions(List<BusinessRow> businesses) {
+    final industries = businesses
+        .where((b) => b.industry != null && b.industry!.isNotEmpty)
+        .map((b) => b.industry!)
+        .toSet()
+        .toList()
+      ..sort();
 
-    if (startIndex >= _allBusinesses.length) {
-      _hasMoreItems = false;
-      return;
-    }
+    final regions = businesses
+        .where((b) => b.region != null && b.region!.isNotEmpty)
+        .map((b) => b.region!)
+        .toSet()
+        .toList()
+      ..sort();
 
-    final batch = _allBusinesses.sublist(
-      startIndex,
-      endIndex > _allBusinesses.length ? _allBusinesses.length : endIndex,
-    );
-
-    businessList.addAll(batch);
-    _currentPage++;
-    _hasMoreItems = endIndex < _allBusinesses.length;
+    availableIndustries = industries;
+    availableRegions = regions;
   }
 
   Future<void> loadMoreBusinesses() async {
@@ -140,11 +127,27 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
 
     _isLoadingMore = true;
 
-    // Simulate slight delay for smooth loading (like LinkedIn)
-    await Future.delayed(Duration(milliseconds: 300));
+    try {
+      // Fetch next batch from database with offset
+      final offset = _currentPage * _batchSize;
+      final moreBusiness = await BusinessTable().queryRows(
+        queryFn: (q) => q
+            .order('created_at', ascending: false)
+            .range(offset, offset + _batchSize - 1),
+      );
 
-    _loadNextBatch();
-    _isLoadingMore = false;
+      if (moreBusiness != null && moreBusiness.isNotEmpty) {
+        businessList.addAll(moreBusiness.cast<BusinessRow>());
+        _currentPage++;
+        _hasMoreItems = moreBusiness.length >= _batchSize;
+      } else {
+        _hasMoreItems = false;
+      }
+    } catch (e) {
+      print('Error loading more businesses: $e');
+    } finally {
+      _isLoadingMore = false;
+    }
   }
 
   bool get isLoadingMore => _isLoadingMore;
@@ -156,5 +159,25 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   @override
   void dispose() {
     welcomeHomeController?.finish();
+    // Clear cached streams to prevent memory leaks
+    listViewSupabaseStream = null;
+    containerSupabaseStream = null;
+    // Clear business lists
+    businessList.clear();
+    _allBusinesses.clear();
+    // Clear all temporary query results to free memory
+    businessCall = null;
+    unfilteredCallWoRegion = null;
+    unfilteredCallWRegion = null;
+    apiResultWoRegion = null;
+    unfilteredBackupCall1 = null;
+    apiResultWRegion = null;
+    unfilteredBackupCall2 = null;
+    allAllCall = null;
+    unfilteredRegionCall = null;
+    apiResultRegionAll = null;
+    unfilteredBackupAllRegionCall = null;
+    apiResultRegionInd = null;
+    unfilteredBackupRegionCall = null;
   }
 }

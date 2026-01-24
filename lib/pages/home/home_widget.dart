@@ -157,6 +157,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                               width: 40.0,
                               height: 40.0,
                               fit: BoxFit.cover,
+                              memCacheWidth: 80, // 2x for retina displays
+                              memCacheHeight: 80,
                               placeholder: (context, url) => Icon(
                                 Icons.person,
                                 color: FlutterFlowTheme.of(context).primary,
@@ -228,7 +230,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   children: [
                     Container(
                       width: double.infinity,
-                      height: 200.0,
+                      height: 150.0,
                       decoration: BoxDecoration(),
                       child: StreamBuilder<List<BusinessRow>>(
                         stream: FFAppState().priorityBusiness(
@@ -271,13 +273,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                             ),
                             scrollDirection: Axis.horizontal,
                             itemCount: listViewBusinessRowList.length,
-                            separatorBuilder: (_, __) => SizedBox(width: 8.0),
+                            separatorBuilder: (_, __) => SizedBox(width: 12.0),
                             itemBuilder: (context, listViewIndex) {
                               final listViewBusinessRow =
                                   listViewBusinessRowList[listViewIndex];
                               return Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 4.0, 0.0, 12.0),
+                                    0.0, 4.0, 0.0, 8.0),
                                 child: InkWell(
                                   splashColor: Colors.transparent,
                                   focusColor: Colors.transparent,
@@ -294,157 +296,70 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       }.withoutNulls,
                                     );
                                   },
-                                  child: Container(
-                                    width: 190.0,
-                                    height: 100.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      border: Border.all(
-                                        color: FlutterFlowTheme.of(context)
-                                            .alternate,
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(4.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(4.0),
-                                              child: CachedNetworkImage(
-                                                fadeInDuration:
-                                                    Duration(milliseconds: 200),
-                                                fadeOutDuration:
-                                                    Duration(milliseconds: 200),
-                                                imageUrl: listViewBusinessRow
-                                                    .coverPhoto ?? '',
-                                                width: 300.0,
-                                                height: 100.0,
-                                                fit: BoxFit.cover,
-                                                placeholder: (context, url) => Container(
-                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                  child: Icon(
-                                                    Icons.business,
-                                                    color: FlutterFlowTheme.of(context).secondaryText,
-                                                    size: 40.0,
-                                                  ),
-                                                ),
-                                                errorWidget: (context, url, error) => Container(
-                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                  child: Icon(
-                                                    Icons.business,
-                                                    color: FlutterFlowTheme.of(context).secondaryText,
-                                                    size: 40.0,
-                                                  ),
-                                                ),
+                                  child: SizedBox(
+                                    width: 90.0,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        // Square image
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(4.0),
+                                          child: CachedNetworkImage(
+                                            fadeInDuration:
+                                                Duration(milliseconds: 100),
+                                            fadeOutDuration:
+                                                Duration(milliseconds: 100),
+                                            imageUrl: listViewBusinessRow.photo ?? '',
+                                            width: 90.0,
+                                            height: 90.0,
+                                            fit: BoxFit.cover,
+                                            memCacheWidth: 180,
+                                            memCacheHeight: 180,
+                                            placeholder: (context, url) => Container(
+                                              color: FlutterFlowTheme.of(context).alternate,
+                                              child: Icon(
+                                                Icons.business,
+                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                size: 30.0,
+                                              ),
+                                            ),
+                                            errorWidget: (context, url, error) => Container(
+                                              color: FlutterFlowTheme.of(context).alternate,
+                                              child: Icon(
+                                                Icons.business,
+                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                size: 30.0,
                                               ),
                                             ),
                                           ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    4.0, 0.0, 0.0, 4.0),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  5.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                      child: Text(
-                                                        valueOrDefault<String>(
-                                                          listViewBusinessRow
-                                                              .name,
-                                                          'Business Name',
-                                                        ).maybeHandleOverflow(
-                                                          maxChars: 20,
-                                                          replacement: '…',
-                                                        ),
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyLarge
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .sourceSans3(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyLarge
-                                                                        .fontStyle,
-                                                                  ),
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyLarge
-                                                                      .fontStyle,
-                                                                ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Text(
-                                                  valueOrDefault<String>(
-                                                    listViewBusinessRow
-                                                        .location,
-                                                    'No location provided',
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .labelSmall
-                                                      .override(
-                                                        font: GoogleFonts
-                                                            .sourceSans3(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .labelSmall
-                                                                  .fontStyle,
-                                                        ),
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primaryText,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .labelSmall
-                                                                .fontStyle,
-                                                      ),
-                                                ),
-                                              ].divide(SizedBox(height: 4.0)),
-                                            ),
+                                        ),
+                                        SizedBox(height: 4.0),
+                                        // Business name below
+                                        Text(
+                                          valueOrDefault<String>(
+                                            listViewBusinessRow.name,
+                                            'Business',
+                                          ).maybeHandleOverflow(
+                                            maxChars: 20,
+                                            replacement: '…',
                                           ),
-                                        ].divide(SizedBox(height: 8.0)),
-                                      ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodySmall
+                                              .override(
+                                                font: GoogleFonts.sourceSans3(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle: FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontStyle,
+                                                ),
+                                                fontSize: 12.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -552,7 +467,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                     _model.unfilteredCallWoRegion =
                                                         await BusinessTable()
                                                             .queryRows(
-                                                      queryFn: (q) => q,
+                                                      queryFn: (q) => q.order('created_at', ascending: false),
                                                     );
                                                     if ((_model.unfilteredCallWoRegion !=
                                                                 null &&
@@ -600,7 +515,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           q.eqOrNull(
                                                         'region',
                                                         _model.dropDownValue2,
-                                                      ),
+                                                      ).order('created_at', ascending: false),
                                                     );
                                                     if ((_model.unfilteredCallWRegion !=
                                                                 null &&
@@ -655,7 +570,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           q.eqOrNull(
                                                         'industry',
                                                         _model.dropDownValue1,
-                                                      ),
+                                                      ).order('created_at', ascending: false),
                                                     );
                                                     if (_model.apiResultWoRegion !=
                                                             null &&
@@ -696,7 +611,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                       _model.unfilteredBackupCall1 =
                                                           await BusinessTable()
                                                               .queryRows(
-                                                        queryFn: (q) => q,
+                                                        queryFn: (q) => q.order('created_at', ascending: false),
                                                       );
                                                       _model.businessList = _model
                                                           .unfilteredBackupCall1!
@@ -718,7 +633,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                             'region',
                                                             _model
                                                                 .dropDownValue2,
-                                                          ),
+                                                          )
+                                                          .order('created_at', ascending: false),
                                                     );
                                                     if (_model.apiResultWRegion !=
                                                             null &&
@@ -761,7 +677,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                       _model.unfilteredBackupCall2 =
                                                           await BusinessTable()
                                                               .queryRows(
-                                                        queryFn: (q) => q,
+                                                        queryFn: (q) => q.order('created_at', ascending: false),
                                                       );
                                                       _model.businessList = _model
                                                           .unfilteredBackupCall2!
@@ -774,36 +690,18 @@ class _HomeWidgetState extends State<HomeWidget> {
 
                                                 safeSetState(() {});
                                               },
-                                              width: 120.0,
-                                              height: 35.0,
+                                              width: 140.0,
+                                              height: 36.0,
                                               textStyle: FlutterFlowTheme.of(
                                                       context)
                                                   .bodyMedium
                                                   .override(
                                                     font:
-                                                        GoogleFonts.sourceSans3(
-                                                      fontWeight:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .fontWeight,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .fontStyle,
-                                                    ),
+                                                        GoogleFonts.sourceSans3(),
+                                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                    fontSize: 14.0,
                                                     letterSpacing: 0.0,
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
+                                                    fontWeight: FontWeight.w600,
                                                   ),
                                               hintText: 'Industry',
                                               icon: Icon(
@@ -811,17 +709,17 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                     .keyboard_arrow_down_rounded,
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .secondaryText,
+                                                        .secondaryBackground,
                                                 size: 24.0,
                                               ),
                                               fillColor:
                                                   FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
+                                                      .primaryText,
                                               elevation: 2.0,
                                               borderColor:
                                                   FlutterFlowTheme.of(context)
-                                                      .secondaryText,
-                                              borderWidth: 2.0,
+                                                      .primaryText,
+                                              borderWidth: 1.0,
                                               borderRadius: 8.0,
                                               margin: EdgeInsetsDirectional
                                                   .fromSTEB(
@@ -877,7 +775,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                     _model.allAllCall =
                                                         await BusinessTable()
                                                             .queryRows(
-                                                      queryFn: (q) => q,
+                                                      queryFn: (q) => q.order('created_at', ascending: false),
                                                     );
                                                     _model.businessList = _model
                                                         .allAllCall!
@@ -892,7 +790,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           q.eqOrNull(
                                                         'industry',
                                                         _model.dropDownValue1,
-                                                      ),
+                                                      ).order('created_at', ascending: false),
                                                     );
                                                     if ((_model.unfilteredRegionCall !=
                                                                 null &&
@@ -947,7 +845,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           q.eqOrNull(
                                                         'region',
                                                         _model.dropDownValue2,
-                                                      ),
+                                                      ).order('created_at', ascending: false),
                                                     );
                                                     if (_model.apiResultRegionAll !=
                                                             null &&
@@ -988,7 +886,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                       _model.unfilteredBackupAllRegionCall =
                                                           await BusinessTable()
                                                               .queryRows(
-                                                        queryFn: (q) => q,
+                                                        queryFn: (q) => q.order('created_at', ascending: false),
                                                       );
                                                       _model.businessList = _model
                                                           .unfilteredBackupAllRegionCall!
@@ -1010,7 +908,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                             'region',
                                                             _model
                                                                 .dropDownValue2,
-                                                          ),
+                                                          )
+                                                          .order('created_at', ascending: false),
                                                     );
                                                     if (_model.apiResultRegionInd !=
                                                             null &&
@@ -1055,7 +954,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                             q.eqOrNull(
                                                           'industry',
                                                           _model.dropDownValue1,
-                                                        ),
+                                                        ).order('created_at', ascending: false),
                                                       );
                                                       _model.businessList = _model
                                                           .unfilteredBackupRegionCall!
@@ -1068,36 +967,18 @@ class _HomeWidgetState extends State<HomeWidget> {
 
                                                 safeSetState(() {});
                                               },
-                                              width: 120.0,
-                                              height: 35.0,
+                                              width: 140.0,
+                                              height: 36.0,
                                               textStyle: FlutterFlowTheme.of(
                                                       context)
                                                   .bodyMedium
                                                   .override(
                                                     font:
-                                                        GoogleFonts.sourceSans3(
-                                                      fontWeight:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .fontWeight,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .fontStyle,
-                                                    ),
+                                                        GoogleFonts.sourceSans3(),
+                                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                    fontSize: 14.0,
                                                     letterSpacing: 0.0,
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
+                                                    fontWeight: FontWeight.w600,
                                                   ),
                                               hintText: 'Region',
                                               icon: Icon(
@@ -1105,17 +986,17 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                     .keyboard_arrow_down_rounded,
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .secondaryText,
+                                                        .secondaryBackground,
                                                 size: 24.0,
                                               ),
                                               fillColor:
                                                   FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
+                                                      .primaryText,
                                               elevation: 2.0,
                                               borderColor:
                                                   FlutterFlowTheme.of(context)
-                                                      .secondaryText,
-                                              borderWidth: 2.0,
+                                                      .primaryText,
+                                              borderWidth: 1.0,
                                               borderRadius: 8.0,
                                               margin: EdgeInsetsDirectional
                                                   .fromSTEB(
@@ -1360,7 +1241,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                   width: 70.0,
                                                                   height: 70.0,
                                                                   fit: BoxFit.cover,
-                                                                  // No cache limits for full quality
+                                                                  memCacheWidth: 140, // 2x for retina displays
+                                                                  memCacheHeight: 140,
                                                                   placeholder: (context, url) => Container(
                                                                     color: FlutterFlowTheme.of(context).secondaryBackground,
                                                                     child: Icon(

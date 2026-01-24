@@ -1,10 +1,8 @@
 import '/backend/supabase/supabase.dart';
-import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,6 +30,7 @@ class _SearchHomeWidgetState extends State<SearchHomeWidget> {
     _model = createModel(context, () => SearchHomeModel());
 
     _model.textController ??= TextEditingController();
+    _model.textFieldFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -94,301 +93,138 @@ class _SearchHomeWidgetState extends State<SearchHomeWidget> {
               ),
               actions: [],
               centerTitle: true,
-              elevation: 2.0,
+              elevation: 0.0,
             ),
             body: SafeArea(
               top: true,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 8.0),
-                      child: FutureBuilder<List<BusinessRow>>(
-                        future: BusinessTable().queryRows(
-                          queryFn: (q) => q,
-                        ),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 50.0,
-                                height: 50.0,
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    Color(0xFF7E1416),
-                                  ),
-                                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Search field - simple, no heavy autocomplete
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 8.0),
+                    child: TextFormField(
+                      controller: _model.textController,
+                      focusNode: _model.textFieldFocusNode,
+                      onChanged: (_) => EasyDebounce.debounce(
+                        '_model.textController',
+                        Duration(milliseconds: 500),
+                        () => safeSetState(() {}),
+                      ),
+                      autofocus: false,
+                      obscureText: false,
+                      decoration: InputDecoration(
+                        labelText: 'Search businesses...',
+                        labelStyle: FlutterFlowTheme.of(context)
+                            .labelMedium
+                            .override(
+                              font: GoogleFonts.sourceSans3(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontStyle,
                               ),
-                            );
-                          }
-                          List<BusinessRow> textFieldBusinessRowList =
-                              snapshot.data!;
-
-                          return Autocomplete<String>(
-                            initialValue: TextEditingValue(),
-                            optionsBuilder: (textEditingValue) {
-                              if (textEditingValue.text == '') {
-                                return const Iterable<String>.empty();
-                              }
-                              final searchTerm =
-                                  textEditingValue.text.toLowerCase();
-                              return textFieldBusinessRowList
-                                  .where((business) {
-                                    // Search across name, description, industry, and region
-                                    final name =
-                                        business.name?.toLowerCase() ?? '';
-                                    final description =
-                                        business.description?.toLowerCase() ??
-                                            '';
-                                    final industry =
-                                        business.industry?.toLowerCase() ?? '';
-                                    final region =
-                                        business.region?.toLowerCase() ?? '';
-
-                                    return name.contains(searchTerm) ||
-                                        description.contains(searchTerm) ||
-                                        industry.contains(searchTerm) ||
-                                        region.contains(searchTerm);
-                                  })
-                                  .map((e) => e.name)
-                                  .withoutNulls
-                                  .toSet() // Remove duplicates
-                                  .toList();
-                            },
-                            optionsViewBuilder: (context, onSelected, options) {
-                              return AutocompleteOptionsList(
-                                textFieldKey: _model.textFieldKey,
-                                textController: _model.textController!,
-                                options: options.toList(),
-                                onSelected: onSelected,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      font: GoogleFonts.sourceSans3(
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
-                                      letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                textHighlightStyle: TextStyle(),
-                                elevation: 4.0,
-                                optionBackgroundColor:
-                                    FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                optionHighlightColor:
-                                    FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                maxHeight: 200.0,
-                              );
-                            },
-                            onSelected: (String selection) {
-                              safeSetState(() =>
-                                  _model.textFieldSelectedOption = selection);
-                              FocusScope.of(context).unfocus();
-                            },
-                            fieldViewBuilder: (
-                              context,
-                              textEditingController,
-                              focusNode,
-                              onEditingComplete,
-                            ) {
-                              _model.textFieldFocusNode = focusNode;
-
-                              _model.textController = textEditingController;
-                              return TextFormField(
-                                key: _model.textFieldKey,
-                                controller: textEditingController,
-                                focusNode: focusNode,
-                                onEditingComplete: onEditingComplete,
-                                onChanged: (_) => EasyDebounce.debounce(
-                                  '_model.textController',
-                                  Duration(milliseconds: 2000),
-                                  () async {
-                                    _model.searchReturn =
-                                        await BusinessTable().queryRows(
-                                      queryFn: (q) =>
-                                          q.or("name.ilike.${(String search) {
-                                        return '*$search*';
-                                      }(_model.textController.text)}, description.ilike.${(String search) {
-                                        return '*$search*';
-                                      }(_model.textController.text)}, industry.ilike.${(String search) {
-                                        return '*$search*';
-                                      }(_model.textController.text)}, region.ilike.${(String search) {
-                                        return '*$search*';
-                                      }(_model.textController.text)}"),
-                                    );
-
-                                    safeSetState(() {});
-                                  },
-                                ),
-                                autofocus: true,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  labelText: 'Search all business...',
-                                  labelStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        font: GoogleFonts.sourceSans3(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .fontStyle,
-                                        ),
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .fontStyle,
-                                      ),
-                                  hintStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        font: GoogleFonts.sourceSans3(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .fontStyle,
-                                        ),
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .fontStyle,
-                                      ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  contentPadding:
-                                      EdgeInsetsDirectional.fromSTEB(
-                                          20.0, 0.0, 0.0, 0.0),
-                                  suffixIcon: Icon(
-                                    Icons.search_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                  ),
-                                ),
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      font: GoogleFonts.sourceSans3(
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
-                                      letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                cursorColor:
-                                    FlutterFlowTheme.of(context).primary,
-                                validator: _model.textControllerValidator
-                                    .asValidator(context),
-                              );
-                            },
-                          );
-                        },
+                              letterSpacing: 0.0,
+                            ),
+                        hintStyle: FlutterFlowTheme.of(context)
+                            .labelMedium
+                            .override(
+                              font: GoogleFonts.sourceSans3(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontStyle,
+                              ),
+                              letterSpacing: 0.0,
+                            ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).alternate,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).primary,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).error,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).error,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        contentPadding:
+                            EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
+                        suffixIcon: Icon(
+                          Icons.search_rounded,
+                          color: FlutterFlowTheme.of(context).secondaryText,
+                        ),
                       ),
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.sourceSans3(
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                            letterSpacing: 0.0,
+                          ),
+                      cursorColor: FlutterFlowTheme.of(context).primary,
+                      validator:
+                          _model.textControllerValidator.asValidator(context),
                     ),
-                    Divider(
-                      thickness: 1.0,
-                      color: FlutterFlowTheme.of(context).alternate,
+                  ),
+                  Divider(
+                    thickness: 1.0,
+                    color: FlutterFlowTheme.of(context).alternate,
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 0.0, 0.0),
+                    child: Text(
+                      'Search results',
+                      style: FlutterFlowTheme.of(context).labelMedium.override(
+                            font: GoogleFonts.sourceSans3(
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .fontStyle,
+                            ),
+                            letterSpacing: 0.0,
+                          ),
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 0.0, 0.0),
-                      child: Text(
-                        'Search results',
-                        style:
-                            FlutterFlowTheme.of(context).labelMedium.override(
-                                  font: GoogleFonts.sourceSans3(
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .fontStyle,
-                                  ),
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .fontStyle,
-                                ),
-                      ),
-                    ),
-                    FutureBuilder<List<BusinessRow>>(
+                  ),
+                  // Results list - scrollable
+                  Expanded(
+                    child: FutureBuilder<List<BusinessRow>>(
                       future: BusinessTable().queryRows(
                         queryFn: (q) => q.or("name.ilike.${(String search) {
-                          return search.trim() != ''
-                              ? '*$search*'
-                              : '* *';
-                        }(_model.textController.text)}, description.ilike.${(String search) {
-                          return search.trim() != ''
-                              ? '*$search*'
-                              : '* *';
-                        }(_model.textController.text)}"),
+                          return search.trim() != '' ? '*$search*' : '* *';
+                        }(_model.textController?.text ?? '')}, description.ilike.${(String search) {
+                          return search.trim() != '' ? '*$search*' : '* *';
+                        }(_model.textController?.text ?? '')}"),
                       ),
                       builder: (context, snapshot) {
                         // Customize what your widget looks like when it's loading.
@@ -415,14 +251,13 @@ class _SearchHomeWidgetState extends State<SearchHomeWidget> {
                             0,
                             44.0,
                           ),
-                          shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           itemCount: listViewBusinessRowList.length,
                           itemBuilder: (context, listViewIndex) {
                             final listViewBusinessRow =
                                 listViewBusinessRowList[listViewIndex];
                             return Container(
-                              width: 100.0,
+                              width: double.infinity,
                               decoration: BoxDecoration(),
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -446,58 +281,21 @@ class _SearchHomeWidgetState extends State<SearchHomeWidget> {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
+                                      // Icon instead of photo for memory efficiency
                                       Container(
-                                        width: 70.0,
-                                        height: 70.0,
+                                        width: 44.0,
+                                        height: 44.0,
                                         decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryBackground,
                                           borderRadius:
-                                              BorderRadius.circular(0.0),
+                                              BorderRadius.circular(8.0),
                                         ),
-                                        child: Padding(
-                                          padding: EdgeInsets.all(2.0),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(0.0),
-                                            child: CachedNetworkImage(
-                                              imageUrl: listViewBusinessRow.photo ?? '',
-                                              width: 120.0,
-                                              height: 120.0,
-                                              fit: BoxFit.cover,
-                                              memCacheWidth: 240,
-                                              memCacheHeight: 240,
-                                              maxWidthDiskCache: 360,
-                                              maxHeightDiskCache: 360,
-                                              fadeInDuration: Duration(milliseconds: 200),
-                                              fadeOutDuration: Duration(milliseconds: 100),
-                                              placeholder: (context, url) => Container(
-                                                width: 120.0,
-                                                height: 120.0,
-                                                color: FlutterFlowTheme.of(context).alternate.withOpacity(0.3),
-                                                child: Center(
-                                                  child: SizedBox(
-                                                    width: 20.0,
-                                                    height: 20.0,
-                                                    child: CircularProgressIndicator(
-                                                      strokeWidth: 2.0,
-                                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                                        FlutterFlowTheme.of(context).primary,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              errorWidget: (context, url, error) => Container(
-                                                width: 120.0,
-                                                height: 120.0,
-                                                color: FlutterFlowTheme.of(context).alternate.withOpacity(0.5),
-                                                child: Icon(
-                                                  Icons.business,
-                                                  size: 40.0,
-                                                  color: FlutterFlowTheme.of(context).secondaryText,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                        child: Icon(
+                                          Icons.business,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          size: 24.0,
                                         ),
                                       ),
                                       Expanded(
@@ -515,7 +313,7 @@ class _SearchHomeWidgetState extends State<SearchHomeWidget> {
                                               Text(
                                                 valueOrDefault<String>(
                                                   listViewBusinessRow.name,
-                                                  'Catholic Coffee House',
+                                                  'Business Name',
                                                 ),
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -535,16 +333,6 @@ class _SearchHomeWidgetState extends State<SearchHomeWidget> {
                                                                     .fontStyle,
                                                           ),
                                                           letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyLarge
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyLarge
-                                                                  .fontStyle,
                                                         ),
                                               ),
                                               Padding(
@@ -567,7 +355,7 @@ class _SearchHomeWidgetState extends State<SearchHomeWidget> {
                                                         valueOrDefault<String>(
                                                           listViewBusinessRow
                                                               .industry,
-                                                          'Tech',
+                                                          'Industry',
                                                         ),
                                                         style:
                                                             FlutterFlowTheme.of(
@@ -587,82 +375,10 @@ class _SearchHomeWidgetState extends State<SearchHomeWidget> {
                                                                   ),
                                                                   letterSpacing:
                                                                       0.0,
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelSmall
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelSmall
-                                                                      .fontStyle,
                                                                 ),
                                                       ),
                                                     ),
                                                   ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 8.0, 12.0, 0.0),
-                                                child: InkWell(
-                                                  splashColor:
-                                                      Colors.transparent,
-                                                  focusColor:
-                                                      Colors.transparent,
-                                                  hoverColor:
-                                                      Colors.transparent,
-                                                  highlightColor:
-                                                      Colors.transparent,
-                                                  onTap: () async {
-                                                    context.pushNamed(
-                                                      BusinessDetailsWidget
-                                                          .routeName,
-                                                      queryParameters: {
-                                                        'businessId':
-                                                            serializeParam(
-                                                          listViewBusinessRow
-                                                              .id,
-                                                          ParamType.int,
-                                                        ),
-                                                      }.withoutNulls,
-                                                    );
-                                                  },
-                                                  child: Text(
-                                                    'Learn more',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .labelSmall
-                                                        .override(
-                                                          font: GoogleFonts
-                                                              .sourceSans3(
-                                                            fontWeight:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .fontWeight,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .fontStyle,
-                                                          ),
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .labelSmall
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .labelSmall
-                                                                  .fontStyle,
-                                                        ),
-                                                  ),
                                                 ),
                                               ),
                                             ].divide(SizedBox(height: 4.0)),
@@ -678,8 +394,8 @@ class _SearchHomeWidgetState extends State<SearchHomeWidget> {
                         );
                       },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
