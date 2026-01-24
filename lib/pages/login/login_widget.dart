@@ -218,8 +218,24 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           context
                                               .pushNamed(HomeWidget.routeName);
                                         } else {
-                                          context.pushNamed(
-                                              ForgotPasswordWidget.routeName);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Invalid email or password. Please try again.',
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryBackground,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                            ),
+                                          );
                                         }
 
                                         safeSetState(() {});
@@ -275,6 +291,31 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       .bodyMedium
                                                       .fontStyle,
                                             ),
+                                        errorStyle: FlutterFlowTheme.of(context)
+                                            .bodySmall
+                                            .override(
+                                              font: GoogleFonts.sourceSans3(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodySmall
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodySmall
+                                                        .fontStyle,
+                                              ),
+                                              color: FlutterFlowTheme.of(context).error,
+                                              fontSize: 12.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontStyle,
+                                            ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: FlutterFlowTheme.of(context)
@@ -286,24 +327,25 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 1.0,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            width: 2.0,
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(5.0),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 1.0,
+                                            color: FlutterFlowTheme.of(context).error,
+                                            width: 2.0,
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(5.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 1.0,
+                                            color: FlutterFlowTheme.of(context).error,
+                                            width: 2.0,
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(5.0),
@@ -411,6 +453,31 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       .bodyMedium
                                                       .fontStyle,
                                             ),
+                                        errorStyle: FlutterFlowTheme.of(context)
+                                            .bodySmall
+                                            .override(
+                                              font: GoogleFonts.sourceSans3(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodySmall
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodySmall
+                                                        .fontStyle,
+                                              ),
+                                              color: FlutterFlowTheme.of(context).error,
+                                              fontSize: 12.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontStyle,
+                                            ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: FlutterFlowTheme.of(context)
@@ -422,24 +489,25 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 1.0,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            width: 2.0,
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(5.0),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 1.0,
+                                            color: FlutterFlowTheme.of(context).error,
+                                            width: 2.0,
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(5.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 1.0,
+                                            color: FlutterFlowTheme.of(context).error,
+                                            width: 2.0,
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(5.0),
@@ -512,7 +580,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   },
                                   text: 'Forgot Password?',
                                   options: FFButtonOptions(
-                                    width: 170.0,
+                                    width: 200.0,
                                     height: 30.0,
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 80.0, 0.0),

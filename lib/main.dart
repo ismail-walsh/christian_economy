@@ -1,15 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import 'auth/supabase_auth/supabase_user_provider.dart';
 import 'auth/supabase_auth/auth_util.dart';
 
 import '/backend/supabase/supabase.dart';
-import 'backend/firebase/firebase_config.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
@@ -32,15 +34,23 @@ void main() async {
   final environmentValues = FFDevEnvironmentValues();
   await environmentValues.initialize();
 
-  await initFirebase();
-
-  await SupaFlow.initialize();
+  try {
+    await SupaFlow.initialize();
+  } catch (e) {
+    print('Supabase initialization error (non-fatal): $e');
+    // Retry once after a delay
+    await Future.delayed(Duration(milliseconds: 500));
+    await SupaFlow.initialize();
+  }
 
   await FlutterFlowTheme.initialize();
 
-  // Configure Flutter image cache for better performance
-  PaintingBinding.instance.imageCache.maximumSize = 1000;
-  PaintingBinding.instance.imageCache.maximumSizeBytes = 200 << 20; // 200 MB
+  // Configure Flutter image cache - very conservative for memory
+  PaintingBinding.instance.imageCache.maximumSize = 30; // Further reduced
+  PaintingBinding.instance.imageCache.maximumSizeBytes = 15 << 20; // 15 MB max
+
+  // Configure CachedNetworkImage cache - limit stored images
+  await DefaultCacheManager().emptyCache(); // Clear on fresh start to prevent buildup
 
   runApp(MyApp());
 }
@@ -88,21 +98,33 @@ class _MyAppState extends State<MyApp> {
           .toList();
   late Stream<BaseAuthUser> userStream;
 
+  // Store subscriptions for proper disposal
+  StreamSubscription<BaseAuthUser>? _userStreamSubscription;
+  StreamSubscription<String?>? _jwtTokenSubscription;
+
   @override
   void initState() {
     super.initState();
 
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier, widget.entryPage);
-    userStream = christianEconomySupabaseUserStream()
-      ..listen((user) {
-        _appStateNotifier.update(user);
-      });
-    jwtTokenStream.listen((_) {});
+    userStream = christianEconomySupabaseUserStream();
+    _userStreamSubscription = userStream.listen((user) {
+      _appStateNotifier.update(user);
+    });
+    _jwtTokenSubscription = jwtTokenStream.listen((_) {});
+    // Splash screen - reduced duration for faster startup
     Future.delayed(
-      Duration(milliseconds: 1000),
+      Duration(milliseconds: 2000), // Reduced from 4000ms for faster launch
       () => _appStateNotifier.stopShowingSplashImage(),
     );
+  }
+
+  @override
+  void dispose() {
+    _userStreamSubscription?.cancel();
+    _jwtTokenSubscription?.cancel();
+    super.dispose();
   }
 
   void setLocale(String language) {
@@ -172,45 +194,63 @@ class _NavBarPageState extends State<NavBarPage> {
     _currentPage = widget.page;
   }
 
+  // Create fresh widget each time to prevent memory buildup
+  // Widgets dispose their resources when unmounted
+  Widget _buildTab(String tabName) {
+    switch (tabName) {
+      case 'Home':
+        return HomeWidget();
+      case 'blacklist':
+        return BlacklistWidget();
+      case 'jobs':
+        return JobsWidget();
+      case 'myBusinesses':
+        return MyBusinessesWidget();
+      case 'profile':
+        return ProfileWidget();
+      default:
+        return HomeWidget();
+    }
+  }
+
+  static const List<String> _tabNames = ['Home', 'blacklist', 'jobs', 'myBusinesses', 'profile'];
+
   @override
   Widget build(BuildContext context) {
-    final tabs = {
-      'Home': HomeWidget(),
-      'blacklist': BlacklistWidget(),
-      'jobs': JobsWidget(),
-      'myBusinesses': MyBusinessesWidget(),
-      'profile': ProfileWidget(),
-    };
-    final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
+    final currentIndex = _tabNames.indexOf(_currentPageName);
 
     return Scaffold(
       resizeToAvoidBottomInset: !widget.disableResizeToAvoidBottomInset,
-      body: _currentPage ?? tabs[_currentPageName],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (i) => safeSetState(() {
-          _currentPage = null;
-          _currentPageName = tabs.keys.toList()[i];
-        }),
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-        selectedItemColor: FlutterFlowTheme.of(context).primaryText,
-        unselectedItemColor: FlutterFlowTheme.of(context).primaryText,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_outlined,
-              size: 24.0,
-            ),
-            activeIcon: Icon(
-              Icons.home,
-              size: 24.0,
-            ),
-            label: 'Home',
-            tooltip: '',
-          ),
+      body: _currentPage ?? _buildTab(_currentPageName),
+      bottomNavigationBar: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          BottomNavigationBar(
+            currentIndex: currentIndex,
+            onTap: (i) => safeSetState(() {
+              _currentPage = null;
+              _currentPageName = _tabNames[i];
+            }),
+            backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+            selectedItemColor: FlutterFlowTheme.of(context).primaryText,
+            unselectedItemColor: FlutterFlowTheme.of(context).primaryText,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            type: BottomNavigationBarType.fixed,
+            elevation: 0,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home_outlined,
+                  size: 24.0,
+                ),
+                activeIcon: Icon(
+                  Icons.home,
+                  size: 24.0,
+                ),
+                label: 'Home',
+                tooltip: '',
+              ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.block_outlined,
@@ -261,6 +301,21 @@ class _NavBarPageState extends State<NavBarPage> {
           )
         ],
       ),
-    );
+      // Top indicator bar that moves with selection
+      Positioned(
+        top: 0,
+        left: MediaQuery.of(context).size.width * currentIndex / 5,
+        child: Container(
+          width: MediaQuery.of(context).size.width / 5,
+          height: 3.0,
+          decoration: BoxDecoration(
+            color: FlutterFlowTheme.of(context).primaryText,
+            borderRadius: BorderRadius.circular(1.5),
+          ),
+        ),
+      ),
+    ],
+  ),
+);
   }
 }

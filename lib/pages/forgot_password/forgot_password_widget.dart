@@ -207,31 +207,52 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                                     .bodyMedium
                                     .fontStyle,
                               ),
+                      errorStyle: FlutterFlowTheme.of(context)
+                          .bodySmall
+                          .override(
+                            font: GoogleFonts.sourceSans3(
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .fontStyle,
+                            ),
+                            color: FlutterFlowTheme.of(context).error,
+                            fontSize: 12.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .bodySmall
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodySmall
+                                .fontStyle,
+                          ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).secondaryText,
+                          color: FlutterFlowTheme.of(context).primaryText,
                           width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(5.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: Color(0x00000000),
-                          width: 1.0,
+                          color: FlutterFlowTheme.of(context).primaryText,
+                          width: 2.0,
                         ),
                         borderRadius: BorderRadius.circular(5.0),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: Color(0x00000000),
-                          width: 1.0,
+                          color: FlutterFlowTheme.of(context).error,
+                          width: 2.0,
                         ),
                         borderRadius: BorderRadius.circular(5.0),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: Color(0x00000000),
-                          width: 1.0,
+                          color: FlutterFlowTheme.of(context).error,
+                          width: 2.0,
                         ),
                         borderRadius: BorderRadius.circular(5.0),
                       ),
@@ -258,6 +279,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                           fontStyle:
                               FlutterFlowTheme.of(context).titleSmall.fontStyle,
                         ),
+                    maxLength: 320,
                     keyboardType: TextInputType.emailAddress,
                     validator: _model.emailAddressTextControllerValidator
                         .asValidator(context),
@@ -275,7 +297,14 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                             SnackBar(
                               content: Text(
                                 'Email required!',
+                                style: TextStyle(
+                                  color: FlutterFlowTheme.of(context)
+                                      .primaryBackground,
+                                ),
                               ),
+                              duration: Duration(milliseconds: 3000),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).error,
                             ),
                           );
                           return;
@@ -283,6 +312,20 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                         await authManager.resetPassword(
                           email: _model.emailAddressTextController.text,
                           context: context,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Password reset email sent. Please check your inbox.',
+                              style: TextStyle(
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                              ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).secondary,
+                          ),
                         );
                       },
                       text: 'Send Reset Link',

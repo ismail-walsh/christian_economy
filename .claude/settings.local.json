@@ -50,7 +50,21 @@
       "Bash(for file in /Users/Ismail/Downloads/christian_economy/lib/pages/{create_business,edit_business,business_details}/business_details_widget.dart)",
       "Bash(do echo '=== $file ===')",
       "Bash(done)",
-      "Bash(for file in create_business edit_business business_details create_job)"
+      "Bash(for file in create_business edit_business business_details create_job)",
+      "Bash(sips:*)",
+      "Bash(export PATH=\"$HOME/flutter/bin:$PATH\")",
+      "Bash(/bin/zsh:*)",
+      "Bash(ls:*)",
+      "Bash(open:*)",
+      "Bash(grep:*)",
+      "Bash(pkgutil:*)",
+      "Bash(pkill:*)",
+      "Bash(kill:*)",
+      "Bash(killall flutter:*)",
+      "Bash(flutter pub:*)",
+      "Bash(du:*)",
+      "Bash(python3:*)",
+      "Bash(dart analyze:*)"
     ],
     "deny": [],
     "ask": []

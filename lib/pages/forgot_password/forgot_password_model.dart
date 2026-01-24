@@ -12,7 +12,27 @@ class ForgotPasswordModel extends FlutterFlowModel<ForgotPasswordWidget> {
   String? Function(BuildContext, String?)? emailAddressTextControllerValidator;
 
   @override
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+    emailAddressTextControllerValidator = _emailAddressTextControllerValidator;
+  }
+
+  String? _emailAddressTextControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Email is required';
+    }
+
+    if (!val.contains('@')) {
+      return 'Please enter a valid email address';
+    }
+
+    // Basic email format validation
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(val)) {
+      return 'Please enter a valid email address';
+    }
+
+    return null;
+  }
 
   @override
   void dispose() {

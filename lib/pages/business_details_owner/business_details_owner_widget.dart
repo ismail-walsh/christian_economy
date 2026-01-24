@@ -699,8 +699,9 @@ class _BusinessDetailsOwnerWidgetState extends State<BusinessDetailsOwnerWidget>
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     24.0, 10.0, 24.0, 0.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       valueOrDefault<String>(
@@ -729,44 +730,41 @@ class _BusinessDetailsOwnerWidgetState extends State<BusinessDetailsOwnerWidget>
                                           ),
                                     ).animateOnPageLoad(animationsMap[
                                         'textOnPageLoadAnimation3']!),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 0.0, 8.0, 0.0),
-                                      child: Icon(
-                                        Icons.circle,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 5.0,
-                                      ).animateOnPageLoad(animationsMap[
-                                          'iconOnPageLoadAnimation2']!),
-                                    ),
-                                    Text(
-                                      valueOrDefault<String>(
-                                        columnBusinessRow.contact,
-                                        'No contact provided',
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .override(
-                                            font: GoogleFonts.sourceSans3(
-                                              fontWeight: FontWeight.w300,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodySmall
-                                                      .fontStyle,
+                                    SizedBox(height: 4.0),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            valueOrDefault<String>(
+                                              columnBusinessRow.contact,
+                                              'No contact provided',
                                             ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            fontSize: 12.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w300,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodySmall
-                                                    .fontStyle,
-                                          ),
-                                    ).animateOnPageLoad(animationsMap[
-                                        'textOnPageLoadAnimation4']!),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodySmall
+                                                .override(
+                                                  font: GoogleFonts.sourceSans3(
+                                                    fontWeight: FontWeight.w300,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(context)
+                                                            .bodySmall
+                                                            .fontStyle,
+                                                  ),
+                                                  color: FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                                  fontSize: 12.0,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w300,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(context)
+                                                          .bodySmall
+                                                          .fontStyle,
+                                                ),
+                                          ).animateOnPageLoad(animationsMap[
+                                              'textOnPageLoadAnimation4']!),
+                                        ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           5.0, 0.0, 0.0, 0.0),
@@ -808,6 +806,8 @@ class _BusinessDetailsOwnerWidgetState extends State<BusinessDetailsOwnerWidget>
                                         ),
                                       ).animateOnPageLoad(animationsMap[
                                           'iconOnPageLoadAnimation3']!),
+                                    ),
+                                      ],
                                     ),
                                   ],
                                 ),

@@ -2,11 +2,14 @@ import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
 import '/components/youtube_comment_section_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
+import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/form_field_controller.dart';
+import '/pages/poll/poll_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -46,23 +49,19 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
     _model.commentInputController ??= TextEditingController();
     _model.commentInputFocusNode ??= FocusNode();
 
+    // Check if user has already voted and load vote counts
+    _checkVoteStatus();
+
     animationsMap.addAll({
       'textOnPageLoadAnimation1': AnimationInfo(
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut, // Simpler curve
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms, // Much faster
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 50.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -70,18 +69,11 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut,
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms, // Much faster
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 80.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -89,18 +81,11 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut,
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms,
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 60.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -108,18 +93,11 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut,
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms,
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 80.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -127,18 +105,11 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut,
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms,
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 60.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -146,18 +117,11 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut,
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms,
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 80.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -165,18 +129,11 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
           FadeEffect(
-            curve: Curves.easeInOut,
+            curve: Curves.easeOut,
             delay: 0.0.ms,
-            duration: 600.0.ms,
+            duration: 200.0.ms,
             begin: 0.0,
             end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 90.0),
-            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -198,6 +155,28 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
     super.dispose();
   }
 
+  Future<void> _checkVoteStatus() async {
+    // Check if user has already voted
+    final existingVote = await VotesTable().queryRows(
+      queryFn: (q) => q
+          .eqOrNull('user', currentUserUid)
+          .eqOrNull('blacklist_id', widget.blacklistId),
+    );
+
+    // Get all votes for this boycott to calculate counts
+    final allVotes = await VotesTable().queryRows(
+      queryFn: (q) => q.eqOrNull('blacklist_id', widget.blacklistId),
+    );
+
+    if (mounted) {
+      safeSetState(() {
+        _model.hasVoted = existingVote != null && existingVote.isNotEmpty;
+        _model.approveCount = allVotes?.where((v) => v.vote == true).length ?? 0;
+        _model.rejectCount = allVotes?.where((v) => v.vote == false).length ?? 0;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<BlacklistRow>>(
@@ -207,8 +186,8 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
         ),
       ),
       builder: (context, snapshot) {
-        // Customize what your widget looks like when it's loading.
-        if (!snapshot.hasData) {
+        // Handle loading state
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             body: Center(
@@ -224,16 +203,97 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
             ),
           );
         }
-        List<BlacklistRow> boycottDetailsBlacklistRowList = snapshot.data!;
 
-        final boycottDetailsBlacklistRow =
-            boycottDetailsBlacklistRowList.isNotEmpty
-                ? boycottDetailsBlacklistRowList.first
-                : null;
-
-        if (boycottDetailsBlacklistRow == null) {
-          return Container();
+        // Handle error state
+        if (snapshot.hasError) {
+          return Scaffold(
+            backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+            body: Center(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      color: FlutterFlowTheme.of(context).error,
+                      size: 60.0,
+                    ),
+                    SizedBox(height: 16.0),
+                    Text(
+                      'Error loading boycott details',
+                      style: FlutterFlowTheme.of(context).headlineSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 8.0),
+                    Text(
+                      'Please try again later',
+                      style: FlutterFlowTheme.of(context).bodyMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 24.0),
+                    FFButtonWidget(
+                      onPressed: () => context.pop(),
+                      text: 'Go Back',
+                      options: FFButtonOptions(
+                        height: 40.0,
+                        padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                        color: FlutterFlowTheme.of(context).primary,
+                        textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
         }
+
+        // Handle empty data
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Scaffold(
+            backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+            body: Center(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.info_outline,
+                      color: FlutterFlowTheme.of(context).secondaryText,
+                      size: 60.0,
+                    ),
+                    SizedBox(height: 16.0),
+                    Text(
+                      'Boycott not found',
+                      style: FlutterFlowTheme.of(context).headlineSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 24.0),
+                    FFButtonWidget(
+                      onPressed: () => context.pop(),
+                      text: 'Go Back',
+                      options: FFButtonOptions(
+                        height: 40.0,
+                        padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                        color: FlutterFlowTheme.of(context).primary,
+                        textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+
+        List<BlacklistRow> boycottDetailsBlacklistRowList = snapshot.data!;
+        final boycottDetailsBlacklistRow = boycottDetailsBlacklistRowList.first;
 
         return Title(
             title: 'boycottDetails',
@@ -317,20 +377,29 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                                           fadeInDuration:
                                                               Duration(
                                                                   milliseconds:
-                                                                      500),
+                                                                      100), // Faster
                                                           fadeOutDuration:
                                                               Duration(
                                                                   milliseconds:
-                                                                      500),
+                                                                      100),
                                                           imageUrl:
-                                                              boycottDetailsBlacklistRow!
-                                                                  .coverPhoto!,
+                                                              boycottDetailsBlacklistRow
+                                                                  .coverPhoto ?? '',
                                                           fit: BoxFit.contain,
+                                                          maxHeightDiskCache: 1200, // 4x for ultra-sharp detail view
+                                                          maxWidthDiskCache: 2400,
+                                                          memCacheHeight: 800, // High quality for main image
+                                                          memCacheWidth: 1600,
+                                                          errorWidget: (context, url, error) => Icon(
+                                                            Icons.image_not_supported,
+                                                            color: FlutterFlowTheme.of(context).secondaryText,
+                                                            size: 100.0,
+                                                          ),
                                                         ),
                                                         allowRotation: false,
                                                         tag:
-                                                            boycottDetailsBlacklistRow!
-                                                                .coverPhoto!,
+                                                            boycottDetailsBlacklistRow
+                                                                .coverPhoto ?? '',
                                                         useHeroAnimation: true,
                                                       ),
                                                     ),
@@ -338,8 +407,8 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                                 },
                                                 child: Hero(
                                                   tag:
-                                                      boycottDetailsBlacklistRow!
-                                                          .coverPhoto!,
+                                                      boycottDetailsBlacklistRow
+                                                          .coverPhoto ?? 'cover_photo_tag',
                                                   transitionOnUserGestures:
                                                       true,
                                                   child: ClipRRect(
@@ -348,15 +417,27 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                                             0.0),
                                                     child: CachedNetworkImage(
                                                       fadeInDuration: Duration(
-                                                          milliseconds: 500),
+                                                          milliseconds: 100), // Faster
                                                       fadeOutDuration: Duration(
-                                                          milliseconds: 500),
+                                                          milliseconds: 100),
                                                       imageUrl:
-                                                          boycottDetailsBlacklistRow!
-                                                              .coverPhoto!,
+                                                          boycottDetailsBlacklistRow
+                                                              .coverPhoto ?? '',
                                                       width: double.infinity,
                                                       height: double.infinity,
                                                       fit: BoxFit.cover,
+                                                      maxHeightDiskCache: 800, // 4x for background header
+                                                      maxWidthDiskCache: 2400,
+                                                      memCacheHeight: 600, // High quality for header
+                                                      memCacheWidth: 1800,
+                                                      errorWidget: (context, url, error) => Container(
+                                                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                        child: Icon(
+                                                          Icons.image_not_supported,
+                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                          size: 60.0,
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -379,12 +460,32 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                                       ),
                                       child: CachedNetworkImage(
                                         fadeInDuration:
-                                            Duration(milliseconds: 500),
+                                            Duration(milliseconds: 100), // Faster
                                         fadeOutDuration:
-                                            Duration(milliseconds: 500),
+                                            Duration(milliseconds: 100),
                                         imageUrl:
-                                            boycottDetailsBlacklistRow.photo!,
+                                            boycottDetailsBlacklistRow.photo ?? '',
                                         fit: BoxFit.cover,
+                                        maxHeightDiskCache: 600, // 6x for sharp circular logo
+                                        maxWidthDiskCache: 600,
+                                        memCacheHeight: 400, // High quality circular image
+                                        memCacheWidth: 400,
+                                        placeholder: (context, url) => Container(
+                                          color: FlutterFlowTheme.of(context).accent1,
+                                          child: Icon(
+                                            Icons.report_problem,
+                                            color: FlutterFlowTheme.of(context).error,
+                                            size: 40.0,
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) => Container(
+                                          color: FlutterFlowTheme.of(context).accent1,
+                                          child: Icon(
+                                            Icons.report_problem,
+                                            color: FlutterFlowTheme.of(context).error,
+                                            size: 40.0,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -654,6 +755,285 @@ class _BoycottDetailsWidgetState extends State<BoycottDetailsWidget>
                               ],
                             ),
                           ),
+                          // Vote Section - Show current vote counts
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                24.0, 24.0, 24.0, 0.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text(
+                                  'Community Vote',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodySmall
+                                      .override(
+                                        font: GoogleFonts.sourceSans3(),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        fontSize: 14.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                24.0, 8.0, 24.0, 0.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Icon(
+                                  Icons.thumb_up,
+                                  color: Color(0xFF4CAF50),
+                                  size: 18.0,
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 0.0, 16.0, 0.0),
+                                  child: Text(
+                                    'Approve: ${_model.approveCount}',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.sourceSans3(),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          fontSize: 14.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.thumb_down,
+                                  color: Color(0xFFF44336),
+                                  size: 18.0,
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 0.0, 0.0, 0.0),
+                                  child: Text(
+                                    'Reject: ${_model.rejectCount}',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.sourceSans3(),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          fontSize: 14.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Show vote form only if user hasn't voted
+                          if (!_model.hasVoted) ...[
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  24.0, 20.0, 24.0, 0.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    'Cast Your Vote',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodySmall
+                                        .override(
+                                          font: GoogleFonts.sourceSans3(),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          fontSize: 14.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  24.0, 12.0, 24.0, 0.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                    child: FlutterFlowChoiceChips(
+                                      options: [
+                                        ChipData('Approve'),
+                                        ChipData('Reject')
+                                      ],
+                                      onChanged: (val) {
+                                        setState(() {
+                                          _model.choiceChipsValue = val?.firstOrNull;
+                                        });
+                                      },
+                                      selectedChipStyle: ChipStyle(
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context).primary,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.sourceSans3(),
+                                              color: FlutterFlowTheme.of(context)
+                                                  .secondaryBackground,
+                                              fontSize: 14.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                        iconColor: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                        iconSize: 18.0,
+                                        elevation: 0.0,
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                      unselectedChipStyle: ChipStyle(
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context).alternate,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.sourceSans3(),
+                                              color: FlutterFlowTheme.of(context)
+                                                  .primaryText,
+                                              fontSize: 14.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                        iconColor:
+                                            FlutterFlowTheme.of(context).primaryText,
+                                        iconSize: 18.0,
+                                        elevation: 0.0,
+                                        borderColor:
+                                            FlutterFlowTheme.of(context).alternate,
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                      chipSpacing: 8.0,
+                                      rowSpacing: 8.0,
+                                      multiselect: false,
+                                      alignment: WrapAlignment.start,
+                                      controller:
+                                          _model.choiceChipsValueController ??=
+                                              FormFieldController<List<String>>([]),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  24.0, 16.0, 24.0, 0.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  FFButtonWidget(
+                                    onPressed: _model.choiceChipsValue == null
+                                        ? null
+                                        : () async {
+                                            await showDialog(
+                                              context: context,
+                                              builder: (dialogContext) {
+                                                return Dialog(
+                                                  elevation: 0,
+                                                  insetPadding: EdgeInsets.zero,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  alignment:
+                                                      AlignmentDirectional(0.0, 0.0)
+                                                          .resolve(Directionality.of(
+                                                              context)),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      FocusScope.of(dialogContext)
+                                                          .unfocus();
+                                                      FocusManager
+                                                          .instance.primaryFocus
+                                                          ?.unfocus();
+                                                    },
+                                                    child: Container(
+                                                      height: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .height *
+                                                          1.0,
+                                                      child: PollWidget(
+                                                        blacklistId:
+                                                            widget.blacklistId,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                            // Refresh vote status after voting
+                                            await _checkVoteStatus();
+                                          },
+                                    text: 'Submit Vote',
+                                    options: FFButtonOptions(
+                                      height: 44.0,
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          24.0, 0.0, 24.0, 0.0),
+                                      iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 0.0, 0.0),
+                                      color: FlutterFlowTheme.of(context).primaryText,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .override(
+                                            font: GoogleFonts.sourceSans3(),
+                                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                                            fontSize: 14.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                      elevation: 0.0,
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      disabledColor: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      disabledTextColor:
+                                          FlutterFlowTheme.of(context).secondaryText,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                          // Show message if user has already voted
+                          if (_model.hasVoted)
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  24.0, 16.0, 24.0, 0.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Icon(
+                                    Icons.check_circle,
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    size: 20.0,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      'You have already voted on this boycott',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.sourceSans3(),
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            fontSize: 14.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          SizedBox(height: 24.0),
                           // YouTube-Style Comments Section
                           YoutubeCommentSectionWidget(
                             blacklistId: widget.blacklistId!,

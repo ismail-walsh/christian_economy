@@ -54,112 +54,125 @@ class _MyJobsWidgetState extends State<MyJobsWidget> {
           appBar: AppBar(
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             automaticallyImplyLeading: false,
-            leading: FlutterFlowIconButton(
-              borderColor: Colors.transparent,
-              borderRadius: 30.0,
-              borderWidth: 1.0,
-              buttonSize: 60.0,
-              icon: Icon(
-                Icons.arrow_back_rounded,
-                color: FlutterFlowTheme.of(context).primaryText,
-                size: 30.0,
-              ),
-              onPressed: () async {
-                context.pop();
-              },
-            ),
-            title: Text(
-              'My Jobs',
-              style: FlutterFlowTheme.of(context).titleLarge.override(
-                    font: GoogleFonts.sourceSans3(
-                      fontWeight:
-                          FlutterFlowTheme.of(context).titleLarge.fontWeight,
-                      fontStyle:
-                          FlutterFlowTheme.of(context).titleLarge.fontStyle,
-                    ),
-                    letterSpacing: 0.0,
-                    fontWeight:
-                        FlutterFlowTheme.of(context).titleLarge.fontWeight,
-                    fontStyle:
-                        FlutterFlowTheme.of(context).titleLarge.fontStyle,
+            toolbarHeight: 60.0,
+            title: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Profile image on left (40x40)
+                StreamBuilder<List<UsersRow>>(
+                  stream: FFAppState().getUserProfile(
+                    requestFn: () =>
+                        _model.containerSupabaseStream ??= SupaFlow
+                            .client
+                            .from("users")
+                            .stream(primaryKey: ['id'])
+                            .eqOrNull(
+                              'id',
+                              currentUserUid,
+                            )
+                            .map((list) => list
+                                .map((item) => UsersRow(item))
+                                .toList()),
                   ),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return SizedBox(
+                        width: 40.0,
+                        height: 40.0,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            FlutterFlowTheme.of(context).primary,
+                          ),
+                        ),
+                      );
+                    }
+                    List<UsersRow> containerUsersRowList = snapshot.data!;
+                    final containerUsersRow = containerUsersRowList.isNotEmpty
+                        ? containerUsersRowList.first
+                        : null;
+
+                    return InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.pushNamed(ProfileWidget.routeName);
+                      },
+                      child: Container(
+                        width: 40.0,
+                        height: 40.0,
+                        decoration: BoxDecoration(
+                          color: FlutterFlowTheme.of(context).accent1,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: FlutterFlowTheme.of(context).primary,
+                            width: 1.0,
+                          ),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50.0),
+                          child: CachedNetworkImage(
+                            fadeInDuration: Duration(milliseconds: 100),
+                            fadeOutDuration: Duration(milliseconds: 100),
+                            imageUrl: containerUsersRow?.profilePhoto ?? '',
+                            width: 40.0,
+                            height: 40.0,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Icon(
+                              Icons.person,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 20.0,
+                            ),
+                            errorWidget: (context, url, error) => Icon(
+                              Icons.person,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 20.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                // Page title in center
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                    child: Text(
+                      'My Jobs',
+                      style: FlutterFlowTheme.of(context).headlineMedium.override(
+                        font: GoogleFonts.sourceSans3(),
+                        fontSize: 20.0,
+                        letterSpacing: 0.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+                // Search icon on right
+                IconButton(
+                  icon: Icon(
+                    Icons.search,
+                    color: FlutterFlowTheme.of(context).primaryText,
+                    size: 28.0,
+                  ),
+                  onPressed: () async {
+                    context.pushNamed(SearchMyJobsWidget.routeName);
+                  },
+                ),
+              ],
             ),
             actions: [],
-            centerTitle: true,
-            elevation: 2.0,
+            centerTitle: false,
+            elevation: 0.0,
           ),
           body: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                StickyHeader(
-                  overlapHeaders: false,
-                  header: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          width: 100.0,
-                          height: 100.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 12.0, 0.0, 10.0),
-                                child: FFButtonWidget(
-                                  onPressed: () async {
-                                    context.pushNamed(
-                                        SearchMyJobsWidget.routeName);
-                                  },
-                                  text: 'Search...',
-                                  icon: Icon(
-                                    Icons.search,
-                                    size: 15.0,
-                                  ),
-                                  options: FFButtonOptions(
-                                    width: MediaQuery.sizeOf(context).width *
-                                        0.915,
-                                    height: 40.0,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 0.0, 200.0, 0.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          font: GoogleFonts.sourceSans3(
-                                            fontWeight: FontWeight.w300,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w300,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                    elevation: 0.0,
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  content: Column(
+                Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       StreamBuilder<List<JobsRow>>(
@@ -839,7 +852,6 @@ class _MyJobsWidgetState extends State<MyJobsWidget> {
                       ),
                     ],
                   ),
-                ),
               ],
             ),
           ),

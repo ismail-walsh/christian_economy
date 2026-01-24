@@ -5,7 +5,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
-import '/pages/poll/poll_widget.dart';
 import '/index.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -66,113 +65,126 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-              automaticallyImplyLeading: false,
-              title: Text(
-                'The Black List',
-                style: FlutterFlowTheme.of(context).titleLarge.override(
-                      font: GoogleFonts.sourceSans3(
-                        fontWeight:
-                            FlutterFlowTheme.of(context).titleLarge.fontWeight,
-                        fontStyle:
-                            FlutterFlowTheme.of(context).titleLarge.fontStyle,
-                      ),
-                      letterSpacing: 0.0,
-                      fontWeight:
-                          FlutterFlowTheme.of(context).titleLarge.fontWeight,
-                      fontStyle:
-                          FlutterFlowTheme.of(context).titleLarge.fontStyle,
-                    ),
-              ),
-              actions: [],
-              centerTitle: false,
-              elevation: 2.0,
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 1.0, 0.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              1.0, 0.0, 0.0, 0.0),
-                          child: Container(
-                            width: MediaQuery.sizeOf(context).width * 0.99,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
+            backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+            automaticallyImplyLeading: false,
+            toolbarHeight: 60.0,
+            title: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Profile image on left (40x40)
+                StreamBuilder<List<UsersRow>>(
+                  stream: FFAppState().getUserProfile(
+                    requestFn: () =>
+                        _model.containerSupabaseStream ??= SupaFlow
+                            .client
+                            .from("users")
+                            .stream(primaryKey: ['id'])
+                            .eqOrNull(
+                              'id',
+                              currentUserUid,
+                            )
+                            .map((list) => list
+                                .map((item) => UsersRow(item))
+                                .toList()),
+                  ),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return SizedBox(
+                        width: 40.0,
+                        height: 40.0,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            FlutterFlowTheme.of(context).primary,
+                          ),
+                        ),
+                      );
+                    }
+                    List<UsersRow> containerUsersRowList = snapshot.data!;
+                    final containerUsersRow = containerUsersRowList.isNotEmpty
+                        ? containerUsersRowList.first
+                        : null;
+
+                    return InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.pushNamed(ProfileWidget.routeName);
+                      },
+                      child: Container(
+                        width: 40.0,
+                        height: 40.0,
+                        decoration: BoxDecoration(
+                          color: FlutterFlowTheme.of(context).accent1,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: FlutterFlowTheme.of(context).primary,
+                            width: 1.0,
+                          ),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50.0),
+                          child: CachedNetworkImage(
+                            fadeInDuration: Duration(milliseconds: 100),
+                            fadeOutDuration: Duration(milliseconds: 100),
+                            imageUrl: containerUsersRow?.profilePhoto ?? '',
+                            width: 40.0,
+                            height: 40.0,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Icon(
+                              Icons.person,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 20.0,
                             ),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 1.0, 0.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 20.0, 16.0, 10.0),
-                                      child: FFButtonWidget(
-                                        onPressed: () async {
-                                          context.pushNamed(
-                                              SearchBlacklistWidget.routeName);
-                                        },
-                                        text: 'Search...',
-                                        icon: Icon(
-                                          Icons.search,
-                                          size: 15.0,
-                                        ),
-                                        options: FFButtonOptions(
-                                          width:
-                                              MediaQuery.sizeOf(context).width *
-                                                  0.65,
-                                          height: 40.0,
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  16.0, 0.0, 270.0, 0.0),
-                                          iconPadding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 0.0),
-                                          color: FlutterFlowTheme.of(context)
-                                              .alternate,
-                                          textStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.sourceSans3(
-                                                  fontWeight: FontWeight.w300,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w300,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                          elevation: 0.0,
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            errorWidget: (context, url, error) => Icon(
+                              Icons.person,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 20.0,
                             ),
                           ),
                         ),
-                      ],
+                      ),
+                    );
+                  },
+                ),
+                // Page title in center
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                    child: Text(
+                      'Boycott',
+                      style: FlutterFlowTheme.of(context).headlineMedium.override(
+                        font: GoogleFonts.sourceSans3(),
+                        fontSize: 20.0,
+                        letterSpacing: 0.0,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
+                ),
+                // Search icon on right
+                IconButton(
+                  icon: Icon(
+                    Icons.search,
+                    color: FlutterFlowTheme.of(context).primaryText,
+                    size: 28.0,
+                  ),
+                  onPressed: () async {
+                    context.pushNamed(SearchBlacklistWidget.routeName);
+                  },
+                ),
+              ],
+            ),
+            actions: [],
+            centerTitle: false,
+            elevation: 0.0,
+          ),
+          body: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
                   Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
@@ -321,10 +333,10 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                                                     );
                                                   },
                                                   text:
-                                                      'Raise a boycott request\n',
+                                                      'Propose a Boycott',
                                                   options: FFButtonOptions(
-                                                    width: 189.0,
-                                                    height: 25.0,
+                                                    width: 200.0,
+                                                    height: 32.0,
                                                     padding:
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(16.0, 0.0,
@@ -339,31 +351,11 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                                                         .titleSmall
                                                         .override(
                                                           font: GoogleFonts
-                                                              .sourceSans3(
-                                                            fontWeight:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmall
-                                                                    .fontWeight,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmall
-                                                                    .fontStyle,
-                                                          ),
+                                                              .sourceSans3(),
                                                           color: Colors.white,
-                                                          fontSize: 12.0,
+                                                          fontSize: 14.0,
                                                           letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .fontStyle,
+                                                          fontWeight: FontWeight.w600,
                                                         ),
                                                     elevation: 0.0,
                                                     borderRadius:
@@ -571,8 +563,8 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                           ),
                         ),
                         builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
+                          // Handle loading state
+                          if (snapshot.connectionState == ConnectionState.waiting) {
                             return Center(
                               child: SizedBox(
                                 width: 50.0,
@@ -585,6 +577,69 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                               ),
                             );
                           }
+
+                          // Handle error state
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.error_outline,
+                                      color: FlutterFlowTheme.of(context).error,
+                                      size: 60.0,
+                                    ),
+                                    SizedBox(height: 16.0),
+                                    Text(
+                                      'Error loading boycott list',
+                                      style: FlutterFlowTheme.of(context).headlineSmall,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    Text(
+                                      'Please try again later',
+                                      style: FlutterFlowTheme.of(context).bodyMedium,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+
+                          // Handle empty data
+                          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                            return Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.info_outline,
+                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                      size: 60.0,
+                                    ),
+                                    SizedBox(height: 16.0),
+                                    Text(
+                                      'No boycotts found',
+                                      style: FlutterFlowTheme.of(context).headlineSmall,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    Text(
+                                      'Try changing the filter or check back later',
+                                      style: FlutterFlowTheme.of(context).bodyMedium,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+
                           List<BlacklistRow> listViewBlacklistRowList =
                               snapshot.data!;
 
@@ -857,106 +912,6 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                                                                         ),
                                                                       ],
                                                                     ),
-                                                                    Expanded(
-                                                                      child:
-                                                                          Align(
-                                                                        alignment: AlignmentDirectional(
-                                                                            1.0,
-                                                                            0.0),
-                                                                        child:
-                                                                            Builder(
-                                                                          builder: (context) =>
-                                                                              Padding(
-                                                                            padding: EdgeInsetsDirectional.fromSTEB(
-                                                                                0.0,
-                                                                                0.0,
-                                                                                30.0,
-                                                                                0.0),
-                                                                            child:
-                                                                                FFButtonWidget(
-                                                                              onPressed: ((_model.choiceChipsValue == 'Approved') || (_model.choiceChipsValue == 'Rejected'))
-                                                                                  ? null
-                                                                                  : () async {
-                                                                                      _model.doesVoteExist = await VotesTable().queryRows(
-                                                                                        queryFn: (q) => q
-                                                                                            .eqOrNull(
-                                                                                              'user',
-                                                                                              currentUserUid,
-                                                                                            )
-                                                                                            .eqOrNull(
-                                                                                              'blacklist_id',
-                                                                                              listViewBlacklistRow.id,
-                                                                                            ),
-                                                                                      );
-                                                                                      if ((_model.doesVoteExist != null && (_model.doesVoteExist)!.isNotEmpty) == true) {
-                                                                                        ScaffoldMessenger.of(context).clearSnackBars();
-                                                                                        ScaffoldMessenger.of(context).showSnackBar(
-                                                                                          SnackBar(
-                                                                                            content: Text(
-                                                                                              'You have already voted on this poll.',
-                                                                                              style: TextStyle(
-                                                                                                color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                                              ),
-                                                                                            ),
-                                                                                            duration: Duration(milliseconds: 1000),
-                                                                                            backgroundColor: FlutterFlowTheme.of(context).primaryText,
-                                                                                          ),
-                                                                                        );
-                                                                                      } else {
-                                                                                        await showDialog(
-                                                                                          context: context,
-                                                                                          builder: (dialogContext) {
-                                                                                            return Dialog(
-                                                                                              elevation: 0,
-                                                                                              insetPadding: EdgeInsets.zero,
-                                                                                              backgroundColor: Colors.transparent,
-                                                                                              alignment: AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
-                                                                                              child: GestureDetector(
-                                                                                                onTap: () {
-                                                                                                  FocusScope.of(dialogContext).unfocus();
-                                                                                                  FocusManager.instance.primaryFocus?.unfocus();
-                                                                                                },
-                                                                                                child: Container(
-                                                                                                  height: MediaQuery.sizeOf(context).height * 1.0,
-                                                                                                  child: PollWidget(
-                                                                                                    blacklistId: listViewBlacklistRow.id,
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ),
-                                                                                            );
-                                                                                          },
-                                                                                        );
-                                                                                      }
-
-                                                                                      safeSetState(() {});
-                                                                                    },
-                                                                              text: 'Vote',
-                                                                              options: FFButtonOptions(
-                                                                                height: 30.0,
-                                                                                padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                                                                                iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                                color: FlutterFlowTheme.of(context).primary,
-                                                                                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                                                                      font: GoogleFonts.sourceSans3(
-                                                                                        fontWeight: FontWeight.w600,
-                                                                                        fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                                                                                      ),
-                                                                                      color: Colors.white,
-                                                                                      fontSize: 12.0,
-                                                                                      letterSpacing: 0.0,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                                                                                    ),
-                                                                                elevation: 0.0,
-                                                                                borderRadius: BorderRadius.circular(8.0),
-                                                                                disabledColor: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                                disabledTextColor: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
                                                                   ],
                                                                 ),
                                                                 Padding(
@@ -989,7 +944,7 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                                                                             .primary,
                                                                     backgroundColor:
                                                                         FlutterFlowTheme.of(context)
-                                                                            .accent4,
+                                                                            .alternate,
                                                                     barRadius: Radius
                                                                         .circular(
                                                                             5.0),
@@ -998,6 +953,7 @@ class _BlacklistWidgetState extends State<BlacklistWidget> {
                                                                             .zero,
                                                                   ),
                                                                 ),
+                                                                SizedBox(height: 8.0),
                                                                 Text(
                                                                   valueOrDefault<
                                                                       String>(

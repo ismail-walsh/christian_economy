@@ -8,11 +8,16 @@ class MyBusinessesModel extends FlutterFlowModel<MyBusinessesWidget> {
   ///  State fields for stateful widgets in this page.
 
   Stream<List<BusinessRow>>? listViewSupabaseStream;
+  Stream<List<UsersRow>>? containerSupabaseStream;
 
 
   @override
   void initState(BuildContext context) {}
 
   @override
-  void dispose() {}
+  void dispose() {
+    // Clear cached streams to prevent memory leaks
+    listViewSupabaseStream = null;
+    containerSupabaseStream = null;
+  }
 }
